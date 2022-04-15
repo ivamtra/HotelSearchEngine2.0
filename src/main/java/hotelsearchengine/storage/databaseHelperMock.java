@@ -22,13 +22,13 @@ public class databaseHelperMock implements DatabaseInterface {
     }
 
     @Override
-    public Room[] getHotelRooms(Restrictions restrictions) {
+    public List<Room> getHotelRooms(Restrictions restrictions) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Hotel[] getHotels(Restrictions restrictions) {
+    public List<Hotel> getHotels(Restrictions restrictions) {
         // TODO Auto-generated method stub
         return null;
     }
