@@ -15,7 +15,7 @@ public class databaseHelper implements DatabaseInterface{
             conn = DriverManager.getConnection("jdbc:postgresql:COMPANY", props);
         } catch (Exception e) {
             try {
-                String s = System.getProperty("user.dir") + "/src/main/java/hotelsearchengine/storage/gagnagrunnur.db";
+                String s = System.getProperty("user.dir") + "/src/main/resources/hotelsearchengine/storage/gagnagrunnur.db";
                 System.out.println(s);
                 Class.forName("org.sqlite.JDBC");
                 conn = DriverManager.getConnection("jdbc:sqlite:" + s);
