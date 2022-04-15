@@ -51,7 +51,13 @@ public class IndexController implements Initializable {
                 @Override
                 public void handle(MouseEvent e) {
                     try {
-                        Parent root = FXMLLoader.load(getClass().getResource("hotel-view.fxml"));
+
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("hotel-view.fxml"));
+                        Parent root = loader.load();
+                        HotelController hotelcontroller = loader.getController();
+
+                        hotelcontroller.setHotelId(h.getId());
+
                         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
                         Scene scene = new Scene(root);
                         stage.setScene(scene);
