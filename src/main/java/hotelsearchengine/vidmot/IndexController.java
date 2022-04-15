@@ -33,9 +33,13 @@ public class IndexController implements Initializable {
         Hotel[] hotels = sc.getAllHotels();
 
         for (Hotel h : hotels) {
-            Label l = new Label();
-            l.setText(h.getName());
-            mainContainer.getChildren().add(l);
+
+            Label hotelContainer = new Label();
+            hotelContainer.setText(h.getName());
+
+            Label hotelNameContainer = new Label();
+
+            mainContainer.getChildren().add(hotelContainer);
         }
 
     }
