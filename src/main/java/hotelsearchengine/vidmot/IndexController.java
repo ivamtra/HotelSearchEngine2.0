@@ -37,6 +37,7 @@ public class IndexController implements Initializable {
     }
 
     public void insertHotels(searchController sc) {
+        System.out.println("ivan");
 
         Hotel[] hotels = sc.getAllHotels();
 
