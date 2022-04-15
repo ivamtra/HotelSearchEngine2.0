@@ -27,4 +27,5 @@ public class Hotel {
         return this.hotelName;
     }
     public int getHotelId() { return this.hotelId; }
+    public int getHotelStars() { return this.stars; }
 }
