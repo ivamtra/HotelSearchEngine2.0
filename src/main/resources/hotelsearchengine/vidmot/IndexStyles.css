@@ -1,0 +1,34 @@
+.hotel-row {
+    -fx-spacing: 40;
+    -fx-translate-x: 40;
+}
+
+.hotel-container {
+    -fx-background-color: white;
+    -fx-pref-width: 200;
+    -fx-pref-height: 200;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,1.0), 5, 0, 0, 0);
+}
+
+.hotel-image-container {
+    -fx-pref-height: 125;
+    -fx-pref-width: 200;
+    -fx-background-color: 'gray';
+}
+
+.hotel-info-container {
+    -fx-pref-height: 75;
+    -fx-pref-width: 200;
+    -fx-translate-y: 125;
+}
+
+.hotel-name {
+    -fx-pref-height: 25;
+    -fx-translate-x: 5;
+}
+
+.hotel-stars {
+    -fx-pref-height: 25;
+    -fx-translate-y: 25;
+    -fx-translate-x: 5;
+}

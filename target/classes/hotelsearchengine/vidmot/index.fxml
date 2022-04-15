@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearchengine.vidmot.IndexController">
+    <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="1000.0">
+         <Pane prefHeight="100.0" prefWidth="1000.0">
+            <children>
+               <Label layoutX="290.0" prefHeight="100.0" text="Hotel Search Engine">
+                  <font>
+                     <Font name="System Bold" size="50.0" />
+                  </font>
+               </Label>
+            </children>
+         </Pane>
+            <VBox fx:id="mainContainer" alignment="CENTER" minHeight="-Infinity" prefHeight="600.0" prefWidth="1000.0" spacing="40.0" translateY="100.0" AnchorPane.bottomAnchor="100.0" AnchorPane.topAnchor="0.0">
+            </VBox>
+        </AnchorPane>
+    </content>
+    <stylesheets>
+        <URL value="@IndexStyles.css" />
+    </stylesheets>
+</ScrollPane>
