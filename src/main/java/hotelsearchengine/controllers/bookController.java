@@ -1,4 +1,4 @@
-package hotelsearchsystem.controllers;
+package hotelsearchengine.controllers;
 
 import hotelsearchengine.controllers.loginController;
 import hotelsearchengine.storage.DatabaseInterface;
