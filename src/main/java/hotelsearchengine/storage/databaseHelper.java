@@ -6,6 +6,7 @@ import java.sql.*;
 import java.util.Date;
 
 public class databaseHelper implements DatabaseInterface{
+
     public static ResultSet query(String query) throws SQLException {
         Connection conn;
         try {
@@ -14,8 +15,10 @@ public class databaseHelper implements DatabaseInterface{
             conn = DriverManager.getConnection("jdbc:postgresql:COMPANY", props);
         } catch (Exception e) {
             try {
+                String s = System.getProperty("user.dir") + "/src/main/java/hotelsearchengine/storage/gagnagrunnur.db";
+                System.out.println(s);
                 Class.forName("org.sqlite.JDBC");
-                conn = DriverManager.getConnection("jdbc:sqlite:company.db");
+                conn = DriverManager.getConnection("jdbc:sqlite:" + s);
             } catch (Exception e2) {
                 conn = DriverManager.getConnection("jdbc:odbc:COMPANY");
             }
@@ -26,10 +29,13 @@ public class databaseHelper implements DatabaseInterface{
         return r;
     }
     public static void main(String[] args) {
-        String query = "select * from users";
+        String query = "select * from Hotels";
         ResultSet r;
         try {
             r = query(query);
+            while (r.next()) {
+                System.out.println(r.getString(3));
+            }
         } catch (SQLException e) {
             System.out.println("Error: " + e.getMessage());
             return;
