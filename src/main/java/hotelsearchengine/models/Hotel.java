@@ -26,7 +26,5 @@ public class Hotel {
     public String getName() {
         return this.hotelName;
     }
-    public int getId() {
-        return this.hotelId;
-    }
+    public int getHotelId() { return this.hotelId; }
 }
