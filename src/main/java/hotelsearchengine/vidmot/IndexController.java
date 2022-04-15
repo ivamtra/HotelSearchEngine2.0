@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.ResourceBundle;
 
 public class IndexController implements Initializable {
@@ -26,6 +28,10 @@ public class IndexController implements Initializable {
 
     @FXML
     private VBox mainContainer;
+
+    public static int hotelId = 100;
+
+    private HashMap<Integer, MouseEvent> map;
 
     @FXML
     public void initialize(URL location, ResourceBundle resourceBundle) {
@@ -51,6 +57,11 @@ public class IndexController implements Initializable {
                 @Override
                 public void handle(MouseEvent e) {
                     try {
+
+
+                        hotelId = h.getHotelId();
+                        System.out.println(hotelId);
+                        System.out.println(e);
                         Parent root = FXMLLoader.load(getClass().getResource("hotel-view.fxml"));
                         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
                         Scene scene = new Scene(root);

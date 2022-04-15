@@ -25,7 +25,7 @@ public class searchController {
 
         Hotel[] hotels = new Hotel[2];
         hotels[0] = new Hotel(0, 4, "Fínt hótel");
-        hotels[1] = new Hotel(0, 3, "Allt í lagi hótel");
+        hotels[1] = new Hotel(1, 3, "Allt í lagi hótel");
 
         return hotels;
     }
