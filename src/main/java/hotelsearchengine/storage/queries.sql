@@ -26,6 +26,8 @@ INSERT INTO Hotels VALUES(1, "Hotel saga", "Þetta er hotel saga", "Reykjavik", 
 
 INSERT INTO Reviews VALUES(1, 1, "Þetta er mjög gott hótel", 8);
 
+INSERT INTO Reviews VALUES(1, 2, "Ég fýlaði þetta", 1);
+
 ------------ Bæta inn í Rooms töfluna -------------------------
 
 -- (roomId, size, hotelId, price)
@@ -42,3 +44,5 @@ INSERT INTO Bookings VALUES(1, 1, 1, date(20-04-2022), date(24-04-2022));
 -- 	(personId, name, password, isOwner)
 
 insert into Persons VALUES(1, "Sös", "apakisi123", FALSE);
+
+INSERT INTO Persons VALUES(2, "Siggi", "123456789", FALSE);

@@ -7,7 +7,7 @@ public  interface DatabaseInterface {
 
     public void addReviews(Review review);
 
-    public Review[] getHotelReviews(int hotelId);
+    public List<Review> getHotelReviews(int hotelId);
 
     public Room[] getHotelRooms(Restrictions restrictions);
 
