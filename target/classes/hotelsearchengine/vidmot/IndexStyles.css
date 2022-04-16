@@ -1,5 +1,6 @@
 .title-container {
     -fx-background-color: linear-gradient(to right,lightblue,aqua);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,1.0), 5, 0, 0, 0);
 }
 
 .hotel-row {
