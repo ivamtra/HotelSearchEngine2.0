@@ -19,7 +19,7 @@
 }
 
 .hotel-image-container {
-    -fx-pref-height: 125;
+    -fx-pref-height: 140;
     -fx-pref-width: 200;
     -fx-background-color: 'gray';
 }
@@ -27,7 +27,7 @@
 .hotel-info-container {
     -fx-pref-height: 75;
     -fx-pref-width: 200;
-    -fx-translate-y: 125;
+    -fx-translate-y: 150;
 }
 
 .hotel-name {
