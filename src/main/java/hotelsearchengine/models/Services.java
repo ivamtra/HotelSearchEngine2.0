@@ -21,5 +21,13 @@ public class Services {
     public Services() {
         //TODO: skoða builder patterns fyrir java
     }
+
+    public boolean isHasCasino() {
+        return hasCasino;
+    }
+
+    public boolean isHasGym() {
+        return hasGym;
+    }
 }
 

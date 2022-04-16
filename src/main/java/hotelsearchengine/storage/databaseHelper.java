@@ -51,6 +51,16 @@ public class databaseHelper implements DatabaseInterface {
 
         db.getAvgRating(1);
 
+        ArrayList<Booking> bookings = (ArrayList<Booking>) db.getBookings(1);
+
+        for (Booking b : bookings) {
+            System.out.println(b.getBookingId());
+            System.out.println(b.getRoomId());
+            System.out.println(b.getCustomerId());
+            System.out.println(b.getStartDate());
+            System.out.println(b.getEndDate());
+        }
+
 
     }
 
@@ -82,12 +92,12 @@ public class databaseHelper implements DatabaseInterface {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
 
-                int reviewId = resultSet.getInt(1);
+                int hId = resultSet.getInt(1);
                 int personId = resultSet.getInt(2);
                 String reviewDescription = resultSet.getString(3);
                 int rating = resultSet.getInt(4);
 
-                Review review = new Review(reviewId, personId, reviewDescription, rating);
+                Review review = new Review(hId, personId, reviewDescription, rating);
 
                 reviewList.add(review);
             }
@@ -129,16 +139,79 @@ public class databaseHelper implements DatabaseInterface {
         return averageRating;
     }
 
+
+    /**
+     *
+     * Mun líklegast þurfa að refactora það sem lítið
+     * samræmi er á milli Hotel klasans og hotel töfluna
+     * í gagnagrunninum.
+     */
     @Override
     public void addHotel(Hotel hotel) {
-        // TODO Auto-generated method stub
+        try {
+            // (hotelId, hotelName, hotelDescription, location, hotelStars integer, averageReview, hotelContactInfo, hotelOwner, hasGym, hasCasino)
+            preparedStatement = connection.prepareStatement("insert into Hotels values(?,?,?,?,?,?,?,?,?,?");
+            preparedStatement.setInt(1, hotel.getHotelId());
+            preparedStatement.setString(2,hotel.getHotelName());
+            preparedStatement.setString(3, hotel.getDescription());
+            preparedStatement.setString(4, hotel.getLocation());
+            preparedStatement.setInt(5,hotel.getStars());
+            preparedStatement.setDouble(6,hotel.getAverageRating());
+            preparedStatement.setString(7, hotel.getContactInfo());
+            preparedStatement.setInt(8, hotel.getOwnerId());
+            preparedStatement.setBoolean(9,hotel.getServices().isHasGym());
+            preparedStatement.setBoolean(10,hotel.getServices().isHasCasino());
+            resultSet = preparedStatement.executeQuery();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
+
+    /*
+     * Athugasemd: þetta fall er mjög tregt með dagsetningar
+     */
     @Override
-    public Booking[] getBookings(int roomId) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Booking> getBookings(int roomId) {
+        ArrayList<Booking> bookings = new ArrayList<>();
+
+        try {
+            preparedStatement = connection.prepareStatement("select * from Bookings where roomId = ?");
+            preparedStatement.setInt(1,roomId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+
+                int bookingId = resultSet.getInt(1);
+                int rId = resultSet.getInt(2);
+                int personId = resultSet.getInt(3);
+
+                // Þetta ehv tregt
+                String startDate = resultSet.getString(4);
+                String endDate = resultSet.getString(5);
+
+                System.out.println(startDate);
+                System.out.println(endDate);
+
+                Date date = new Date(2022, 4, 20);
+
+                System.out.println(date);
+
+
+
+                //Booking booking = new Booking(bookingId, rId, personId, startDate, endDate);
+
+                //bookings.add(booking);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return bookings;
     }
 
     @Override
@@ -151,6 +224,15 @@ public class databaseHelper implements DatabaseInterface {
     public int logout(String name) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    private static Date convertStringToDate(String s) {
+        int year = Integer.parseInt(s.substring(0,5));
+        System.out.println(year);
+        int month = Integer.parseInt(s.substring(5,7));
+        System.out.println(month);
+        int day = Integer.parseInt(s.substring(8));
+        return new Date(year,month,day);
     }
 
 }

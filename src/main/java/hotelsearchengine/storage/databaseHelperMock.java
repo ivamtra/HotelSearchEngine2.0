@@ -1,9 +1,7 @@
 package hotelsearchengine.storage;
 
 import hotelsearchengine.models.*;
-import hotelsearchengine.storage.DatabaseInterface;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +44,7 @@ public class databaseHelperMock implements DatabaseInterface {
     }
 
     @Override
-    public Booking[] getBookings(int roomId) {
+    public List<Booking> getBookings(int roomId) {
         if(roomId==100){
             Booking[] bookings = {
                     new Booking(1,100,201,new Date(1000000), new Date(2000000)),
@@ -55,7 +53,8 @@ public class databaseHelperMock implements DatabaseInterface {
                     new Booking(2,100,202,new Date(10000000), new Date(11000000))
             };
 
-            return bookings; //Breyta í einhver gögn
+            return null;
+            //return bookings; //Breyta í einhver gögn
         }
         if(roomId==101){
             Booking[] bookings = {
@@ -64,7 +63,8 @@ public class databaseHelperMock implements DatabaseInterface {
                     new Booking(2,100,202,new Date(5500000), new Date(7000000)),
                     new Booking(2,100,202,new Date(10000000), new Date(11000000))
             };
-            return bookings; //Breyta í einhver gögn
+            //return bookings; //Breyta í einhver gögn
+            return null;
         }
         return null;
     }

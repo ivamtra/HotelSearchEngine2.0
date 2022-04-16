@@ -33,6 +33,7 @@ public class Booking {
     public Date getStartDate() {
         return startDate;
     }
+    public int getCustomerId() {return customerId;}
 
     public boolean eq(int roomId, int customerId, Date startDate, Date endDate) {
         boolean eq = this.customerId==customerId && this.startDate==startDate && this.endDate==endDate && this.roomId==roomId;
