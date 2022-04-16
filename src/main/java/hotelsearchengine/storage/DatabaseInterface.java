@@ -13,6 +13,8 @@ public  interface DatabaseInterface {
 
     public List<Hotel> getHotels(Restrictions restrictions);
 
+    List<Service> getAllServices();
+
     public double getAvgRating(int hotelId);
 
     public void addHotel(Hotel hotel);

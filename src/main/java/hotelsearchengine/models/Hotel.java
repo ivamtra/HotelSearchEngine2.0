@@ -3,13 +3,14 @@ package hotelsearchengine.models;
 import java.util.ArrayList;
 
 public class Hotel {
+
     private int hotelId;
     private String hotelName;
     private Review[] reviews;
     private Room[] rooms;
     private String location;
     private int stars;
-    private Services services;
+    private ArrayList<Service> services;
     private int ownerId;
     private String description; // Þetta er ný breyta
     private double averageRating; // ný breyta
@@ -25,7 +26,7 @@ public class Hotel {
         this.location = hotelLocation;
         this.stars = hotelStars;
         this.imageURLs = hotelImageURLs;
-        this.services = new Services(); // TODO
+        this.services = new ArrayList<Service>(); // TODO
         this.ownerId = 0; // TODO
     }
 
@@ -63,12 +64,8 @@ public class Hotel {
         return imageURLs;
     }
 
-    public Services getServices() {
+    public ArrayList<Service> getServices() {
         return services;
-    }
-
-    public void setServices(Services services) {
-        this.services = services;
     }
 
     public String getHotelName() {

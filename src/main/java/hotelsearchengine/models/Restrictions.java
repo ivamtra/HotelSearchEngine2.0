@@ -1,5 +1,6 @@
 package hotelsearchengine.models;
 
+import java.util.ArrayList;
 import java.util.Date;
 public class Restrictions {
     private int minPrice = 0;
@@ -8,7 +9,7 @@ public class Restrictions {
     private double maxStars = 0;
     private String name = "";
     private String location = "";
-    private Services services = new Services();
+    private ArrayList<Service> services = new ArrayList<Service>();
     private int hotelId = -1;
     private Date startDate = new Date();
     private Date endDate = new Date();

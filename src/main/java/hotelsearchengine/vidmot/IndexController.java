@@ -3,6 +3,7 @@ package hotelsearchengine.vidmot;
 import hotelsearchengine.controllers.loginController;
 import hotelsearchengine.controllers.searchController;
 import hotelsearchengine.models.Hotel;
+import hotelsearchengine.models.Service;
 import hotelsearchengine.storage.databaseHelper;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,6 +39,9 @@ public class IndexController implements Initializable {
     @FXML
     private Pane searchContainer;
 
+    @FXML
+    private VBox servicesContainer;
+
     public static int hotelId = 100;
 
     private HashMap<Integer, MouseEvent> map;
@@ -53,6 +58,7 @@ public class IndexController implements Initializable {
         loginController LOGIN = new loginController(DB);
         sc = new searchController(DB, LOGIN);
         insertHotels(sc);
+        insertServices(sc);
     }
 
     public void insertHotels(searchController sc) {
@@ -129,6 +135,18 @@ public class IndexController implements Initializable {
             hotelInfoContainer.getChildren().add(starContainer);
 
             hotelNumber++;
+        }
+    }
+
+    public void insertServices(searchController sc) {
+        ArrayList<Service> services = sc.getAllServices();
+        for(Service s : services) {
+            CheckBox serviceCheckbox = new CheckBox();
+            serviceCheckbox.setText(s.getServiceName());
+
+            // TODO: addListener or id
+            
+            servicesContainer.getChildren().add(serviceCheckbox);
         }
     }
 
