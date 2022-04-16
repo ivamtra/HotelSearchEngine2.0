@@ -38,7 +38,7 @@
             <padding>
                <Insets bottom="150.0" />
             </padding></VBox>
-         <Pane id="searchContainer" fx:id="searchContainer" layoutX="600.0" prefHeight="700.0" prefWidth="400.0" style="-fx-background-color: white;" visible="false">
+         <Pane id="searchContainer" fx:id="searchContainer" layoutX="600.0" prefHeight="700.0" prefWidth="400.0" style="-fx-background-color: white;">
             <children>
                <Pane prefHeight="100.0" prefWidth="400.0">
                   <children>
@@ -59,7 +59,7 @@
                      <Font size="25.0" />
                   </font>
                </Button>
-               <VBox layoutY="100.0" prefHeight="497.0" prefWidth="400.0">
+               <VBox layoutY="100.0" maxHeight="1.7976931348623157E308" prefWidth="400.0">
                   <children>
                      <Pane prefHeight="50.0" prefWidth="400.0">
                         <children>

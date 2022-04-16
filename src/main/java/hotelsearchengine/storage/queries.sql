@@ -15,10 +15,44 @@
 
 ------------ Bæta inn í Hotels töfluna -------------------------
 
--- (hotelId, hotelName, hotelDescription, location, hotelStars integer, averageReview, hotelContactInfo, hotelOwner, hasGym, hasCasino)
+-- (hotelId, hotelName, hotelDescription, location, hotelStars integer, averageReview, hotelContactInfo, hotelOwner)
 
-INSERT INTO Hotels VALUES(1, "Hotel saga", "Þetta er hotel saga", "Reykjavik", 8, 9.0, "581234", "Kalli", TRUE, TRUE); 
+INSERT INTO Hotels VALUES(1, "Hotel saga", "Þetta er hotel saga", "Reykjavik", 8, 9.0, "581234", "Kalli");
 
+------------ Bæta inn í Services töfluna -------------------------
+
+-- (id, service)
+
+INSERT INTO Services VALUES(1, "Casino");
+INSERT INTO Services VALUES(2, "Gym");
+INSERT INTO Services VALUES(3, "Pool");
+INSERT INTO Services VALUES(4, "Restaurant");
+INSERT INTO Services VALUES(5, "Spa");
+INSERT INTO Services VALUES(6, "Wifi");
+INSERT INTO Services VALUES(7, "Parking");
+INSERT INTO Services VALUES(8, "TV");
+INSERT INTO Services VALUES(9, "Air Conditioning");
+INSERT INTO Services VALUES(10, "Bar");
+INSERT INTO Services VALUES(11, "Laundry");
+INSERT INTO Services VALUES(12, "Pets");
+INSERT INTO Services VALUES(13, "Wheelchair Access");
+INSERT INTO Services VALUES(14, "Smoking");
+INSERT INTO Services VALUES(15, "Wheelchair");
+INSERT INTO Services VALUES(16, "Airport Shuttle");
+
+------------ Bæta inn í HotelHasService töfluna -------------------------
+
+-- (id, hotelId, serviceId)
+
+INSERT INTO HotelHasService VALUES(1, 1, 1);
+INSERT INTO HotelHasService VALUES(2, 1, 2);
+
+------------ Bæta inn í HotelImages töfluna -------------------------
+
+-- (id, hotelId, imageURL)
+
+INSERT INTO HotelImages VALUES(1, 1, "1_1.jpeg");
+INSERT INTO HotelImages VALUES(2, 1, "1_2.jpeg");
 
 ------------ Bæta inn í Reviews töfluna -------------------------
 
