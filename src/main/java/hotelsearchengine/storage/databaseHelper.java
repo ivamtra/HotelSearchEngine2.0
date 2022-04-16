@@ -68,20 +68,64 @@ public class databaseHelper implements DatabaseInterface {
 
     @Override
     public Booking unbook(int bookingId) {
-        // TODO Auto-generated method stub
-        return null;
+        // TODO Prófa þetta
+        Booking booking = null;
+        try {
+            preparedStatement = connection.prepareStatement("Select * from Bookings where bookingId = ?");
+            preparedStatement.setInt(1, bookingId);
+            resultSet = preparedStatement.executeQuery();
+            //bookingId er primary key svo bara 0 eða 1 bókun sem kemur
+            if(!resultSet.next()){
+                return null;
+            }
+            int rId = resultSet.getInt(2);
+            int pId = resultSet.getInt(3);
+            java.sql.Date sDate = resultSet.getDate(4);
+            java.sql.Date eDate = resultSet.getDate(5);
+            booking = new Booking(bookingId,rId,pId,sDate,eDate);
+            preparedStatement = connection.prepareStatement("Delete from Bookings where bookingId = ?");
+            preparedStatement.setInt(1, bookingId);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return booking;
     }
 
     @Override
     public Person login(String name, String password) {
-        // TODO Auto-generated method stub
-        return null;
+        // TODO Prófa þetta
+        Person person = null;
+        try {
+            preparedStatement = connection.prepareStatement("Select * from Persons where name = ? AND password = ?");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, password);
+            resultSet = preparedStatement.executeQuery();
+            if(!resultSet.next()){
+                return null;
+            }
+            int pId = resultSet.getInt(1);
+            person = new Person(name,password,pId);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return person;
     }
 
     @Override
-    public void addReviews(Review review) {
-        // TODO Auto-generated method stub
-
+    public void addReviews(Review review, int hotelId) {
+        try {
+            preparedStatement = connection.prepareStatement("Insert Into Reviews Values(?,?,?,?)");
+            preparedStatement.setInt(1,hotelId);
+            preparedStatement.setInt(2,review.getCustomerId());
+            preparedStatement.setString(3,review.getComment());
+            preparedStatement.setInt(4,review.getRating());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -232,15 +276,15 @@ public class databaseHelper implements DatabaseInterface {
                 int personId = resultSet.getInt(3);
 
                 // Þetta ehv tregt
-                String startDate = resultSet.getString(4);
-                String endDate = resultSet.getString(5);
+                Date startDate = resultSet.getDate(4);
+                Date endDate = resultSet.getDate(5);
 
                 System.out.println(startDate);
                 System.out.println(endDate);
 
-                Date date = new Date(2022, 4, 20);
+                //Date date = new Date(2022, 4, 20);
 
-                System.out.println(date);
+                //System.out.println(date);
 
 
 
@@ -259,8 +303,32 @@ public class databaseHelper implements DatabaseInterface {
 
     @Override
     public Booking book(int roomId, int personId, Date startDate, Date endDate) {
-        // TODO Auto-generated method stub
-        return null;
+        //TODO láta AUTOINCREMENT VIRKA
+
+        Booking booking = null;
+        try {
+            preparedStatement = connection.prepareStatement("Insert Into Bookings (roomId,personId,startDate,endDdate) Values (?,?,?,?)");
+            preparedStatement.setInt(1, roomId);
+            preparedStatement.setInt(2, personId);
+            preparedStatement.setObject(1, startDate);
+            preparedStatement.setObject(1, endDate);
+            preparedStatement.executeUpdate();
+            preparedStatement = connection.prepareStatement("Select bookingId From Bookings where roomId=? AND personId=? AND startDate=? AND endDate=?");
+            preparedStatement.setInt(1, roomId);
+            preparedStatement.setInt(2, personId);
+            preparedStatement.setObject(1, startDate);
+            preparedStatement.setObject(1, endDate);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next()) {
+                return null;
+            }
+            int bId = resultSet.getInt(1);
+            booking = new Booking(bId,roomId,personId,startDate,endDate);
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return booking;
     }
 
     @Override

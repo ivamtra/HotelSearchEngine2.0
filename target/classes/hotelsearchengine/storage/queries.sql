@@ -87,7 +87,7 @@ INSERT INTO Rooms VALUES(1, 75, 1, 20000);
 
 -- (bookingId, roomId, personId, startDate, endDate)
 
-INSERT INTO Bookings VALUES(1, 1, 1, date '2022-04-20', date '2022-04-24');
+INSERT INTO Bookings VALUES(1, 1, 1, date('2022-04-20'), date('2022-04-24'));
 
 ------------ Bæta inn í Persons töfluna -------------------------
 

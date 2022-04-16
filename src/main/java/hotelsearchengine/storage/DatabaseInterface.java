@@ -5,7 +5,7 @@ import java.util.*;
 
 public  interface DatabaseInterface {
 
-    public void addReviews(Review review);
+    public void addReviews(Review review,int hotelId);
 
     public List<Review> getHotelReviews(int hotelId);
 

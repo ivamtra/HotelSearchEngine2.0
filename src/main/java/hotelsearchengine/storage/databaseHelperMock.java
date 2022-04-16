@@ -8,7 +8,7 @@ import java.util.List;
 public class databaseHelperMock implements DatabaseInterface {
 
     @Override
-    public void addReviews(Review review) {
+    public void addReviews(Review review,int HotelId) {
         // TODO Auto-generated method stub
 
     }
