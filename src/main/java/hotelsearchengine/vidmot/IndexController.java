@@ -15,10 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -86,7 +83,7 @@ public class IndexController implements Initializable {
             // TODO: Show actual images
             Image img = new Image(getClass().getResourceAsStream("/hotelsearchengine/storage/images/" + (int)(Math.random()*6 + 1) + "_1.jpeg"));
             ImageView imgView = new ImageView(img);
-            imgView.setFitHeight(125.0);
+            imgView.setFitHeight(140.0);
             imgView.setFitWidth(200);
             imageContainer.getChildren().add(imgView);
 
@@ -113,7 +110,6 @@ public class IndexController implements Initializable {
 
             hotelNumber++;
         }
-
     }
 
     public void openHotelScene(MouseEvent e, Hotel h) {
