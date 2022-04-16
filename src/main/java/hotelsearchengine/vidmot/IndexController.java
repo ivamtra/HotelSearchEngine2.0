@@ -83,6 +83,13 @@ public class IndexController implements Initializable {
             imageContainer.getStyleClass().add("hotel-image-container");
             hotelContainer.getChildren().add(imageContainer);
 
+            // TODO: Show actual images
+            Image img = new Image(getClass().getResourceAsStream("/hotelsearchengine/storage/images/" + (int)(Math.random()*6 + 1) + "_1.jpeg"));
+            ImageView imgView = new ImageView(img);
+            imgView.setFitHeight(125.0);
+            imgView.setFitWidth(200);
+            imageContainer.getChildren().add(imgView);
+
             Pane hotelInfoContainer = new Pane();
             hotelInfoContainer.getStyleClass().add("hotel-info-container");
             hotelContainer.getChildren().add(hotelInfoContainer);
@@ -92,10 +99,17 @@ public class IndexController implements Initializable {
             hotelName.getStyleClass().add("hotel-name");
             hotelInfoContainer.getChildren().add(hotelName);
 
-            Label hotelStars = new Label();
-            hotelStars.setText("Stjörnur: " + h.getHotelStars());
-            hotelStars.getStyleClass().add("hotel-stars");
-            hotelInfoContainer.getChildren().add(hotelStars);
+            HBox starContainer = new HBox();
+            Image starIcon = new Image(getClass().getResourceAsStream("/hotelsearchengine/storage/icons/star.png"));
+            for(int i = 0; i < 5; i++) { // TODO: use h.getStars()
+                ImageView starView = new ImageView(starIcon);
+                starView.setFitHeight(15);
+                starView.setFitWidth(15);
+                starContainer.getChildren().add(starView);
+            }
+
+            starContainer.getStyleClass().add("hotel-stars");
+            hotelInfoContainer.getChildren().add(starContainer);
 
             hotelNumber++;
         }
