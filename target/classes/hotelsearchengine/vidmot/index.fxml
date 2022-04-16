@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearchengine.vidmot.IndexController">
+<ScrollPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearchengine.vidmot.IndexController">
     <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="1000.0">
+        <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefWidth="1000.0">
          <Pane prefHeight="100.0" prefWidth="1000.0" styleClass="title-container">
             <children>
+               <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="925.0" layoutY="25.0" onMouseClicked="#showSearchContainer" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../storage/icons/search.png" />
+                  </image>
+               </ImageView>
                <Label layoutX="290.0" prefHeight="100.0" text="Hotel Search Engine" textFill="WHITE">
                   <font>
                      <Font name="System Bold" size="50.0" />
@@ -20,8 +34,139 @@
                </Label>
             </children>
          </Pane>
-            <VBox fx:id="mainContainer" alignment="CENTER" minHeight="-Infinity" prefHeight="575.0" prefWidth="1000.0" spacing="40.0" translateY="125.0" AnchorPane.bottomAnchor="100.0" AnchorPane.topAnchor="0.0">
-            </VBox>
+            <VBox fx:id="mainContainer" alignment="CENTER" maxHeight="1.7976931348623157E308" minHeight="-Infinity" onMouseClicked="#hideSearchContainer" prefWidth="1000.0" spacing="40.0" translateY="125.0">
+            <padding>
+               <Insets bottom="150.0" />
+            </padding></VBox>
+         <Pane id="searchContainer" fx:id="searchContainer" layoutX="600.0" prefHeight="700.0" prefWidth="400.0" style="-fx-background-color: white;" visible="false">
+            <children>
+               <Pane prefHeight="100.0" prefWidth="400.0">
+                  <children>
+                     <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="25.0" layoutY="25.0" onMouseClicked="#hideSearchContainer" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../storage/icons/exit.png" />
+                        </image>
+                     </ImageView>
+                     <Label layoutX="200.0" layoutY="19.0" text="Search">
+                        <font>
+                           <Font size="50.0" />
+                        </font>
+                     </Label>
+                  </children>
+               </Pane>
+               <Button layoutX="146.0" layoutY="617.0" mnemonicParsing="false" style="-fx-background-color: blue; -fx-border-radius: 10;" text="Search" textFill="WHITE">
+                  <font>
+                     <Font size="25.0" />
+                  </font>
+               </Button>
+               <VBox layoutY="100.0" maxHeight="1.7976931348623157E308" prefWidth="400.0">
+                  <children>
+                     <Pane prefHeight="50.0" prefWidth="400.0">
+                        <children>
+                           <Label layoutX="25.0" layoutY="12.0" text="Maximum Price">
+                              <font>
+                                 <Font size="20.0" />
+                              </font>
+                           </Label>
+                           <TextField layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" promptText="100" />
+                        </children>
+                     </Pane>
+                     <Pane prefHeight="50.0" prefWidth="400.0">
+                        <children>
+                           <Label layoutX="25.0" layoutY="12.0" text="Minimum Price">
+                              <font>
+                                 <Font size="20.0" />
+                              </font>
+                           </Label>
+                           <TextField layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" promptText="0" />
+                        </children>
+                     </Pane>
+                     <Pane prefHeight="50.0" prefWidth="400.0">
+                        <children>
+                           <Label layoutX="25.0" layoutY="12.0" text="Minimum Stars">
+                              <font>
+                                 <Font size="20.0" />
+                              </font>
+                           </Label>
+                           <TextField layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" promptText="0" />
+                        </children>
+                     </Pane>
+                     <Pane prefHeight="50.0" prefWidth="400.0">
+                        <children>
+                           <Label layoutX="25.0" layoutY="12.0" text="Maximum Stars">
+                              <font>
+                                 <Font size="20.0" />
+                              </font>
+                           </Label>
+                           <TextField layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" promptText="3" />
+                        </children>
+                     </Pane>
+                     <Pane prefHeight="50.0" prefWidth="400.0">
+                        <children>
+                           <Label layoutX="25.0" layoutY="12.0" text="Hotel Name">
+                              <font>
+                                 <Font size="20.0" />
+                              </font>
+                           </Label>
+                           <TextField layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" promptText="Hotel" />
+                        </children>
+                     </Pane>
+                     <Pane prefHeight="50.0" prefWidth="400.0">
+                        <children>
+                           <Label layoutX="25.0" layoutY="12.0" text="Location">
+                              <font>
+                                 <Font size="20.0" />
+                              </font>
+                           </Label>
+                           <TextField layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" promptText="Reykjavík" />
+                        </children>
+                     </Pane>
+                     <Pane prefHeight="50.0" prefWidth="400.0">
+                        <children>
+                           <Label layoutX="25.0" layoutY="12.0" text="Available From">
+                              <font>
+                                 <Font size="20.0" />
+                              </font>
+                           </Label>
+                           <DatePicker layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" />
+                        </children>
+                     </Pane>
+                     <Pane prefHeight="50.0" prefWidth="400.0">
+                        <children>
+                           <Label layoutX="25.0" layoutY="12.0" text="Available To">
+                              <font>
+                                 <Font size="20.0" />
+                              </font>
+                           </Label>
+                           <DatePicker layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" />
+                        </children>
+                     </Pane>
+                     <Pane prefHeight="150.0" prefWidth="400.0">
+                        <children>
+                           <Label layoutX="164.0" layoutY="12.0" text="Services">
+                              <font>
+                                 <Font size="20.0" />
+                              </font>
+                           </Label>
+                           <GridPane layoutY="48.0">
+                             <columnConstraints>
+                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                             </columnConstraints>
+                             <rowConstraints>
+                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                             </rowConstraints>
+                           </GridPane>
+                        </children>
+                     </Pane>
+                  </children>
+               </VBox>
+            </children>
+         </Pane>
         </AnchorPane>
     </content>
     <stylesheets>

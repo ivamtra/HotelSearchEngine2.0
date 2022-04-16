@@ -14,13 +14,33 @@ CREATE TABLE Hotels (
     location varchar(100),
     hotelStars integer,
     averageReview float,
-    --Myndir?
     hotelContactInfo varchar(100),
     hotelOwner varchar(100),
-    hasGym boolean,
-    hasCasino boolean,
     FOREIGN KEY (hotelOwner) references Persons(personId),
     PRIMARY KEY(hotelId)
+);
+
+CREATE TABLE HotelImages (
+    id int NOT NULL,
+    hotelId int NOT NULL,
+    imageURL varchar(100),
+    FOREIGN KEY (hotelId) references Hotels(hotelId),
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE Services (
+    id int NOT NULL,
+    service varchar(100),
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE HotelHasService (
+    id int NOT NULL,
+    hotelId int NOT NULL,
+    serviceId int NOT NULL,
+    FOREIGN KEY (hotelId) references Hotels(hotelId),
+    FOREIGN KEY (serviceId) references Services(id),
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE Reviews (

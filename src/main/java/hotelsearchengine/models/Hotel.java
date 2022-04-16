@@ -1,5 +1,7 @@
 package hotelsearchengine.models;
 
+import java.util.ArrayList;
+
 public class Hotel {
     private int hotelId;
     private String hotelName;
@@ -7,25 +9,22 @@ public class Hotel {
     private Room[] rooms;
     private String location;
     private int stars;
-    private Image picture;
     private Services services;
     private int ownerId;
     private String description; // Þetta er ný breyta
     private double averageRating; // ný breyta
     private String contactInfo; // ný breyta
-    private boolean hasGym; // Refactorast seinna með services
-    private boolean hasCasino; // Refactorast seinna
+    private ArrayList<String> imageURLs;
 
+    public Hotel(int hotelId, String hotelName, String hotelDescription, String hotelLocation, int hotelStars, Double hotelAverageReview, String hotelContactInfo, String hotelOwner, ArrayList<String> hotelImageURLs) {
 
-
-    public Hotel(int hotelId, int stars, String hotelName) {
         this.hotelId = hotelId;
         this.hotelName = hotelName;
         this.reviews = new Review[0]; // TODO
         this.rooms = new Room[0]; // TODO
-        this.location = ""; // TODO
-        this.stars = stars;
-        this.picture = new Image(); // TODO
+        this.location = hotelLocation;
+        this.stars = hotelStars;
+        this.imageURLs = hotelImageURLs;
         this.services = new Services(); // TODO
         this.ownerId = 0; // TODO
     }
@@ -60,12 +59,8 @@ public class Hotel {
         this.location = location;
     }
 
-    public Image getPicture() {
-        return picture;
-    }
-
-    public void setPicture(Image picture) {
-        this.picture = picture;
+    public ArrayList<String> getImageURLs() {
+        return imageURLs;
     }
 
     public Services getServices() {
