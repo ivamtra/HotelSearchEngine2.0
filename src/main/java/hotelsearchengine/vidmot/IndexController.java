@@ -33,6 +33,9 @@ public class IndexController implements Initializable {
     @FXML
     private VBox mainContainer;
 
+    @FXML
+    private Pane searchContainer;
+
     public static int hotelId = 100;
 
     private HashMap<Integer, MouseEvent> map;
@@ -98,8 +101,17 @@ public class IndexController implements Initializable {
 
             HBox starContainer = new HBox();
             Image starIcon = new Image(getClass().getResourceAsStream("/hotelsearchengine/storage/icons/star.png"));
-            for(int i = 0; i < h.getHotelStars(); i++) { // TODO: use h.getStars()
+            Image notAStarIcon = new Image(getClass().getResourceAsStream("/hotelsearchengine/storage/icons/notAStar.png"));
+
+            for(int i = 0; i < h.getHotelStars(); i++) {
                 ImageView starView = new ImageView(starIcon);
+                starView.setFitHeight(15);
+                starView.setFitWidth(15);
+                starContainer.getChildren().add(starView);
+            }
+
+            for(int i = h.getHotelStars(); i < 5; i++) {
+                ImageView starView = new ImageView(notAStarIcon);
                 starView.setFitHeight(15);
                 starView.setFitWidth(15);
                 starContainer.getChildren().add(starView);
@@ -123,5 +135,13 @@ public class IndexController implements Initializable {
         }  catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    public void showSearchContainer(MouseEvent e) {
+        searchContainer.setVisible(true);
+    }
+
+    public void hideSearchContainer(MouseEvent e) {
+        searchContainer.setVisible(false);
     }
 }
