@@ -10,10 +10,11 @@ import java.util.List;
 public class databaseHelper implements DatabaseInterface {
 
     ResultSet resultSet;
+    ResultSet imageResultSet;
     Connection connection;
     Statement statement;
     PreparedStatement preparedStatement;
-
+    PreparedStatement imagesPreparedStatement;
 
     public databaseHelper() throws SQLException {
         connect();
@@ -49,7 +50,7 @@ public class databaseHelper implements DatabaseInterface {
             System.out.println(r.getComment());
         }
 
-        db.getAvgRating(1);
+        // db.getAvgRating(1);
 
         ArrayList<Booking> bookings = (ArrayList<Booking>) db.getBookings(1);
 
@@ -116,8 +117,50 @@ public class databaseHelper implements DatabaseInterface {
 
     @Override
     public List<Hotel> getHotels(Restrictions restrictions) {
-        // TODO Auto-generated method stub
-        return null;
+        ArrayList<Hotel> hotelList = new ArrayList<>();
+        try {
+            preparedStatement = connection.prepareStatement("Select * from hotels");
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+
+                int hotelId = resultSet.getInt(1);
+                String hotelName = resultSet.getString(2);
+
+                String hotelDescription = resultSet.getString(3);
+                String hotelLocation = resultSet.getString(4);
+                int hotelStars = resultSet.getInt(5);
+                Double hotelAverageReview = resultSet.getDouble(6);
+                String hotelContactInfo = resultSet.getString(7);
+                String hotelOwner = resultSet.getString(8);
+
+                ArrayList<String> hotelImageURLs = new ArrayList<>();
+                imagesPreparedStatement = connection.prepareStatement("Select * from hotelImages WHERE hotelId = ?");
+                imagesPreparedStatement.setInt(1,hotelId);
+                imageResultSet = imagesPreparedStatement.executeQuery();
+
+                while (imageResultSet.next()) {
+                    String imageURL = imageResultSet.getString(3);
+                    hotelImageURLs.add(imageURL);
+                }
+
+                Hotel hotel = new Hotel(
+                        hotelId,
+                        hotelName,
+                        hotelDescription,
+                        hotelLocation,
+                        hotelStars,
+                        hotelAverageReview,
+                        hotelContactInfo,
+                        hotelOwner,
+                        hotelImageURLs
+                );
+
+                hotelList.add(hotel);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hotelList;
     }
 
     @Override

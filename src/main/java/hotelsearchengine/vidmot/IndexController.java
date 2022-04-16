@@ -15,16 +15,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.ResourceBundle;
@@ -35,6 +33,9 @@ public class IndexController implements Initializable {
 
     @FXML
     private VBox mainContainer;
+
+    @FXML
+    private Pane searchContainer;
 
     public static int hotelId = 100;
 
@@ -56,12 +57,14 @@ public class IndexController implements Initializable {
 
     public void insertHotels(searchController sc) {
 
-        Hotel[] hotels = sc.getAllHotels();
+        ArrayList<Hotel> hotels = sc.getAllHotels();
 
         int hotelNumber = 0;
         HBox currentHBox = new HBox();
 
         for (Hotel h : hotels) {
+
+            System.out.println("Displaying Hotel: " + h.getName());
 
             if(hotelNumber % 4 == 0) {
                 currentHBox = new HBox();
@@ -83,6 +86,18 @@ public class IndexController implements Initializable {
             imageContainer.getStyleClass().add("hotel-image-container");
             hotelContainer.getChildren().add(imageContainer);
 
+            ImageView imgView;
+            if(h.getImageURLs().size() > 0) {
+                Image img = new Image(getClass().getResourceAsStream("/hotelsearchengine/storage/images/" + h.getImageURLs().get(0)));
+                imgView = new ImageView(img);
+            } else {
+                imgView = new ImageView();
+            }
+
+            imgView.setFitHeight(140.0);
+            imgView.setFitWidth(200);
+            imageContainer.getChildren().add(imgView);
+
             Pane hotelInfoContainer = new Pane();
             hotelInfoContainer.getStyleClass().add("hotel-info-container");
             hotelContainer.getChildren().add(hotelInfoContainer);
@@ -92,14 +107,29 @@ public class IndexController implements Initializable {
             hotelName.getStyleClass().add("hotel-name");
             hotelInfoContainer.getChildren().add(hotelName);
 
-            Label hotelStars = new Label();
-            hotelStars.setText("Stjörnur: " + h.getHotelStars());
-            hotelStars.getStyleClass().add("hotel-stars");
-            hotelInfoContainer.getChildren().add(hotelStars);
+            HBox starContainer = new HBox();
+            Image starIcon = new Image(getClass().getResourceAsStream("/hotelsearchengine/storage/icons/star.png"));
+            Image notAStarIcon = new Image(getClass().getResourceAsStream("/hotelsearchengine/storage/icons/notAStar.png"));
+
+            for(int i = 0; i < h.getHotelStars(); i++) {
+                ImageView starView = new ImageView(starIcon);
+                starView.setFitHeight(15);
+                starView.setFitWidth(15);
+                starContainer.getChildren().add(starView);
+            }
+
+            for(int i = h.getHotelStars(); i < 10; i++) {
+                ImageView starView = new ImageView(notAStarIcon);
+                starView.setFitHeight(15);
+                starView.setFitWidth(15);
+                starContainer.getChildren().add(starView);
+            }
+
+            starContainer.getStyleClass().add("hotel-stars");
+            hotelInfoContainer.getChildren().add(starContainer);
 
             hotelNumber++;
         }
-
     }
 
     public void openHotelScene(MouseEvent e, Hotel h) {
@@ -113,5 +143,13 @@ public class IndexController implements Initializable {
         }  catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    public void showSearchContainer(MouseEvent e) {
+        searchContainer.setVisible(true);
+    }
+
+    public void hideSearchContainer(MouseEvent e) {
+        searchContainer.setVisible(false);
     }
 }
