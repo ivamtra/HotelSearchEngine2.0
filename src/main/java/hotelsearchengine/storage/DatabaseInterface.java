@@ -7,11 +7,11 @@ public  interface DatabaseInterface {
 
     public void addReviews(Review review);
 
-    public Review[] getHotelReviews(int hotelId);
+    public List<Review> getHotelReviews(int hotelId);
 
-    public Room[] getHotelRooms(Restrictions restrictions);
+    public List<Room> getHotelRooms(Restrictions restrictions);
 
-    public Hotel[] getHotels(Restrictions restrictions);
+    public List<Hotel> getHotels(Restrictions restrictions);
 
     public double getAvgRating(int hotelId);
 

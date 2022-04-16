@@ -5,6 +5,7 @@ import hotelsearchengine.storage.DatabaseInterface;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class databaseHelperMock implements DatabaseInterface {
 
@@ -15,19 +16,19 @@ public class databaseHelperMock implements DatabaseInterface {
     }
 
     @Override
-    public Review[] getHotelReviews(int hotelId) {
+    public List<Review> getHotelReviews(int hotelId) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Room[] getHotelRooms(Restrictions restrictions) {
+    public List<Room> getHotelRooms(Restrictions restrictions) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public Hotel[] getHotels(Restrictions restrictions) {
+    public List<Hotel> getHotels(Restrictions restrictions) {
         // TODO Auto-generated method stub
         return null;
     }

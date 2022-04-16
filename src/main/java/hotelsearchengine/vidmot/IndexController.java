@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.ResourceBundle;
@@ -42,7 +43,12 @@ public class IndexController implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resourceBundle) {
 
-        databaseHelper DB = new databaseHelper();
+        databaseHelper DB = null;
+        try {
+            DB = new databaseHelper();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         loginController LOGIN = new loginController(DB);
         sc = new searchController(DB, LOGIN);
         insertHotels(sc);
