@@ -101,7 +101,7 @@ public class IndexController implements Initializable {
 
             HBox starContainer = new HBox();
             Image starIcon = new Image(getClass().getResourceAsStream("/hotelsearchengine/storage/icons/star.png"));
-            for(int i = 0; i < 5; i++) { // TODO: use h.getStars()
+            for(int i = 0; i < h.getHotelStars(); i++) { // TODO: use h.getStars()
                 ImageView starView = new ImageView(starIcon);
                 starView.setFitHeight(15);
                 starView.setFitWidth(15);
