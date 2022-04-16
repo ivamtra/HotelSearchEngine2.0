@@ -68,7 +68,7 @@ public class databaseHelper implements DatabaseInterface {
 
     @Override
     public Booking unbook(int bookingId) {
-        // TODO Auto-generated method stub
+        // TODO Prófa þetta
         Booking booking = null;
         try {
             preparedStatement = connection.prepareStatement("Select * from Bookings where bookingId = ?");
@@ -95,6 +95,7 @@ public class databaseHelper implements DatabaseInterface {
 
     @Override
     public Person login(String name, String password) {
+        // TODO Prófa þetta
         Person person = null;
         try {
             preparedStatement = connection.prepareStatement("Select * from Persons where name = ? AND password = ?");
@@ -114,9 +115,17 @@ public class databaseHelper implements DatabaseInterface {
     }
 
     @Override
-    public void addReviews(Review review) {
-        // TODO Auto-generated method stub
-
+    public void addReviews(Review review, int hotelId) {
+        try {
+            preparedStatement = connection.prepareStatement("Insert Into Reviews Values(?,?,?,?)");
+            preparedStatement.setInt(1,hotelId);
+            preparedStatement.setInt(2,review.getCustomerId());
+            preparedStatement.setString(3,review.getComment());
+            preparedStatement.setInt(4,review.getRating());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

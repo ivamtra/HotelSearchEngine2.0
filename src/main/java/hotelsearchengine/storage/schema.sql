@@ -43,7 +43,7 @@ CREATE TABLE HotelHasService(
     PRIMARY KEY(id)
 );
 
-CREATE TABLE Reviews (
+CREATE TABLE Reviews(
     hotelId integer,
     personId int,
     review varchar(300),
