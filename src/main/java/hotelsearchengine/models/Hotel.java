@@ -94,4 +94,5 @@ public class Hotel {
     public String getContactInfo() {
         return contactInfo;
     }
+
 }
