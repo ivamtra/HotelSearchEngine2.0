@@ -21,7 +21,7 @@ public  interface DatabaseInterface {
     // Skilar öllum bookings með gefnum restrictions.
     // Vinnslan mun höndla getAvailability
     // Skilar Booking fylki
-    public Booking[] getBookings(int roomId);
+    public List<Booking> getBookings(int roomId);
 
     public Booking book(int roomId, int personId, Date startDate, Date endDate);
 

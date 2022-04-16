@@ -30,11 +30,14 @@ public class bookController {
         db.unbook(bookingId);
     }
 
+
+    // Þetta breyttist eftir að db.getBookings var breytt til þess að skila lista
+    // Í staðinn fyrir fylki
+    // Athuga virkni
     public void unbook(int roomID, Date start, Date end){
-        Booking[] bookings = db.getBookings(roomID);
+        ArrayList<Booking> bookings = (ArrayList<Booking>) db.getBookings(roomID);
         int personID = login.getLogged();
-        for(int i=0;i<bookings.length;i++){
-            Booking book = bookings[i];
+        for(Booking book : bookings){
             if(book.eq(roomID,personID,start,end)){
                 int bookingId = book.getBookingId();
                 db.unbook(bookingId);
@@ -44,10 +47,10 @@ public class bookController {
 
     }
 
+    // Þetta líka
     public boolean getAvailability(int roomID, Date start, Date end){
-        Booking[] bookings = db.getBookings(roomID);
-        for(int i=0;i<bookings.length;i++){
-            Booking book = bookings[i];
+        ArrayList<Booking> bookings = (ArrayList<Booking>) db.getBookings(roomID);
+        for(Booking book : bookings){
             boolean byrjarArgFyrirByrjun = book.getStartDate().compareTo(start)>=0;
             boolean endarArgFyrirEndi = book.getEndDate().compareTo(end)>=0;
             boolean byrjarArgFyrirEndi = book.getStartDate().compareTo(end)>=0;
