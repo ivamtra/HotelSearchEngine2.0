@@ -38,7 +38,7 @@
             <padding>
                <Insets bottom="150.0" />
             </padding></VBox>
-         <Pane id="searchContainer" fx:id="searchContainer" layoutX="600.0" prefHeight="700.0" prefWidth="400.0" style="-fx-background-color: white;">
+         <Pane id="searchContainer" fx:id="searchContainer" layoutX="600.0" prefHeight="700.0" prefWidth="400.0" style="-fx-background-color: white;" visible="false">
             <children>
                <Pane prefHeight="100.0" prefWidth="400.0">
                   <children>
