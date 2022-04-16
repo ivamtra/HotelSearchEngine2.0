@@ -34,7 +34,7 @@ CREATE TABLE Services (
     PRIMARY KEY(id)
 );
 
-CREATE TABLE HotelHasService(
+CREATE TABLE HotelHasService (
     id int NOT NULL,
     hotelId int NOT NULL,
     serviceId int NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE Rooms (
 	FOREIGN KEY (hotelId) references Hotels(hotelId),
 	PRIMARY KEY(roomId)
 );
-
+	
 
 CREATE TABLE Bookings (
 	bookingId int NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE Bookings (
 	startDate Date,
 	endDate DATE,
 	FOREIGN KEY (personId) references Persons(personId),
-	FOREIGN KEY (roomId) references Rooms(roomId),
+	FOREIGN KEY (roomId) references Rooms(rommId),
 	PRIMARY KEY(bookingId)
 );
 
