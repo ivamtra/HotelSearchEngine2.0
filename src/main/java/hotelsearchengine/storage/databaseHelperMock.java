@@ -32,6 +32,11 @@ public class databaseHelperMock implements DatabaseInterface {
     }
 
     @Override
+    public List<Service> getAllServices() {
+        return null;
+    }
+
+    @Override
     public double getAvgRating(int hotelId) {
         // TODO Auto-generated method stub
         return 0;
@@ -88,6 +93,7 @@ public class databaseHelperMock implements DatabaseInterface {
         Person person = new Person(name, password, 1);
         return person;
     }
+
 
     @Override
     public int logout(String name) {
