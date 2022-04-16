@@ -7,7 +7,10 @@
     -fx-background-color: white;
     -fx-pref-width: 200;
     -fx-pref-height: 200;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,1.0), 5, 0, 0, 0);
+}
+
+.hotel-container:hover {
+     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,1.0), 5, 0, 0, 0);
 }
 
 .hotel-image-container {
