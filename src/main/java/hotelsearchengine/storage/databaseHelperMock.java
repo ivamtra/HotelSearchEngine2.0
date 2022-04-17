@@ -2,6 +2,7 @@ package hotelsearchengine.storage;
 
 import hotelsearchengine.models.*;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,14 @@ public class databaseHelperMock implements DatabaseInterface {
     public void addReviews(Review review,int HotelId) {
         // TODO Auto-generated method stub
 
+    }
+
+    public void addRoom(Room room){
+        return;
+    }
+
+    public int getOwner(int hotelId) {
+        return 0;
     }
 
     @Override

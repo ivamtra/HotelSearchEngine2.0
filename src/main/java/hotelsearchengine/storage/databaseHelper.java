@@ -182,7 +182,9 @@ public class databaseHelper implements DatabaseInterface {
 
     @Override
     public List<Hotel> getHotels(Restrictions restrictions) {
+
         ArrayList<Hotel> hotelList = new ArrayList<>();
+
         try {
             preparedStatement = connection.prepareStatement("Select * from hotels");
             resultSet = preparedStatement.executeQuery();
@@ -190,7 +192,6 @@ public class databaseHelper implements DatabaseInterface {
 
                 int hotelId = resultSet.getInt(1);
                 String hotelName = resultSet.getString(2);
-
                 String hotelDescription = resultSet.getString(3);
                 String hotelLocation = resultSet.getString(4);
                 int hotelStars = resultSet.getInt(5);
@@ -198,6 +199,7 @@ public class databaseHelper implements DatabaseInterface {
                 String hotelContactInfo = resultSet.getString(7);
                 String hotelOwner = resultSet.getString(8);
 
+                // Sækja myndir fyrir hotelið
                 ArrayList<String> hotelImageURLs = new ArrayList<>();
                 imagesPreparedStatement = connection.prepareStatement("Select * from hotelImages WHERE hotelId = ?");
                 imagesPreparedStatement.setInt(1,hotelId);
@@ -406,6 +408,7 @@ public class databaseHelper implements DatabaseInterface {
         }
         return owner;
     }
+
     public void addRoom(Room room){
         try {
             preparedStatement = connection.prepareStatement("Insert Into Rooms (roomId,size,hotelId,price) Values (?,?,?,?)");
