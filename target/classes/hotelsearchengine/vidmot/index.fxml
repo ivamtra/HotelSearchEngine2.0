@@ -10,10 +10,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -38,7 +35,7 @@
             <padding>
                <Insets bottom="150.0" />
             </padding></VBox>
-         <Pane id="searchContainer" fx:id="searchContainer" layoutX="600.0" prefHeight="700.0" prefWidth="400.0" style="-fx-background-color: white;" visible="false">
+         <Pane id="searchContainer" fx:id="searchContainer" layoutX="600.0" prefHeight="700.0" prefWidth="400.0" style="-fx-background-color: white;">
             <children>
                <Pane prefHeight="100.0" prefWidth="400.0">
                   <children>
@@ -59,7 +56,7 @@
                      <Font size="25.0" />
                   </font>
                </Button>
-               <VBox layoutY="100.0" maxHeight="1.7976931348623157E308" prefWidth="400.0">
+               <VBox layoutY="100.0" maxHeight="1.7976931348623157E308" prefHeight="600.0" prefWidth="400.0">
                   <children>
                      <Pane prefHeight="50.0" prefWidth="400.0">
                         <children>
@@ -141,26 +138,22 @@
                            <DatePicker layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" />
                         </children>
                      </Pane>
-                     <Pane prefHeight="150.0" prefWidth="400.0">
+                     <Pane prefHeight="200.0" prefWidth="400.0">
                         <children>
-                           <Label layoutX="164.0" layoutY="12.0" text="Services">
+                           <Label layoutX="25.0" layoutY="12.0" text="Services">
                               <font>
                                  <Font size="20.0" />
                               </font>
                            </Label>
-                           <GridPane layoutY="48.0">
-                             <columnConstraints>
-                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                             </columnConstraints>
-                             <rowConstraints>
-                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                             </rowConstraints>
-                           </GridPane>
+                           <ScrollPane layoutX="125.0" layoutY="13.0" prefHeight="90.0" prefWidth="250.0">
+                             <content>
+                               <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="250.0">
+                                    <children>
+                                       <VBox fx:id="servicesContainer" prefWidth="250.0" />
+                                    </children>
+                                 </AnchorPane>
+                             </content>
+                           </ScrollPane>
                         </children>
                      </Pane>
                   </children>

@@ -229,6 +229,30 @@ public class databaseHelper implements DatabaseInterface {
     }
 
     @Override
+    public List<Service> getAllServices() {
+        ArrayList<Service> serviceList = new ArrayList<Service>();
+        try {
+            preparedStatement = connection.prepareStatement("Select * from services");
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+
+                int serviceId = resultSet.getInt(1);
+                String serviceName = resultSet.getString(2);
+
+                Service service = new Service(
+                        serviceId,
+                        serviceName
+                );
+
+                serviceList.add(service);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return serviceList;
+    }
+
+    @Override
     public double getAvgRating(int hotelId) {
         double averageRating = -1.0;
         try {
@@ -258,7 +282,7 @@ public class databaseHelper implements DatabaseInterface {
     public void addHotel(Hotel hotel) {
         try {
             // (hotelId, hotelName, hotelDescription, location, hotelStars integer, averageReview, hotelContactInfo, hotelOwner, hasGym, hasCasino)
-            preparedStatement = connection.prepareStatement("insert into Hotels values(?,?,?,?,?,?,?,?,?,?");
+            preparedStatement = connection.prepareStatement("insert into Hotels values(?,?,?,?,?,?,?,?)");
             preparedStatement.setInt(1, hotel.getHotelId());
             preparedStatement.setString(2,hotel.getHotelName());
             preparedStatement.setString(3, hotel.getDescription());
@@ -267,11 +291,7 @@ public class databaseHelper implements DatabaseInterface {
             preparedStatement.setDouble(6,hotel.getAverageRating());
             preparedStatement.setString(7, hotel.getContactInfo());
             preparedStatement.setInt(8, hotel.getOwnerId());
-            preparedStatement.setBoolean(9,hotel.getServices().isHasGym());
-            preparedStatement.setBoolean(10,hotel.getServices().isHasCasino());
             resultSet = preparedStatement.executeQuery();
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
