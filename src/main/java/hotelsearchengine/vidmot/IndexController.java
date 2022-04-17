@@ -145,7 +145,7 @@ public class IndexController implements Initializable {
             serviceCheckbox.setText(s.getServiceName());
 
             // TODO: addListener or id
-            
+
             servicesContainer.getChildren().add(serviceCheckbox);
         }
     }
