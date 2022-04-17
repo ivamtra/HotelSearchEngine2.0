@@ -18,7 +18,26 @@ public class searchController {
     }
 
     public ArrayList<Hotel> getAllHotels() {
-        Restrictions r = new Restrictions();
+        Restrictions r = new Restrictions(null, null, null, null, null, null, null, null, null);
+        ArrayList<Hotel> hotels = (ArrayList<Hotel>) this.db.getHotels(r);
+        return hotels;
+    }
+
+    /**
+     * Leita að hótelum eftirfarandi gildi á að setja sem 'null' ef ekki á að leita eftir þeim
+     * @param maxPrice
+     * @param minPrice
+     * @param maxStars
+     * @param minStars
+     * @param hotelName
+     * @param hotelLocation
+     * @param availableFrom
+     * @param availableTo
+     * @param services
+     * @return hotels (ArrayList<Hotel>)
+     */
+    public ArrayList<Hotel> searchHotels(Integer maxPrice, Integer minPrice, Integer maxStars, Integer minStars, String hotelName, String hotelLocation, String availableFrom, String availableTo, ArrayList<Service> services) {
+        Restrictions r = new Restrictions(maxPrice, minPrice, maxStars, minStars, hotelName, hotelLocation, availableFrom, availableTo, services);
         ArrayList<Hotel> hotels = (ArrayList<Hotel>) this.db.getHotels(r);
         return hotels;
     }

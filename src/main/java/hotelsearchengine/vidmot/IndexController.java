@@ -5,6 +5,9 @@ import hotelsearchengine.controllers.searchController;
 import hotelsearchengine.models.Hotel;
 import hotelsearchengine.models.Service;
 import hotelsearchengine.storage.databaseHelper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +16,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -24,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -38,6 +44,30 @@ public class IndexController implements Initializable {
 
     @FXML
     private Pane searchContainer;
+
+    @FXML
+    private TextField searchMaxPrice;
+
+    @FXML
+    private TextField searchMinPrice;
+
+    @FXML
+    private TextField searchMaxStars;
+
+    @FXML
+    private TextField searchMinStars;
+
+    @FXML
+    private TextField searchHotelName;
+
+    @FXML
+    private TextField searchHotelLocation;
+
+    @FXML
+    private DatePicker searchAvailableFrom;
+
+    @FXML
+    private DatePicker searchAvailableTo;
 
     @FXML
     private VBox servicesContainer;
@@ -57,13 +87,16 @@ public class IndexController implements Initializable {
         }
         loginController LOGIN = new loginController(DB);
         sc = new searchController(DB, LOGIN);
-        insertHotels(sc);
+        insertHotels(sc, null);
         insertServices(sc);
+        restrictSearchTextFields();
     }
 
-    public void insertHotels(searchController sc) {
+    public void insertHotels(searchController sc, ArrayList<Hotel> currentHotels) {
 
-        ArrayList<Hotel> hotels = sc.getAllHotels();
+        ArrayList<Hotel> hotels = currentHotels != null ? currentHotels : sc.getAllHotels();
+
+        mainContainer.getChildren().clear();
 
         int hotelNumber = 0;
         HBox currentHBox = new HBox();
@@ -145,7 +178,7 @@ public class IndexController implements Initializable {
             serviceCheckbox.setText(s.getServiceName());
 
             // TODO: addListener or id
-            
+
             servicesContainer.getChildren().add(serviceCheckbox);
         }
     }
@@ -163,11 +196,66 @@ public class IndexController implements Initializable {
         }
     }
 
+    public void restrictSearchTextFields() {
+        setNumberOnly(searchMaxPrice);
+        setNumberOnly(searchMinPrice);
+        setNumberOnly(searchMaxStars);
+        setNumberOnly(searchMinStars);
+    }
+
+    public void setNumberOnly(TextField tf) {
+        tf.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    tf.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+    }
+
+
     public void showSearchContainer(MouseEvent e) {
         searchContainer.setVisible(true);
     }
 
     public void hideSearchContainer(MouseEvent e) {
+        searchContainer.setVisible(false);
+    }
+
+    public boolean isInt(String str)
+    {
+        try
+        {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException ex)
+        {
+            return false;
+        }
+    }
+
+    public void handleSearch(ActionEvent e) {
+
+        Integer maxPrice = isInt(searchMaxPrice.getText()) ? Integer.valueOf(searchMaxPrice.getText()) : null;
+        Integer minPrice = isInt(searchMinPrice.getText()) ? Integer.valueOf(searchMinPrice.getText()) : null;
+        Integer maxStars = isInt(searchMaxStars.getText()) ? Integer.valueOf(searchMaxStars.getText()) : null;
+        Integer minStars = isInt(searchMinStars.getText()) ? Integer.valueOf(searchMinStars.getText()) : null;
+        String name = searchHotelName.getText().length() > 0 ? searchHotelName.getText() : null;
+        String location = searchHotelLocation.getText().length() > 0 ? searchHotelLocation.getText() : null;
+
+        // TODO:
+        // LocalDate availableFrom = searchAvailableFrom.getValue();
+        // LocalDate availableTo = searchAvailableTo.getValue();
+        String availableFrom = null;
+        String availableTo = null;
+
+        ArrayList<Service> services = new ArrayList<Service>();
+
+        ArrayList<Hotel> hotels = this.sc.searchHotels(maxPrice, minPrice, maxStars, minStars, name, location, availableFrom, availableTo, services);
+
+        insertHotels(this.sc, hotels);
+
         searchContainer.setVisible(false);
     }
 }

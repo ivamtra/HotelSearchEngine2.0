@@ -182,15 +182,89 @@ public class databaseHelper implements DatabaseInterface {
 
     @Override
     public List<Hotel> getHotels(Restrictions restrictions) {
+
         ArrayList<Hotel> hotelList = new ArrayList<>();
+
+        Integer minPrice = restrictions.getMinPrice();
+        Integer maxPrice = restrictions.getMaxPrice();
+        Integer minStars = restrictions.getMinStars();
+        Integer maxStars = restrictions.getMaxStars();
+        String name = restrictions.getName();
+        String location = restrictions.getLocation();
+        Date startDate = restrictions.getStartDate();
+        Date endDate = restrictions.getStartDate();
+        ArrayList<Service> services = restrictions.getServices();
+
+        String query = "SELECT * FROM Hotels WHERE 1=1 ";
+        boolean[] usedValues = new boolean[9]; // 9 restrictions atm
+
+        // Þurfum að nota ? hér til að þetta sé öruggara (viljum ekki stinga gildunum beint inn)
+        if(minPrice != null) {} // TODO
+        if(maxPrice != null) {} // TODO
+
+        if(minStars != null) {
+            query += "AND hotelStars >= ? ";
+            usedValues[2] = true;
+        }
+        if(maxStars != null) {
+            query += "AND hotelStars <= ? ";
+            usedValues[3] = true;
+        }
+        if(name != null) {
+            name = '%' + name + '%';
+            query += "AND hotelName LIKE ? "; // TODO: Case sensitive etc.
+            usedValues[4] = true;
+        }
+        if(location != null) {
+            location = '%' + location + '%';
+            query += "AND location LIKE ? "; // TODO: Case sensitive etc.
+            usedValues[5] = true;
+        }
+
+        if(startDate != null) {} // TODO
+        if(endDate != null) {} // TODO
+        if(services != null) {} // TODO
+
+        query += "COLLATE NOCASE";
+
+        System.out.println(query);
+
         try {
-            preparedStatement = connection.prepareStatement("Select * from hotels");
+            preparedStatement = connection.prepareStatement(query);
+
+            int currentQueryParameter = 0;
+            if(usedValues[0]) {
+                currentQueryParameter++;
+                preparedStatement.setInt(currentQueryParameter, minPrice);
+            }
+            if(usedValues[1]) {
+                currentQueryParameter++;
+                preparedStatement.setInt(currentQueryParameter, maxPrice);
+            }
+            if(usedValues[2]) {
+                currentQueryParameter++;
+                preparedStatement.setInt(currentQueryParameter, minStars);
+            }
+            if(usedValues[3]) {
+                currentQueryParameter++;
+                preparedStatement.setInt(currentQueryParameter, maxStars);
+            }
+            if(usedValues[4]) {
+                currentQueryParameter++;
+                preparedStatement.setString(currentQueryParameter, name);
+            }
+            if(usedValues[5]) {
+                currentQueryParameter++;
+                preparedStatement.setString(currentQueryParameter, location);
+            }
+
+            // TODO : rest of restrictions
+
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
 
                 int hotelId = resultSet.getInt(1);
                 String hotelName = resultSet.getString(2);
-
                 String hotelDescription = resultSet.getString(3);
                 String hotelLocation = resultSet.getString(4);
                 int hotelStars = resultSet.getInt(5);
@@ -198,6 +272,7 @@ public class databaseHelper implements DatabaseInterface {
                 String hotelContactInfo = resultSet.getString(7);
                 String hotelOwner = resultSet.getString(8);
 
+                // Sækja myndir fyrir hotelið
                 ArrayList<String> hotelImageURLs = new ArrayList<>();
                 imagesPreparedStatement = connection.prepareStatement("Select * from hotelImages WHERE hotelId = ?");
                 imagesPreparedStatement.setInt(1,hotelId);
@@ -406,6 +481,7 @@ public class databaseHelper implements DatabaseInterface {
         }
         return owner;
     }
+
     public void addRoom(Room room){
         try {
             preparedStatement = connection.prepareStatement("Insert Into Rooms (roomId,size,hotelId,price) Values (?,?,?,?)");
