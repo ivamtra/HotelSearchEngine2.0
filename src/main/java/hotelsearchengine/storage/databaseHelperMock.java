@@ -105,4 +105,11 @@ public class databaseHelperMock implements DatabaseInterface {
         return false;
     }
 
+    public int getOwner(int hotelId) {
+        return 0;
+    }
+
+    public void addRoom(Room room) {
+
+    }
 }

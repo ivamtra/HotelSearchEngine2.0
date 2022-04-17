@@ -28,7 +28,6 @@ public class editController {
             db.addReviews(review,hotelId);
         }
     }
-
     public void addRoom(Room room){
         //Ef sá er loggaður inn er skráður sem eigandi hótelsins og er að finna í töflu má hann bæta herbergi við
         boolean isOwner = db.isOwner(login.getLogged());
