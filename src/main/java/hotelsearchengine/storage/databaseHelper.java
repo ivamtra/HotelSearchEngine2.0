@@ -3,9 +3,12 @@ package hotelsearchengine.storage;
 import hotelsearchengine.models.*;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class databaseHelper implements DatabaseInterface {
 
@@ -40,7 +43,9 @@ public class databaseHelper implements DatabaseInterface {
     }
 
     public static void main(String[] args) throws SQLException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         databaseHelper db = new databaseHelper();
+
 
         db.getHotelReviews(1);
 
@@ -52,7 +57,18 @@ public class databaseHelper implements DatabaseInterface {
 
         // db.getAvgRating(1);
 
-        ArrayList<Booking> bookings = (ArrayList<Booking>) db.getBookings(1);
+
+        //getBookings prófanir
+        ArrayList<Booking> bookings = (ArrayList<Booking>) db.getBookings(2);
+
+        for (Booking b : bookings) {
+            System.out.println(b.getBookingId());
+            System.out.println(b.getRoomId());
+            System.out.println(b.getCustomerId());
+            System.out.println(b.getStartDate());
+            System.out.println(b.getEndDate());
+        }
+        bookings = (ArrayList<Booking>) db.getBookings(3);
 
         for (Booking b : bookings) {
             System.out.println(b.getBookingId());
@@ -62,13 +78,19 @@ public class databaseHelper implements DatabaseInterface {
             System.out.println(b.getEndDate());
         }
 
+        //Login prófanir
+        Person p1 = db.login("Sös","apakisi123");
+        System.out.println(p1.getId());
+        System.out.println(p1.getName());
+        System.out.println(p1.getPassword());
+        Person p2 = db.login("Sus","apakisi123");
+        System.out.println(p2==null);
 
     }
 
 
     @Override
     public Booking unbook(int bookingId) {
-        // TODO Prófa þetta
         Booking booking = null;
         try {
             preparedStatement = connection.prepareStatement("Select * from Bookings where bookingId = ?");
@@ -95,7 +117,6 @@ public class databaseHelper implements DatabaseInterface {
 
     @Override
     public Person login(String name, String password) {
-        // TODO Prófa þetta
         Person person = null;
         try {
             preparedStatement = connection.prepareStatement("Select * from Persons where name = ? AND password = ?");
@@ -154,7 +175,7 @@ public class databaseHelper implements DatabaseInterface {
 
 
     @Override
-    public List<Room> getHotelRooms(Restrictions restrictions) {
+    public List<Room> getHotelRooms(Restrictions res) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -260,6 +281,7 @@ public class databaseHelper implements DatabaseInterface {
 
     /*
      * Athugasemd: þetta fall er mjög tregt með dagsetningar
+     * Ætti að vera komið núna
      */
     @Override
     public List<Booking> getBookings(int roomId) {
@@ -274,23 +296,12 @@ public class databaseHelper implements DatabaseInterface {
                 int bookingId = resultSet.getInt(1);
                 int rId = resultSet.getInt(2);
                 int personId = resultSet.getInt(3);
+                java.sql.Date sDate = resultSet.getDate(4);
+                java.sql.Date eDate = resultSet.getDate(5);
 
-                // Þetta ehv tregt
-                Date startDate = resultSet.getDate(4);
-                Date endDate = resultSet.getDate(5);
+                Booking booking = new Booking(bookingId, rId, personId, sDate, eDate);
 
-                System.out.println(startDate);
-                System.out.println(endDate);
-
-                //Date date = new Date(2022, 4, 20);
-
-                //System.out.println(date);
-
-
-
-                //Booking booking = new Booking(bookingId, rId, personId, startDate, endDate);
-
-                //bookings.add(booking);
+                bookings.add(booking);
             }
 
 
@@ -303,21 +314,19 @@ public class databaseHelper implements DatabaseInterface {
 
     @Override
     public Booking book(int roomId, int personId, Date startDate, Date endDate) {
-        //TODO láta AUTOINCREMENT VIRKA
-
         Booking booking = null;
         try {
-            preparedStatement = connection.prepareStatement("Insert Into Bookings (roomId,personId,startDate,endDdate) Values (?,?,?,?)");
+            preparedStatement = connection.prepareStatement("Insert Into Bookings (roomId,personId,startDate,endDate) Values (?,?,?,?)");
             preparedStatement.setInt(1, roomId);
             preparedStatement.setInt(2, personId);
-            preparedStatement.setObject(1, startDate);
-            preparedStatement.setObject(1, endDate);
+            preparedStatement.setObject(3, startDate);
+            preparedStatement.setObject(4, endDate);
             preparedStatement.executeUpdate();
             preparedStatement = connection.prepareStatement("Select bookingId From Bookings where roomId=? AND personId=? AND startDate=? AND endDate=?");
             preparedStatement.setInt(1, roomId);
             preparedStatement.setInt(2, personId);
-            preparedStatement.setObject(1, startDate);
-            preparedStatement.setObject(1, endDate);
+            preparedStatement.setObject(3, startDate);
+            preparedStatement.setObject(4, endDate);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
                 return null;
@@ -333,7 +342,7 @@ public class databaseHelper implements DatabaseInterface {
 
     @Override
     public int logout(String name) {
-        // TODO Auto-generated method stub
+        // Þurfum þetta fall líklega ekki
         return 0;
     }
 
