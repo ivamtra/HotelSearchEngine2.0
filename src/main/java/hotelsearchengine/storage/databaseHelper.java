@@ -375,5 +375,48 @@ public class databaseHelper implements DatabaseInterface {
         return new Date(year,month,day);
     }
 
+    public boolean isOwner(int personId){
+        boolean isOwner = false;
+        try {
+            preparedStatement = connection.prepareStatement("select isOwner from Persons where personId = ?");
+            preparedStatement.setInt(1,personId);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next()) {
+                return false;
+            }
+            isOwner = resultSet.getBoolean(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return isOwner;
+    }
+
+    public int getOwner(int hotelId) {
+        int owner = -1;
+        try {
+            preparedStatement = connection.prepareStatement("select hotelOwner from Hotels where hotelId = ?");
+            preparedStatement.setInt(1,hotelId);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next()) {
+                return -1;
+            }
+            owner = resultSet.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return owner;
+    }
+    public void addRoom(Room room){
+        try {
+            preparedStatement = connection.prepareStatement("Insert Into Rooms (roomId,size,hotelId,price) Values (?,?,?,?)");
+            preparedStatement.setInt(1, room.getRoomId());
+            preparedStatement.setInt(2, room.getCapacity());
+            preparedStatement.setObject(3, room.getHotelId());
+            preparedStatement.setObject(4, room.getPrice());
+            preparedStatement.executeUpdate();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

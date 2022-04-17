@@ -100,5 +100,9 @@ public class databaseHelperMock implements DatabaseInterface {
         // Þarf þess aðferð???
         return 0;
     }
+    @Override
+    public boolean isOwner(int personId){
+        return false;
+    }
 
 }

@@ -64,13 +64,13 @@ CREATE TABLE HotelHasService (
     PRIMARY KEY(id)
 );
 CREATE TABLE Bookings (
-bookingId INTEGER PRIMARY KEY AUTOINCREMENT,
-roomId int,
-personId int,
-startDate Date,
-endDate DATE,
-FOREIGN KEY (personId) references Persons(personId),
-FOREIGN KEY (roomId) references Rooms(roomId)
+    bookingId INTEGER PRIMARY KEY AUTOINCREMENT,
+    roomId int,
+    personId int,
+    startDate Date,
+    endDate DATE,
+    FOREIGN KEY (personId) references Persons(personId),
+    FOREIGN KEY (roomId) references Rooms(roomId)
 );
 CREATE TABLE sqlite_sequence(name,seq);
 

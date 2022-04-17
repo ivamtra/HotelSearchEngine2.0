@@ -33,5 +33,11 @@ public  interface DatabaseInterface {
 
     public int logout(String name);
 
+    public boolean isOwner(int personId);
+
+    public int getOwner(int hotelId);
+
+    public void addRoom(Room room);
+
 
 }

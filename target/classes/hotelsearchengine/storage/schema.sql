@@ -7,6 +7,30 @@
 --
 -----------------------------------------------------------------
 
+CREATE TABLE Rooms (
+	roomId int NOT NULL,
+	size int,
+	hotelId int,
+	price int,
+	FOREIGN KEY (hotelId) references Hotels(hotelId),
+	PRIMARY KEY(roomId)
+);
+CREATE TABLE Persons (
+	personId int NOT NULL,
+	name varchar(100),
+	password varchar(100),
+	isOwner boolean,
+	PRIMARY KEY(personId)
+);
+CREATE TABLE Reviews (
+    hotelId integer,
+    personId int,
+    review varchar(300),
+    rating integer,
+    FOREIGN KEY (hotelId) references Hotels(hotelId),
+    FOREIGN KEY (personId) references Persons(personId),
+    PRIMARY KEY(hotelId, personId)
+);
 CREATE TABLE Hotels (
     hotelId int NOT NULL,
     hotelName varchar(100),
@@ -19,7 +43,6 @@ CREATE TABLE Hotels (
     FOREIGN KEY (hotelOwner) references Persons(personId),
     PRIMARY KEY(hotelId)
 );
-
 CREATE TABLE HotelImages (
     id int NOT NULL,
     hotelId int NOT NULL,
@@ -27,14 +50,12 @@ CREATE TABLE HotelImages (
     FOREIGN KEY (hotelId) references Hotels(hotelId),
     PRIMARY KEY(id)
 );
-
 CREATE TABLE Services (
     id int NOT NULL,
     service varchar(100),
     PRIMARY KEY(id)
 );
-
-CREATE TABLE HotelHasService(
+CREATE TABLE HotelHasService (
     id int NOT NULL,
     hotelId int NOT NULL,
     serviceId int NOT NULL,
@@ -42,45 +63,16 @@ CREATE TABLE HotelHasService(
     FOREIGN KEY (serviceId) references Services(id),
     PRIMARY KEY(id)
 );
-
-CREATE TABLE Reviews(
-    hotelId integer,
-    personId int,
-    review varchar(300),
-    rating integer,
-    FOREIGN KEY (hotelId) references Hotels(hotelId),
-    FOREIGN KEY (personId) references Persons(personId),
-    PRIMARY KEY(hotelId, personId)
-);
-
-CREATE TABLE Rooms (
-	roomId int NOT NULL,
-	size int,
-	hotelId int,
-	price int,
-	FOREIGN KEY (hotelId) references Hotels(hotelId),
-	PRIMARY KEY(roomId)
-);
-
-
 CREATE TABLE Bookings (
-	bookingId int NOT NULL,
-	roomId int,
-	personId int,
-	startDate Date,
-	endDate DATE,
-	FOREIGN KEY (personId) references Persons(personId),
-	FOREIGN KEY (roomId) references Rooms(roomId),
-	PRIMARY KEY(bookingId)
+bookingId INTEGER PRIMARY KEY AUTOINCREMENT,
+roomId int,
+personId int,
+startDate Date,
+endDate DATE,
+FOREIGN KEY (personId) references Persons(personId),
+FOREIGN KEY (roomId) references Rooms(roomId)
 );
-
-CREATE TABLE Persons (
-	personId int NOT NULL,
-	name varchar(100),
-	password varchar(100),
-	isOwner boolean,
-	PRIMARY KEY(personId)
-);
+CREATE TABLE sqlite_sequence(name,seq);
 
 
 
