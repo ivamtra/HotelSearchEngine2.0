@@ -1,7 +1,11 @@
 package hotelsearchengine.models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+
 public class Restrictions {
     private Integer minPrice;
     private Integer maxPrice;
@@ -12,17 +16,35 @@ public class Restrictions {
     private ArrayList<Service> services;
     private Date startDate;
     private Date endDate = new Date();
+    private Double avgRating;
+    private Integer minSize;
+    private Integer maxSize;
 
-    public Restrictions(Integer maxPrice, Integer minPrice, Integer maxStars, Integer minStars, String hotelName, String hotelLocation, String availableFrom, String availableTo, ArrayList<Service> services) {
-        this.maxPrice = maxPrice;
+    public Restrictions(Integer minPrice, Integer maxPrice, Integer minStars, Integer maxStars, String name, String location, ArrayList<Service> services, Date startDate, Date endDate, Double avgRating, Integer minSize, Integer maxSize) {
         this.minPrice = minPrice;
-        this.maxStars = maxStars;
+        this.maxPrice = maxPrice;
         this.minStars = minStars;
-        this.name = hotelName;
-        this.location = hotelLocation;
+        this.maxStars = maxStars;
+        this.name = name;
+        this.location = location;
         this.services = services;
-        this.startDate = new Date(); // TODO
-        this.endDate = new Date(); // TODO
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.avgRating = avgRating;
+        this.minSize = minSize;
+        this.maxSize = maxSize;
+    }
+
+    public Double getAvgRating() {
+        return avgRating;
+    }
+
+    public Integer getMinSize() {
+        return minSize;
+    }
+
+    public Integer getMaxSize() {
+        return maxSize;
     }
 
     public Integer getMinPrice() {

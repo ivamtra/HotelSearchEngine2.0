@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -247,12 +248,12 @@ public class IndexController implements Initializable {
         // TODO:
         // LocalDate availableFrom = searchAvailableFrom.getValue();
         // LocalDate availableTo = searchAvailableTo.getValue();
-        String availableFrom = null;
-        String availableTo = null;
+        Date availableFrom = null;
+        Date availableTo = null;
 
         ArrayList<Service> services = new ArrayList<Service>();
 
-        ArrayList<Hotel> hotels = this.sc.searchHotels(maxPrice, minPrice, maxStars, minStars, name, location, availableFrom, availableTo, services);
+        ArrayList<Hotel> hotels = this.sc.searchHotels(maxPrice, minPrice, maxStars, minStars, name, location, services,availableFrom, availableTo,0.0,0,0);
 
         insertHotels(this.sc, hotels);
 

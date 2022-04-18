@@ -5,6 +5,7 @@ import hotelsearchengine.models.*;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.chrono.IsoEra;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +46,32 @@ public class databaseHelper implements DatabaseInterface {
     public static void main(String[] args) throws SQLException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         databaseHelper db = new databaseHelper();
+        //(Integer minPrice, Integer maxPrice, Integer minStars,
+        // Integer maxStars, String name, String location,
+        // ArrayList<Service> services, Date startDate, Date endDate,
+        // Double avgRating, Integer minSize, Integer maxSize)
+        Date sDate = null;
+        Date eDate = null;
+        try {
+            sDate = sdf.parse("2020-02-11");
+            eDate = sdf.parse("2020-02-17");
+            //db.book(1,2,sdf.parse("2020-02-05"),sdf.parse("2020-02-10"));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<Service> services = new ArrayList<Service>();
+        services.add(new Service(1,"leimshit"));
+        services.add(new Service(3,"leimshit"));
+        Restrictions res = new Restrictions(null,null,null,null,null,null,services,null,null,null,null,null);
+        List<Room> rooms = db.getHotelRooms(res);
+        for (Room r : rooms){
+            System.out.print(r.getRoomId() + " ");
+            System.out.print(r.getHotelId() + " ");
+            System.out.print(r.getCapacity() + " ");
+            System.out.println(r.getPrice() + " ");
+        }
+
+        /*
 
 
         db.getHotelReviews(1);
@@ -56,7 +83,6 @@ public class databaseHelper implements DatabaseInterface {
         }
 
         // db.getAvgRating(1);
-
 
         //getBookings prófanir
         ArrayList<Booking> bookings = (ArrayList<Booking>) db.getBookings(2);
@@ -85,6 +111,8 @@ public class databaseHelper implements DatabaseInterface {
         System.out.println(p1.getPassword());
         Person p2 = db.login("Sus","apakisi123");
         System.out.println(p2==null);
+
+         */
 
     }
 
@@ -175,9 +203,110 @@ public class databaseHelper implements DatabaseInterface {
 
 
     @Override
-    public List<Room> getHotelRooms(Restrictions res) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Room> getHotelRooms(Restrictions restrictions) {
+
+        ArrayList<Room> rooms = new ArrayList<>();
+
+        Integer minPrice = restrictions.getMinPrice();
+        Integer maxPrice = restrictions.getMaxPrice();
+        Integer minStars = restrictions.getMinStars();
+        Integer maxStars = restrictions.getMaxStars();
+        String name = restrictions.getName();
+        String location = restrictions.getLocation();
+        Date startDate = restrictions.getStartDate();
+        Date endDate = restrictions.getEndDate();
+        Double avgRating = restrictions.getAvgRating();
+        Integer minSize = restrictions.getMinSize();
+        Integer maxSize = restrictions.getMaxSize();
+        ArrayList<Service> services = restrictions.getServices();
+
+        String query = "SELECT * FROM Rooms R Inner join hotels H on R.hotelId = H.hotelId where 1=1 ";
+        boolean[] usedValues = new boolean[9]; // 9 restrictions atm
+
+        // Þurfum að nota ? hér til að þetta sé öruggara (viljum ekki stinga gildunum beint inn)
+        if(minPrice != null) {query += "AND ?<=R.price ";
+            usedValues[0] = true;}
+        if(maxPrice != null) {query += "AND ?>=R.price ";
+            usedValues[1] = true;}
+        if(minSize != null) {query += "AND ?<=R.size ";
+            usedValues[2] = true;}
+        if(maxSize != null) {query += "AND ?>=R.size ";
+            usedValues[3] = true;}
+        if(minStars != null) {query += "AND ?<=H.hotelStars ";
+            usedValues[4] = true;}
+        if(maxStars != null) {query += "AND ?>=H.hotelStars ";
+            usedValues[5] = true;}
+        if(name != null) {query += "AND H.hotelName LIKE ? ";
+            usedValues[6] = true;}
+        if(location != null) {query += "AND H.location LIKE ? ";
+            usedValues[7] = true;}
+
+        query += "COLLATE NOCASE";
+
+        System.out.println(query);
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+
+            int currentQueryParameter = 0;
+            if(usedValues[0]) {
+                currentQueryParameter++;
+                preparedStatement.setInt(currentQueryParameter, minPrice);
+            }
+            if(usedValues[1]) {
+                currentQueryParameter++;
+                preparedStatement.setInt(currentQueryParameter, maxPrice);
+            }
+            if(usedValues[2]) {
+                currentQueryParameter++;
+                preparedStatement.setInt(currentQueryParameter, minSize);
+            }
+            if(usedValues[3]) {
+                currentQueryParameter++;
+                preparedStatement.setInt(currentQueryParameter, maxSize);
+            }
+            if(usedValues[4]) {
+                currentQueryParameter++;
+                preparedStatement.setInt(currentQueryParameter, minStars);
+            }
+            if(usedValues[5]) {
+                currentQueryParameter++;
+                preparedStatement.setInt(currentQueryParameter, maxStars);
+            }
+            if(usedValues[6]) {
+                currentQueryParameter++;
+                preparedStatement.setString(currentQueryParameter, name);
+            }
+            if(usedValues[7]) {
+                currentQueryParameter++;
+                preparedStatement.setString(currentQueryParameter, location);
+            }
+
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+
+                int roomId = resultSet.getInt(1);
+                int hotelId = resultSet.getInt(3);
+                int price = resultSet.getInt(4);
+                int size = resultSet.getInt(2);
+
+                boolean serv = true;
+                if (services!=null) {
+                    for (Service s : services){
+                        if (!hasService(s.getServiceId(),hotelId)) {serv = false;}
+                    }
+                }
+
+                Room room = new Room(roomId,hotelId,price,size);
+                if (getAvailability(roomId,startDate,endDate)&&serv) {
+                    rooms.add(room);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rooms;
     }
 
     @Override
@@ -493,6 +622,41 @@ public class databaseHelper implements DatabaseInterface {
         }catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public boolean getAvailability(int roomID, Date start, Date end){
+        ArrayList<Booking> bookings = (ArrayList<Booking>) getBookings(roomID);
+        for(Booking book : bookings){
+            boolean byrjarArgFyrirByrjun = start != null && book.getStartDate().compareTo(start)>=0;
+            boolean endarArgFyrirEndi = end != null && book.getEndDate().compareTo(end)>=0;
+            boolean byrjarArgFyrirEndi = start != null && book.getEndDate().compareTo(start)>=0;
+            boolean endarArgFyrirByrjun = end != null && book.getStartDate().compareTo(end)>=0;
+
+            if(!byrjarArgFyrirByrjun && byrjarArgFyrirEndi){
+                return false;
+            }
+            if(!endarArgFyrirByrjun && endarArgFyrirEndi){
+                return false;
+            }
+            if (byrjarArgFyrirByrjun && !endarArgFyrirEndi) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean hasService(int serviceId, int hotelId){
+        boolean skil = false;
+        try {
+            preparedStatement = connection.prepareStatement("Select * from hotels H Inner Join hotelHasService HHS on H.hotelId=HHS.hotelId where H.hotelId=? AND serviceId=?");
+            preparedStatement.setInt(1,hotelId);
+            preparedStatement.setInt(2,serviceId);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return skil;
     }
 }
 
