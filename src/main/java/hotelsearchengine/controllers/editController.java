@@ -63,6 +63,7 @@ public class editController {
     }
 
 
+    // Tester
     public static void main(String[] args) throws SQLException {
         databaseHelper db = new databaseHelper();
         loginController loginController = new loginController(db);
