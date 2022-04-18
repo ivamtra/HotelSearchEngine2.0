@@ -30,6 +30,10 @@ public class bookController {
         db.unbook(bookingId);
     }
 
+    public List<Booking> getBookings(int roomId){
+        return db.getBookings(roomId);
+    }
+
 
     // Þetta breyttist eftir að db.getBookings var breytt til þess að skila lista
     // Í staðinn fyrir fylki

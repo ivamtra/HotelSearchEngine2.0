@@ -15,13 +15,12 @@ public class Restrictions {
     private String location;
     private ArrayList<Service> services;
     private Date startDate;
-    private Date endDate = new Date();
+    private Date endDate;
     private Double avgRating;
     private Integer minSize;
     private Integer maxSize;
 
     public Restrictions(Integer minPrice, Integer maxPrice, Integer minStars, Integer maxStars, String name, String location, ArrayList<Service> services, Date startDate, Date endDate, Double avgRating, Integer minSize, Integer maxSize) {
-
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
         this.minStars = minStars;

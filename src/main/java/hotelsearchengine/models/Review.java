@@ -2,23 +2,20 @@ package hotelsearchengine.models;
 
 public class Review {
     private int reviewId;
+    private int hotelId;
     private int customerId;
     private int rating;
     private String comment;
 
-    public Review(int reviewId, int customerId, String comment, int rating) {
-        this.reviewId = reviewId;
+    public Review(int hotelId,int customerId, String comment, int rating) {
+        this.hotelId = hotelId;
         this.customerId = customerId;
         this.rating = rating;
         this.comment = comment;
     }
 
-    public int getReviewId() {
-        return reviewId;
-    }
-
-    public void setReviewId(int reviewId) {
-        this.reviewId = reviewId;
+    public int getHotelId() {
+        return hotelId;
     }
 
     public int getCustomerId() {

@@ -5,7 +5,7 @@ import java.util.*;
 
 public  interface DatabaseInterface {
 
-    public void addReviews(Review review,int hotelId);
+    public void addReviews(Review review);
 
     public List<Review> getHotelReviews(int hotelId);
 
@@ -43,5 +43,7 @@ public  interface DatabaseInterface {
     public void addRoom(Room room);
 
 
-    int deleteLineFromTable(String reviews, String reviewId, int reviewId1);
+    public int deleteLineFromTable(String reviews, String reviewId, int reviewId1);
+
+    public int[] deleteReview(Review review);
 }

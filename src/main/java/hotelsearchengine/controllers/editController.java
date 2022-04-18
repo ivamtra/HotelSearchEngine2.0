@@ -7,6 +7,7 @@ import hotelsearchengine.storage.DatabaseInterface;
 import hotelsearchengine.storage.databaseHelper;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class editController {
     private DatabaseInterface db;
@@ -28,10 +29,10 @@ public class editController {
             db.addHotel(hotel);
         }
     }
-    public void addReview(Review review,int hotelId){
+    public void addReview(Review review){
         boolean isOwner = db.isOwner(login.getLogged());
         if (!isOwner) {
-            db.addReviews(review,hotelId);
+            db.addReviews(review);
         }
     }
     public void addRoom(Room room){
@@ -43,13 +44,13 @@ public class editController {
     }
 
 
-    // TODO á eftir að prufa
+    // Komið
     public Review removeReview(Review review) {
-        db.deleteLineFromTable("Reviews", "reviewId", review.getReviewId());
+        db.deleteReview(review);
         return review;
     }
 
-    // TODO á eftir að prufa
+    // Virkar
     public Room removeRoom(Room room) {
         db.deleteLineFromTable("Rooms", "roomId", room.getRoomId());
         return room;
@@ -74,6 +75,11 @@ public class editController {
 
         System.out.println(hotel2.getHotelId());
 
-        ec.removeHotel(hotelSaga);
+        Room r = db.getRoomsInHotels(1).get(0);
+
+        System.out.println(r.getRoomId());
+
+        ec.removeRoom(r);
+
     }
 }

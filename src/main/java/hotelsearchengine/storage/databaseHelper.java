@@ -60,9 +60,10 @@ public class databaseHelper implements DatabaseInterface {
             throw new RuntimeException(e);
         }
         ArrayList<Service> services = new ArrayList<Service>();
+
         services.add(new Service(1, "leimshit"));
         services.add(new Service(3, "leimshit"));
-        Restrictions res = new Restrictions(null, null, null, null, null, null, services, null, null, null, null, null);
+        Restrictions res = new Restrictions(null, null, null, null, null, null, null, null, null, null, null, null);
         List<Room> rooms = db.getHotelRooms(res);
         for (Room r : rooms) {
             System.out.print(r.getRoomId() + " ");
@@ -116,7 +117,6 @@ public class databaseHelper implements DatabaseInterface {
 
          */
     }
-
 
     public void makeBookings() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -179,10 +179,10 @@ public class databaseHelper implements DatabaseInterface {
     }
 
     @Override
-    public void addReviews(Review review, int hotelId) {
+    public void addReviews(Review review) {
         try {
             preparedStatement = connection.prepareStatement("Insert Into Reviews Values(?,?,?,?)");
-            preparedStatement.setInt(1,hotelId);
+            preparedStatement.setInt(1,review.getHotelId());
             preparedStatement.setInt(2,review.getCustomerId());
             preparedStatement.setString(3,review.getComment());
             preparedStatement.setDouble(4,review.getRating());
@@ -519,23 +519,23 @@ public class databaseHelper implements DatabaseInterface {
 
             if(usedValues[7]) {
                 currentQueryParameter++;
-                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) startDate);
+                preparedStatement.setObject(currentQueryParameter, startDate);
                 currentQueryParameter++;
-                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) startDate);
+                preparedStatement.setObject(currentQueryParameter, startDate);
             }
 
             if(usedValues[8]) {
                 currentQueryParameter++;
-                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) endDate);
+                preparedStatement.setObject(currentQueryParameter, endDate);
                 currentQueryParameter++;
-                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) endDate);
+                preparedStatement.setObject(currentQueryParameter, endDate);
             }
 
             if(usedValues[7] && usedValues[8]) {
                 currentQueryParameter++;
-                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) startDate);
+                preparedStatement.setObject(currentQueryParameter, startDate);
                 currentQueryParameter++;
-                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) endDate);
+                preparedStatement.setObject(currentQueryParameter, endDate);
             }
 
             // TODO : rest of restrictions
@@ -827,11 +827,28 @@ public class databaseHelper implements DatabaseInterface {
     public int deleteLineFromTable(String tableName, String idName, int id) {
         try {
             String query = "delete from " + tableName + " where " + idName + " = " + id;
+            // TODO Þetta er betra en var ehv vesen
+            //preparedStatement = connection.prepareStatement("delete from ? where ? = ?");
+
             statement.executeUpdate(query);
         }catch (SQLException e) {
             e.printStackTrace();
         }
         return id;
+    }
+
+    // Skilar [customerId, hotelId]
+    public int[] deleteReview(Review review) {
+        try {
+            preparedStatement = connection.prepareStatement("delete from reviews where hotelid = ? and personid = ?");
+            preparedStatement.setInt(1, review.getHotelId());
+            preparedStatement.setInt(2, review.getCustomerId());
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new int[]{review.getCustomerId(), review.getHotelId()};
     }
 }
 

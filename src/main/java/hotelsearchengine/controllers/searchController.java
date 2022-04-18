@@ -2,20 +2,20 @@ package hotelsearchengine.controllers;
 
 import hotelsearchengine.models.Hotel;
 import hotelsearchengine.models.Restrictions;
+import hotelsearchengine.models.Room;
 import hotelsearchengine.models.Review;
 import hotelsearchengine.models.Service;
-import hotelsearchengine.storage.databaseHelper;
-
-import java.sql.Date;
+import hotelsearchengine.storage.DatabaseInterface;
+import java.util.Date;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class searchController {
 
-    private databaseHelper db;
+    private DatabaseInterface db;
     private loginController login;
 
-    public searchController(databaseHelper DB, loginController LOGIN){
+    public searchController(DatabaseInterface DB, loginController LOGIN){
         this.db = DB;
         this.login = LOGIN;
     }
@@ -31,10 +31,23 @@ public class searchController {
         ArrayList<Hotel> hotels = (ArrayList<Hotel>) this.db.getHotels(r);
         return hotels;
     }
+    public ArrayList<Hotel> searchHotels(Restrictions r){
+        return (ArrayList<Hotel>) this.db.getHotels(r);
+    }
+
+    public ArrayList<Room> searchHotelRooms(Integer minPrice, Integer maxPrice, Integer minStars, Integer maxStars, String name, String location, ArrayList<Service> services, Date startDate, Date endDate, Double avgRating, Integer minSize, Integer maxSize) {
+        Restrictions r = new Restrictions(maxPrice, minPrice, maxStars, minStars, name, location, services, startDate, endDate,avgRating,minSize,maxSize);
+        ArrayList<Room> rooms = (ArrayList<Room>) this.db.getHotelRooms(r);
+        return rooms;
+    }
+
+    public ArrayList<Room> searchHotelRooms(Restrictions r) {
+        return (ArrayList<Room>) this.db.getHotelRooms(r);
+    }
 
     public Hotel getHotelById(int hotelId) {
         Hotel hotel = db.getHotel(hotelId);
-        ArrayList<Review> reviews = db.getHotelReviews(hotelId);
+        ArrayList<Review> reviews = (ArrayList<Review>) db.getHotelReviews(hotelId);
         hotel.setReviews(reviews);
         return hotel;
     }

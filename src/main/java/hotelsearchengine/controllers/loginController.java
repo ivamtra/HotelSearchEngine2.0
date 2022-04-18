@@ -23,6 +23,7 @@ public class loginController {
         this.loggedIn = null;
     }
 
+
     public boolean isLoggedin(int personID){
         return(loggedIn.getId()==personID);
     }
