@@ -88,7 +88,6 @@ public class databaseHelper implements DatabaseInterface {
 
     }
 
-
     @Override
     public Booking unbook(int bookingId) {
         Booking booking = null;
@@ -150,7 +149,7 @@ public class databaseHelper implements DatabaseInterface {
     }
 
     @Override
-    public List<Review> getHotelReviews(int hotelId) {
+    public ArrayList<Review> getHotelReviews(int hotelId) {
         ArrayList<Review> reviewList = new ArrayList<>();
         try {
             preparedStatement = connection.prepareStatement("Select * from reviews where hotelId = ?");
@@ -178,6 +177,55 @@ public class databaseHelper implements DatabaseInterface {
     public List<Room> getHotelRooms(Restrictions res) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public Hotel getHotel(int hotelId) {
+        Hotel hotel = null;
+        PreparedStatement pstmt;
+        PreparedStatement imgPstmt;
+        ResultSet resultSet;
+        ResultSet imgResultSet;
+        String query = "SELECT * FROM Hotels where hotelId = ?";
+        String imgQuery = "Select * from hotelImages WHERE hotelId = ?";
+        try {
+            pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, hotelId);
+            resultSet = pstmt.executeQuery();
+
+            imgPstmt = connection.prepareStatement(imgQuery);
+            imgPstmt.setInt(1, hotelId);
+            imgResultSet = imgPstmt.executeQuery();
+
+            String hotelName = resultSet.getString(2);
+            String hotelDescription = resultSet.getString(3);
+            String hotelLocation = resultSet.getString(4);
+            int hotelStars = resultSet.getInt(5);
+            Double hotelAverageReview = resultSet.getDouble(6);
+            String hotelContactInfo = resultSet.getString(7);
+            String hotelOwner = resultSet.getString(8);
+
+            ArrayList<String> hotelImageUrls = new ArrayList();
+
+            while(imgResultSet.next()) {
+                hotelImageUrls.add(imgResultSet.getString(3));
+            }
+
+            hotel = new Hotel(
+                    hotelId,
+                    hotelName,
+                    hotelDescription,
+                    hotelLocation,
+                    hotelStars,
+                    hotelAverageReview,
+                    hotelContactInfo,
+                    hotelOwner,
+                    hotelImageUrls
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hotel;
     }
 
     @Override

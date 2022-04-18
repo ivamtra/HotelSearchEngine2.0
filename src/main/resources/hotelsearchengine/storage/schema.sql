@@ -1,30 +1,27 @@
------------------------------------------------------------------
 --
 -- Þessi skrá sýnir yfirlit yfir gagnagrunninn.
 --
---
---
+-- Til að búa til gagnagrunninn og lesa queries.sql þarf að keyra
+-- sqlite3 test.db < schema.sql < queries.sql
 --
 -----------------------------------------------------------------
 
 CREATE TABLE Rooms (
-	roomId int NOT NULL,
+	roomId serial PRIMARY KEY,
 	size int,
 	hotelId int,
 	price int,
-	FOREIGN KEY (hotelId) references Hotels(hotelId),
-	PRIMARY KEY(roomId)
+	FOREIGN KEY (hotelId) references Hotels(hotelId)
 );
 CREATE TABLE Persons (
-	personId int NOT NULL,
+	personId int PRIMARY KEY,
 	name varchar(100),
 	password varchar(100),
-	isOwner boolean,
-	PRIMARY KEY(personId)
+	isOwner boolean
 );
 CREATE TABLE Reviews (
-    hotelId integer,
-    personId int,
+    hotelId integer NOT NULL,
+    personId int NOT NULL,
     review varchar(300),
     rating integer,
     FOREIGN KEY (hotelId) references Hotels(hotelId),
@@ -44,27 +41,24 @@ CREATE TABLE Hotels (
     PRIMARY KEY(hotelId)
 );
 CREATE TABLE HotelImages (
-    id int NOT NULL,
+    id serial PRIMARY KEY,
     hotelId int NOT NULL,
     imageURL varchar(100),
-    FOREIGN KEY (hotelId) references Hotels(hotelId),
-    PRIMARY KEY(id)
+    FOREIGN KEY (hotelId) references Hotels(hotelId)
 );
 CREATE TABLE Services (
-    id int NOT NULL,
-    service varchar(100),
-    PRIMARY KEY(id)
+    id serial PRIMARY KEY,
+    service varchar(100)
 );
 CREATE TABLE HotelHasService (
-    id int NOT NULL,
+    id serial PRIMARY KEY,
     hotelId int NOT NULL,
     serviceId int NOT NULL,
     FOREIGN KEY (hotelId) references Hotels(hotelId),
-    FOREIGN KEY (serviceId) references Services(id),
-    PRIMARY KEY(id)
+    FOREIGN KEY (serviceId) references Services(id)
 );
 CREATE TABLE Bookings (
-    bookingId INTEGER PRIMARY KEY AUTOINCREMENT,
+    bookingId serial PRIMARY KEY,
     roomId int,
     personId int,
     startDate Date,
@@ -72,7 +66,6 @@ CREATE TABLE Bookings (
     FOREIGN KEY (personId) references Persons(personId),
     FOREIGN KEY (roomId) references Rooms(roomId)
 );
-CREATE TABLE sqlite_sequence(name,seq);
 
 
 

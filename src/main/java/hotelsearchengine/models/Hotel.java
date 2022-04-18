@@ -1,12 +1,13 @@
 package hotelsearchengine.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Hotel {
 
     private int hotelId;
     private String hotelName;
-    private Review[] reviews;
+    private ArrayList<Review> reviews;
     private Room[] rooms;
     private String location;
     private int stars;
@@ -21,7 +22,7 @@ public class Hotel {
 
         this.hotelId = hotelId;
         this.hotelName = hotelName;
-        this.reviews = new Review[0]; // TODO
+        this.reviews = new ArrayList<Review>();
         this.rooms = new Room[0]; // TODO
         this.location = hotelLocation;
         this.stars = hotelStars;
@@ -36,11 +37,11 @@ public class Hotel {
     public int getHotelId() { return this.hotelId; }
     public int getHotelStars() { return this.stars; }
 
-    public Review[] getReviews() {
+    public ArrayList<Review> getReviews() {
         return reviews;
     }
 
-    public void setReviews(Review[] reviews) {
+    public void setReviews(ArrayList<Review> reviews) {
         this.reviews = reviews;
     }
 
@@ -92,4 +93,21 @@ public class Hotel {
         return contactInfo;
     }
 
+    @Override
+    public String toString() {
+        return "Hotel{" +
+                "hotelId=" + hotelId +
+                ", hotelName='" + hotelName + '\'' +
+                ", reviews=" + reviews +
+                ", rooms=" + rooms +
+                ", location='" + location + '\'' +
+                ", stars=" + stars +
+                ", services=" + services +
+                ", ownerId=" + ownerId +
+                ", description='" + description + '\'' +
+                ", averageRating=" + averageRating +
+                ", contactInfo='" + contactInfo + '\'' +
+                ", imageURLs=" + imageURLs +
+                '}';
+    }
 }

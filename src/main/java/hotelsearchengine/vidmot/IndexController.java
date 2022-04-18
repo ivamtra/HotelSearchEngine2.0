@@ -37,7 +37,7 @@ import java.util.ResourceBundle;
 
 public class IndexController implements Initializable {
 
-    private searchController sc;
+    public static searchController sc;
 
     @FXML
     private VBox mainContainer;
@@ -214,7 +214,6 @@ public class IndexController implements Initializable {
         });
     }
 
-
     public void showSearchContainer(MouseEvent e) {
         searchContainer.setVisible(true);
     }
@@ -223,8 +222,7 @@ public class IndexController implements Initializable {
         searchContainer.setVisible(false);
     }
 
-    public boolean isInt(String str)
-    {
+    public boolean isInt(String str) {
         try
         {
             Integer.parseInt(str);
@@ -236,7 +234,6 @@ public class IndexController implements Initializable {
     }
 
     public void handleSearch(ActionEvent e) {
-
         Integer maxPrice = isInt(searchMaxPrice.getText()) ? Integer.valueOf(searchMaxPrice.getText()) : null;
         Integer minPrice = isInt(searchMinPrice.getText()) ? Integer.valueOf(searchMinPrice.getText()) : null;
         Integer maxStars = isInt(searchMaxStars.getText()) ? Integer.valueOf(searchMaxStars.getText()) : null;
