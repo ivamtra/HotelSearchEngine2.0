@@ -34,6 +34,11 @@ public class databaseHelperMock implements DatabaseInterface {
     }
 
     @Override
+    public Hotel getHotel(int hotelId) {
+        return null;
+    }
+
+    @Override
     public List<Hotel> getHotels(Restrictions restrictions) {
         // TODO Auto-generated method stub
         return null;

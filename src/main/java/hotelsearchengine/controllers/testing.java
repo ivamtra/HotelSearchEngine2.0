@@ -53,8 +53,8 @@ public class testing {
         //Ég get sótt id'ið mitt
         int loggedId = lc.getLogged();
         //Er þetta ég sem er loggaður inn?
-        System.out.println(lc.logged(loggedId));
-        System.out.println(lc.logged(fridrik.getId()));
+        System.out.println(lc.isLoggedin(loggedId));
+        System.out.println(lc.isLoggedin(fridrik.getId()));
 
         //Ég ætla að leita að viðeigandi herbergi fyrir mig
         //Athugum að ÖLL viðföngin geta verið null og þá eru þau hundsuð
@@ -93,6 +93,7 @@ public class testing {
 
         //Þá erum við til í bullið
 
+        //public ArrayList<Hotel> searchHotels(Integer minPrice, Integer maxPrice, Integer minStars, Integer maxStars, String name, String location, ArrayList<Service> services, Date startDate, Date endDate, Double avgRating, Integer minSize, Integer maxSize)
         ArrayList<Hotel> hotels = sc.searchHotels(lagmarksVerd,hamarksVerd,lagmarksStjornur,hamarksStjornur,nafn,stadsetning,þjonustur,laustFra,laustTil,notendaEinkunn,minnstaHerbStaerd,mestaherbStaerd);
 
         //Getum líka notað flotta flotta Restrictions hluti
