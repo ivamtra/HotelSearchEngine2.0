@@ -75,9 +75,5 @@ public class editController {
         System.out.println(hotel2.getHotelId());
 
         ec.removeHotel(hotelSaga);
-
-
-
-
     }
 }
