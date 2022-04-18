@@ -65,7 +65,7 @@
                                  <Font size="20.0" />
                               </font>
                            </Label>
-                           <TextField fx:id="searchMinPrice" layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" promptText="100" />
+                           <TextField fx:id="searchMaxPrice" layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" promptText="100" />
                         </children>
                      </Pane>
                      <Pane prefHeight="50.0" prefWidth="400.0">
@@ -75,7 +75,7 @@
                                  <Font size="20.0" />
                               </font>
                            </Label>
-                           <TextField fx:id="searchMaxPrice" layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" promptText="0" />
+                           <TextField fx:id="searchMinPrice" layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" promptText="0" />
                         </children>
                      </Pane>
                      <Pane prefHeight="50.0" prefWidth="400.0">
@@ -125,7 +125,7 @@
                                  <Font size="20.0" />
                               </font>
                            </Label>
-                           <DatePicker fx:id="searchAvailableFrom" layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" />
+                           <DatePicker fx:id="searchAvailableFrom" layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" promptText="4/22/2022" />
                         </children>
                      </Pane>
                      <Pane prefHeight="50.0" prefWidth="400.0">
@@ -135,7 +135,7 @@
                                  <Font size="20.0" />
                               </font>
                            </Label>
-                           <DatePicker fx:id="searchAvailableTo" layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" />
+                           <DatePicker fx:id="searchAvailableTo" layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" promptText="4/26/2022" />
                         </children>
                      </Pane>
                      <Pane prefHeight="115.0" prefWidth="400.0">

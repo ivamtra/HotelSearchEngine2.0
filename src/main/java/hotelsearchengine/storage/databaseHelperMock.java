@@ -107,7 +107,10 @@ public class databaseHelperMock implements DatabaseInterface {
         Person person = new Person(name, password, 1);
         return person;
     }
-
+    @Override
+    public List<Room> getRoomsInHotels(int hotelId) {
+        return null;
+    }
 
     @Override
     public int logout(String name) {

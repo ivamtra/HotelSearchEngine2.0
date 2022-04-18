@@ -52,15 +52,15 @@ Smiður:
 editController ec = new editController(databaseHelper dbh, loginController lc);
 
 Aðferðir:
-int addHotel(Hotel hotel)
+'''int addHotel(Hotel hotel)'''
     --Bætir hóteli við gagnagruninn
     --Athugar fyrst hvort sá sem er skráður inn sé eigandi og hvort hann sé eigandi á hotel hlutnum sem er gefinn
 
-void addReview(Review review, int hotelId)
+'''void addReview(Review review, int hotelId)'''
     --Bætir review við gagnagrunninn á hótelið með hotelId
     --Athugar fyrst hvort þetta sé viðskiptavinur
 
-void addRoom(Room room)
+'''void addRoom(Room room)'''
     --Bætir við herbergi í gagnagrunninn á hótelið með hotelId
     --Athugar fyrst hvort sá sem er skráður inn sé eigandi og hvort hann sé eigandi á hotelinu sem er gefið
 
@@ -75,16 +75,16 @@ Smiður:
 searchController sc = new searchController(databaseHelper dbh)
 
 Aðferðir:
-ArrayList<Hotel> getAllHotels()
+'''ArrayList<Hotel> getAllHotels()'''
     --Skilar öllum hótelum sem eru skráð í gagnagrunninn
 
-ArrayList<Hotel> searchHotels(Restrictions r)
+'''ArrayList<Hotel> searchHotels(Restrictions r)'''
     --Skilar þeim hótelum sem eiga herbergi sem stemma við Restrictions hlutinn
 
-ArrayList<Room> searchRooms(Restrictions r)
+'''ArrayList<Room> searchRooms(Restrictions r)'''
     --Skilar þeim herbergjum sem stemma við Restrictions hlutinn
 
-ArrayList<Service> getAllServices()
+'''ArrayList<Service> getAllServices()'''
     --Skilar öllum þeim þjónustum sem mögulegt er að leita að
 
 
@@ -96,7 +96,7 @@ Bókanir taka mark af availability þeas ef það er laust þá má bóka það
 
 
 Smiður:
-bookController bc = new bookController(databaseHelper dbh, loginController lc)
+'''bookController bc = new bookController(databaseHelper dbh, loginController lc)'''
 
 Aðferðir:
 boolean book(int roomId, Date start, Date end)

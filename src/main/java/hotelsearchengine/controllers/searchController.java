@@ -6,6 +6,7 @@ import hotelsearchengine.models.Review;
 import hotelsearchengine.models.Service;
 import hotelsearchengine.storage.databaseHelper;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,27 +21,13 @@ public class searchController {
     }
 
     public ArrayList<Hotel> getAllHotels() {
-        Restrictions r = new Restrictions(null, null, null, null, null, null, null, null, null);
+        Restrictions r = new Restrictions(null, null, null, null, null, null, null, null, null,null,null,null);
         ArrayList<Hotel> hotels = (ArrayList<Hotel>) this.db.getHotels(r);
         return hotels;
     }
 
-    /**
-     * Leita að hótelum eftirfarandi gildi á að setja sem 'null' ef ekki á að leita eftir þeim
-     * @param maxPrice
-     * @param minPrice
-     * @param maxStars
-     * @param minStars
-     * @param hotelName
-     * @param hotelLocation
-     * @param availableFrom
-     * @param availableTo
-     * @param services
-     * @return hotels (ArrayList<Hotel>)
-     */
-
-    public ArrayList<Hotel> searchHotels(Integer maxPrice, Integer minPrice, Integer maxStars, Integer minStars, String hotelName, String hotelLocation, String availableFrom, String availableTo, ArrayList<Service> services) {
-        Restrictions r = new Restrictions(maxPrice, minPrice, maxStars, minStars, hotelName, hotelLocation, availableFrom, availableTo, services);
+    public ArrayList<Hotel> searchHotels(Integer minPrice, Integer maxPrice, Integer minStars, Integer maxStars, String name, String location, ArrayList<Service> services, Date startDate, Date endDate, Double avgRating, Integer minSize, Integer maxSize) {
+        Restrictions r = new Restrictions(maxPrice, minPrice, maxStars, minStars, name, location, services, startDate, endDate,avgRating,minSize,maxSize);
         ArrayList<Hotel> hotels = (ArrayList<Hotel>) this.db.getHotels(r);
         return hotels;
     }
