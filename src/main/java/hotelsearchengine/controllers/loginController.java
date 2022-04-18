@@ -23,11 +23,15 @@ public class loginController {
         this.loggedIn = null;
     }
 
-    public boolean logged(int personID){
+
+    public boolean isLoggedin(int personID){
         return(loggedIn.getId()==personID);
     }
+
     public int getLogged(){
+        if (loggedIn==null) {
+            return -1;
+        }
         return loggedIn.getId();
     }
-
 }

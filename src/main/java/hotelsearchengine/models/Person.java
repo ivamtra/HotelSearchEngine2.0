@@ -13,4 +13,12 @@ public class Person {
     public int getId() {
         return Id;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
