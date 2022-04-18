@@ -184,7 +184,7 @@ public class databaseHelper implements DatabaseInterface {
             preparedStatement.setInt(1,hotelId);
             preparedStatement.setInt(2,review.getCustomerId());
             preparedStatement.setString(3,review.getComment());
-            preparedStatement.setInt(4,review.getRating());
+            preparedStatement.setDouble(4,review.getRating());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
