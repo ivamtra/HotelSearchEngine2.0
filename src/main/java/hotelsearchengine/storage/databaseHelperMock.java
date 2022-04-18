@@ -9,15 +9,14 @@ import java.util.List;
 public class databaseHelperMock implements DatabaseInterface {
 
     @Override
-    public void addReviews(Review review,int HotelId) {
+    public void addReviews(Review review) {
         // TODO Auto-generated method stub
-
     }
-
+    @Override
     public void addRoom(Room room){
         return;
     }
-
+    @Override
     public int getOwner(int hotelId) {
         return 0;
     }
@@ -103,7 +102,7 @@ public class databaseHelperMock implements DatabaseInterface {
         return person;
     }
     @Override
-    public List<Review> getRoomsInHotels(int hotelId) {
+    public List<Room> getRoomsInHotels(int hotelId) {
         return null;
     }
 

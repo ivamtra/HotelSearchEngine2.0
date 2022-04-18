@@ -111,6 +111,8 @@ boolean getAvailability(int roomId, Date start, Date end)
     --Skilar true ef herbergið með roomId er laust frá start-end
     --false annars
 
+# Sýnidæmi
+Best væri að skilgreina breyturnar á eftirfarandi máta
 
 
 

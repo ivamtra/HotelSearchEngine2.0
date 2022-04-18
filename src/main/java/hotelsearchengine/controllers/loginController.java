@@ -24,7 +24,10 @@ public class loginController {
     }
 
     public boolean logged(int personID){
-        return(loggedIn.getId()==personID);
+        if (loggedIn!=null) {
+            return(loggedIn.getId()==personID);
+        }
+        return false;
     }
     public int getLogged(){
         if (loggedIn==null) {
@@ -32,4 +35,5 @@ public class loginController {
         }
         return loggedIn.getId();
     }
+
 }

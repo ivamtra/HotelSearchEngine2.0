@@ -164,10 +164,10 @@ public class databaseHelper implements DatabaseInterface {
     }
 
     @Override
-    public void addReviews(Review review, int hotelId) {
+    public void addReviews(Review review) {
         try {
             preparedStatement = connection.prepareStatement("Insert Into Reviews Values(?,?,?,?)");
-            preparedStatement.setInt(1,hotelId);
+            preparedStatement.setInt(1,review.getHotelId());
             preparedStatement.setInt(2,review.getCustomerId());
             preparedStatement.setString(3,review.getComment());
             preparedStatement.setInt(4,review.getRating());
