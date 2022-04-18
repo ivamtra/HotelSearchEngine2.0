@@ -201,6 +201,31 @@ public class databaseHelper implements DatabaseInterface {
         return reviewList;
     }
 
+    @Override
+    public List<Room> getRoomsInHotels(int hotelId) {
+        ArrayList<Room> roomList = new ArrayList<>();
+        try {
+            preparedStatement = connection.prepareStatement("Select * from rooms where hotelId = ?");
+            preparedStatement.setInt(1,hotelId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+
+                int rId = resultSet.getInt(1);
+                int size = resultSet.getInt(2);
+                int hId = resultSet.getInt(3);
+                int price = resultSet.getInt(4);
+
+                //int roomId, int hotelId, int price, int capacity
+                Room room = new Room(rId,hId,price,size);
+
+                roomList.add(room);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return roomList;
+    }
+
 
     @Override
     public List<Room> getHotelRooms(Restrictions restrictions) {
