@@ -825,11 +825,8 @@ public class databaseHelper implements DatabaseInterface {
 
     public int deleteLineFromTable(String tableName, String idName, int id) {
         try {
-            preparedStatement = connection.prepareStatement("Delete from ? where ? = ?");
-            preparedStatement.setString(1, tableName);
-            preparedStatement.setString(2, idName);
-            preparedStatement.setInt(3, id);
-            preparedStatement.executeUpdate();
+            String query = "delete from " + tableName + " where " + idName + " = " + id;
+            statement.executeUpdate(query);
         }catch (SQLException e) {
             e.printStackTrace();
         }
