@@ -15,10 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -73,9 +70,23 @@ public class IndexController implements Initializable {
     @FXML
     private VBox servicesContainer;
 
+    @FXML
+    private Pane loginContainer;
+
+    @FXML
+    private Pane confirmPasswordContainer;
+
+    @FXML
+    private Button switchLoginRegisterBtn;
+
+    @FXML
+    private Button loginRegisterBtn;
+
     public static int hotelId = 100;
 
     private HashMap<Integer, MouseEvent> map;
+
+    public static boolean isLogginIn = true;
 
     @FXML
     public void initialize(URL location, ResourceBundle resourceBundle) {
@@ -257,5 +268,26 @@ public class IndexController implements Initializable {
         insertHotels(this.sc, hotels);
 
         searchContainer.setVisible(false);
+    }
+
+    public void showLoginContainer(MouseEvent e) {
+        loginContainer.setVisible(true);
+    }
+
+    public void hideLoginContainer(MouseEvent e) {
+        loginContainer.setVisible(false);
+    }
+
+    public void switchLoginRegister(ActionEvent e) {
+        isLogginIn = !isLogginIn;
+        confirmPasswordContainer.setVisible(!isLogginIn);
+        switchLoginRegisterBtn.setText(isLogginIn ? "Register" : "Login");
+        switchLoginRegisterBtn.setStyle(isLogginIn ? "-fx-translate-x: 0; -fx-background-color: blue" : "-fx-translate-x: 10; -fx-background-color: blue");
+        loginRegisterBtn.setText(isLogginIn ? "Login" : "Register");
+        loginRegisterBtn.setStyle(isLogginIn ? "-fx-translate-x: 0; -fx-background-color: blue" : "-fx-translate-x: -15; -fx-background-color: blue");
+    }
+
+    public void loginRegisterUser(ActionEvent e) {
+
     }
 }
