@@ -238,6 +238,9 @@ public class IndexController implements Initializable {
 
     public void handleSearch(ActionEvent e) {
 
+        searchAvailableFrom.setValue(searchAvailableFrom.getConverter().fromString(searchAvailableFrom.getEditor().getText()));
+        searchAvailableTo.setValue(searchAvailableTo.getConverter().fromString(searchAvailableTo.getEditor().getText()));
+
         Integer maxPrice = isInt(searchMaxPrice.getText()) ? Integer.valueOf(searchMaxPrice.getText()) : null;
         Integer minPrice = isInt(searchMinPrice.getText()) ? Integer.valueOf(searchMinPrice.getText()) : null;
         Integer maxStars = isInt(searchMaxStars.getText()) ? Integer.valueOf(searchMaxStars.getText()) : null;
@@ -245,15 +248,11 @@ public class IndexController implements Initializable {
         String name = searchHotelName.getText().length() > 0 ? searchHotelName.getText() : null;
         String location = searchHotelLocation.getText().length() > 0 ? searchHotelLocation.getText() : null;
 
-        // TODO:
-        // LocalDate availableFrom = searchAvailableFrom.getValue();
-        // LocalDate availableTo = searchAvailableTo.getValue();
-        Date availableFrom = null;
-        Date availableTo = null;
+        Date availableFrom = searchAvailableFrom.getValue() != null ? Date.valueOf(searchAvailableFrom.getValue()) : null;
+        Date availableTo = searchAvailableTo.getValue() != null ? Date.valueOf(searchAvailableTo.getValue()) : null;
 
         ArrayList<Service> services = new ArrayList<Service>();
-
-        ArrayList<Hotel> hotels = this.sc.searchHotels(maxPrice, minPrice, maxStars, minStars, name, location, services,availableFrom, availableTo,0.0,0,0);
+        ArrayList<Hotel> hotels = this.sc.searchHotels(maxPrice, minPrice, maxStars, minStars, name, location, services, availableFrom, availableTo, null,null, null);
 
         insertHotels(this.sc, hotels);
 

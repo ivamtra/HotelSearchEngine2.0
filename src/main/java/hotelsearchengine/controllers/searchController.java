@@ -5,8 +5,8 @@ import hotelsearchengine.models.Restrictions;
 import hotelsearchengine.models.Service;
 import hotelsearchengine.storage.databaseHelper;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class searchController {
 
@@ -23,7 +23,6 @@ public class searchController {
         ArrayList<Hotel> hotels = (ArrayList<Hotel>) this.db.getHotels(r);
         return hotels;
     }
-
 
     public ArrayList<Hotel> searchHotels(Integer minPrice, Integer maxPrice, Integer minStars, Integer maxStars, String name, String location, ArrayList<Service> services, Date startDate, Date endDate, Double avgRating, Integer minSize, Integer maxSize) {
         Restrictions r = new Restrictions(maxPrice, minPrice, maxStars, minStars, name, location, services, startDate, endDate,avgRating,minSize,maxSize);

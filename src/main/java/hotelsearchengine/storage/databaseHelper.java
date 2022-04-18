@@ -43,7 +43,7 @@ public class databaseHelper implements DatabaseInterface {
         statement = connection.createStatement();
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         databaseHelper db = new databaseHelper();
         //(Integer minPrice, Integer maxPrice, Integer minStars,
@@ -60,11 +60,11 @@ public class databaseHelper implements DatabaseInterface {
             throw new RuntimeException(e);
         }
         ArrayList<Service> services = new ArrayList<Service>();
-        services.add(new Service(1,"leimshit"));
-        services.add(new Service(3,"leimshit"));
-        Restrictions res = new Restrictions(null,null,null,null,null,null,services,null,null,null,null,null);
+        services.add(new Service(1, "leimshit"));
+        services.add(new Service(3, "leimshit"));
+        Restrictions res = new Restrictions(null, null, null, null, null, null, services, null, null, null, null, null);
         List<Room> rooms = db.getHotelRooms(res);
-        for (Room r : rooms){
+        for (Room r : rooms) {
             System.out.print(r.getRoomId() + " ");
             System.out.print(r.getHotelId() + " ");
             System.out.print(r.getCapacity() + " ");
@@ -73,6 +73,8 @@ public class databaseHelper implements DatabaseInterface {
 
         /*
 
+        db.makeBookings();
+    }
 
         db.getHotelReviews(1);
 
@@ -113,7 +115,20 @@ public class databaseHelper implements DatabaseInterface {
         System.out.println(p2==null);
 
          */
+    }
 
+    public void makeBookings() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        book(1, 1, sdf.parse("2022-04-20"), sdf.parse("2022-04-24"));
+        book(2, 1, sdf.parse("2022-04-20"), sdf.parse("2022-04-24"));
+        book(3, 1, sdf.parse("2022-04-20"), sdf.parse("2022-04-24"));
+        book(4, 1, sdf.parse("2022-04-20"), sdf.parse("2022-04-24"));
+        book(5, 1, sdf.parse("2022-04-20"), sdf.parse("2022-04-24"));
+        book(1, 1, sdf.parse("2022-05-02"), sdf.parse("2022-05-14"));
+        book(2, 1, sdf.parse("2022-05-03"), sdf.parse("2022-05-17"));
+        book(3, 1, sdf.parse("2022-05-10"), sdf.parse("2022-05-24"));
+        book(4, 1, sdf.parse("2022-05-15"), sdf.parse("2022-05-24"));
+        book(5, 1, sdf.parse("2022-05-17"), sdf.parse("2022-06-02"));
     }
 
 
@@ -346,38 +361,78 @@ public class databaseHelper implements DatabaseInterface {
         String name = restrictions.getName();
         String location = restrictions.getLocation();
         Date startDate = restrictions.getStartDate();
-        Date endDate = restrictions.getStartDate();
+        Date endDate = restrictions.getEndDate();
         ArrayList<Service> services = restrictions.getServices();
 
         String query = "SELECT * FROM Hotels WHERE 1=1 ";
         boolean[] usedValues = new boolean[9]; // 9 restrictions atm
 
         // Þurfum að nota ? hér til að þetta sé öruggara (viljum ekki stinga gildunum beint inn)
-        if(minPrice != null) {} // TODO
-        if(maxPrice != null) {} // TODO
-
         if(minStars != null) {
             query += "AND hotelStars >= ? ";
-            usedValues[2] = true;
+            usedValues[0] = true;
         }
         if(maxStars != null) {
             query += "AND hotelStars <= ? ";
-            usedValues[3] = true;
+            usedValues[1] = true;
         }
         if(name != null) {
             name = '%' + name + '%';
             query += "AND hotelName LIKE ? "; // TODO: Case sensitive etc.
-            usedValues[4] = true;
+            usedValues[2] = true;
         }
         if(location != null) {
             location = '%' + location + '%';
             query += "AND location LIKE ? "; // TODO: Case sensitive etc.
-            usedValues[5] = true;
+            usedValues[3] = true;
         }
 
-        if(startDate != null) {} // TODO
-        if(endDate != null) {} // TODO
         if(services != null) {} // TODO
+
+        if(minPrice != null || maxPrice != null) {
+            query += "AND Hotels.hotelId IN (SELECT hotelId FROM Rooms WHERE 1=1 ";
+        }
+        if(minPrice != null) {
+            query += "AND price >= ? ";
+            usedValues[5] = true;
+        }
+        if(maxPrice != null) {
+            query += "AND price <= ? ";
+            usedValues[6] = true;
+        }
+
+        if(startDate != null || endDate != null) {
+            if(minPrice == null && maxPrice == null) {
+                query += "AND Hotels.hotelId IN (SELECT hotelId FROM Rooms WHERE 1=1 ";
+            }
+            query += "AND NOT EXISTS (SELECT * FROM Bookings WHERE Bookings.roomId = Rooms.roomId ";
+        }
+
+        if(startDate != null) {
+            query += "AND ((startDate < ? AND endDate > ?) "; // Start: 8 and 9
+            usedValues[7] = true;
+        }
+        if(endDate != null) {
+            if(startDate != null) {
+                query += "OR (startDate < ? AND endDate > ?) "; // End: 10 and 11
+                query += "OR (startDate > ? AND endDate < ?))"; // Start: 12, End: 13
+            } else {
+                query += "AND (startDate < ? AND endDate > ?) "; // End: 10 and 11
+            }
+            usedValues[8] = true;
+        }
+
+        if(startDate != null && endDate == null) {
+            query += ")";
+        }
+
+        if(minPrice != null || maxPrice != null || ((startDate != null || endDate != null) && minPrice == null && maxPrice == null)) {
+            query += ") ";
+        }
+
+        if(startDate != null || endDate != null) {
+            query += ") ";
+        }
 
         query += "COLLATE NOCASE";
 
@@ -389,27 +444,49 @@ public class databaseHelper implements DatabaseInterface {
             int currentQueryParameter = 0;
             if(usedValues[0]) {
                 currentQueryParameter++;
-                preparedStatement.setInt(currentQueryParameter, minPrice);
+                preparedStatement.setInt(currentQueryParameter, minStars);
             }
             if(usedValues[1]) {
                 currentQueryParameter++;
-                preparedStatement.setInt(currentQueryParameter, maxPrice);
+                preparedStatement.setInt(currentQueryParameter, maxStars);
             }
             if(usedValues[2]) {
                 currentQueryParameter++;
-                preparedStatement.setInt(currentQueryParameter, minStars);
+                preparedStatement.setString(currentQueryParameter, name);
             }
             if(usedValues[3]) {
                 currentQueryParameter++;
-                preparedStatement.setInt(currentQueryParameter, maxStars);
+                preparedStatement.setString(currentQueryParameter, location);
             }
-            if(usedValues[4]) {
-                currentQueryParameter++;
-                preparedStatement.setString(currentQueryParameter, name);
-            }
+
             if(usedValues[5]) {
                 currentQueryParameter++;
-                preparedStatement.setString(currentQueryParameter, location);
+                preparedStatement.setInt(currentQueryParameter, minPrice);
+            }
+            if(usedValues[6]) {
+                currentQueryParameter++;
+                preparedStatement.setInt(currentQueryParameter, maxPrice);
+            }
+
+            if(usedValues[7]) {
+                currentQueryParameter++;
+                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) startDate);
+                currentQueryParameter++;
+                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) startDate);
+            }
+
+            if(usedValues[8]) {
+                currentQueryParameter++;
+                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) endDate);
+                currentQueryParameter++;
+                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) endDate);
+            }
+
+            if(usedValues[7] && usedValues[8]) {
+                currentQueryParameter++;
+                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) startDate);
+                currentQueryParameter++;
+                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) endDate);
             }
 
             // TODO : rest of restrictions
@@ -435,6 +512,19 @@ public class databaseHelper implements DatabaseInterface {
                 while (imageResultSet.next()) {
                     String imageURL = imageResultSet.getString(3);
                     hotelImageURLs.add(imageURL);
+                }
+
+                // Sækja myndir fyrir hotelið
+                ArrayList<Service> hotelServices = new ArrayList<>();
+                imagesPreparedStatement = connection.prepareStatement("Select * from Services WHERE id IN (SELECT serviceId FROM HotelHasService WHERE hotelId = ?)");
+                imagesPreparedStatement.setInt(1,hotelId);
+                imageResultSet = imagesPreparedStatement.executeQuery();
+
+                while (imageResultSet.next()) {
+                    int serviceId = imageResultSet.getInt(1);
+                    String serviceName = imageResultSet.getString(2);
+                    Service service = new Service(serviceId, serviceName);
+                    hotelServices.add(service);
                 }
 
                 Hotel hotel = new Hotel(

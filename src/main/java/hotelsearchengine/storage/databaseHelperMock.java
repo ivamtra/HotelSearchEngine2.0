@@ -103,7 +103,7 @@ public class databaseHelperMock implements DatabaseInterface {
         return person;
     }
     @Override
-    public List<Review> getRoomsInHotels(int hotelId) {
+    public List<Room> getRoomsInHotels(int hotelId) {
         return null;
     }
 
