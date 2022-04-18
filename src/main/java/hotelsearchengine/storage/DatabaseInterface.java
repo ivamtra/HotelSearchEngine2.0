@@ -5,13 +5,15 @@ import java.util.*;
 
 public  interface DatabaseInterface {
 
-    public void addReviews(Review review);
+    public void addReviews(Review review,int hotelId);
 
     public List<Review> getHotelReviews(int hotelId);
 
     public List<Room> getHotelRooms(Restrictions restrictions);
 
     public List<Hotel> getHotels(Restrictions restrictions);
+
+    List<Service> getAllServices();
 
     public double getAvgRating(int hotelId);
 
@@ -30,6 +32,13 @@ public  interface DatabaseInterface {
     public Person login(String name, String password);
 
     public int logout(String name);
+    public List<Room> getRoomsInHotels(int hotelId);
+
+    public boolean isOwner(int personId);
+
+    public int getOwner(int hotelId);
+
+    public void addRoom(Room room);
 
 
 }

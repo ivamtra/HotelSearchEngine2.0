@@ -27,7 +27,9 @@ public class loginController {
         return(loggedIn.getId()==personID);
     }
     public int getLogged(){
+        if (loggedIn==null) {
+            return -1;
+        }
         return loggedIn.getId();
     }
-
 }

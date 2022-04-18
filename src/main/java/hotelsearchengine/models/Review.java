@@ -29,7 +29,7 @@ public class Review {
         this.customerId = customerId;
     }
 
-    public double getRating() {
+    public int getRating() {
         return rating;
     }
 

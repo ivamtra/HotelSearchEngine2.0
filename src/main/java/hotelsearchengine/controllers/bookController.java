@@ -51,15 +51,18 @@ public class bookController {
     public boolean getAvailability(int roomID, Date start, Date end){
         ArrayList<Booking> bookings = (ArrayList<Booking>) db.getBookings(roomID);
         for(Booking book : bookings){
-            boolean byrjarArgFyrirByrjun = book.getStartDate().compareTo(start)>=0;
-            boolean endarArgFyrirEndi = book.getEndDate().compareTo(end)>=0;
-            boolean byrjarArgFyrirEndi = book.getStartDate().compareTo(end)>=0;
-            boolean endarArgFyrirByrjun = book.getEndDate().compareTo(start)>=0;
+            boolean byrjarArgFyrirByrjun = start != null && book.getStartDate().compareTo(start)>=0;
+            boolean endarArgFyrirEndi = end != null && book.getEndDate().compareTo(end)>=0;
+            boolean byrjarArgFyrirEndi = start != null && book.getEndDate().compareTo(start)>=0;
+            boolean endarArgFyrirByrjun = end != null && book.getStartDate().compareTo(end)>=0;
 
             if(!byrjarArgFyrirByrjun && byrjarArgFyrirEndi){
                 return false;
             }
             if(!endarArgFyrirByrjun && endarArgFyrirEndi){
+                return false;
+            }
+            if (byrjarArgFyrirByrjun && !endarArgFyrirEndi) {
                 return false;
             }
         }
