@@ -117,6 +117,7 @@ public class databaseHelper implements DatabaseInterface {
          */
     }
 
+
     public void makeBookings() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         book(1, 1, sdf.parse("2022-04-20"), sdf.parse("2022-04-24"));

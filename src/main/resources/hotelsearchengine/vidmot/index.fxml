@@ -17,8 +17,8 @@
 <?import javafx.scene.text.Text?>
 
 <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearchengine.vidmot.IndexController">
-    <content>
-        <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefWidth="1000.0">
+   <content>
+      <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefWidth="1000.0">
          <Pane prefHeight="100.0" prefWidth="1000.0" styleClass="title-container">
             <children>
                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="925.0" layoutY="25.0" onMouseClicked="#showSearchContainer" pickOnBounds="true" preserveRatio="true">
@@ -38,7 +38,7 @@
                </ImageView>
             </children>
          </Pane>
-            <VBox fx:id="mainContainer" alignment="CENTER" maxHeight="1.7976931348623157E308" minHeight="-Infinity" onMouseClicked="#hideSearchContainer" prefWidth="1000.0" spacing="40.0" translateY="125.0">
+         <VBox fx:id="mainContainer" alignment="CENTER" maxHeight="1.7976931348623157E308" minHeight="-Infinity" onMouseClicked="#hideSearchContainer" prefWidth="1000.0" spacing="40.0" translateY="125.0">
             <padding>
                <Insets bottom="150.0" />
             </padding></VBox>
@@ -153,13 +153,13 @@
                               </font>
                            </Label>
                            <ScrollPane layoutX="125.0" layoutY="13.0" prefHeight="90.0" prefWidth="250.0">
-                             <content>
-                               <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="250.0">
+                              <content>
+                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="250.0">
                                     <children>
                                        <VBox fx:id="servicesContainer" prefWidth="250.0" />
                                     </children>
                                  </AnchorPane>
-                             </content>
+                              </content>
                            </ScrollPane>
                         </children>
                      </Pane>
