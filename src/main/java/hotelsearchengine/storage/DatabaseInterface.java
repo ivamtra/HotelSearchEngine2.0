@@ -43,4 +43,7 @@ public  interface DatabaseInterface {
     public void addRoom(Room room);
 
 
+    public int deleteLineFromTable(String reviews, String reviewId, int reviewId1);
+
+    public int[] deleteReview(Review review);
 }

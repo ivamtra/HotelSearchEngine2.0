@@ -120,4 +120,14 @@ public class databaseHelperMock implements DatabaseInterface {
     public boolean isOwner(int personId){
         return false;
     }
+
+    @Override
+    public int deleteLineFromTable(String reviews, String reviewId, int reviewId1) {
+        return 0;
+    }
+
+    @Override
+    public int[] deleteReview(Review review) {
+        return new int[0];
+    }
 }

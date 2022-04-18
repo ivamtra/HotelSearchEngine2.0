@@ -116,9 +116,7 @@ public class databaseHelper implements DatabaseInterface {
         System.out.println(p2==null);
 
          */
-
     }
-
 
     public void makeBookings() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -349,7 +347,6 @@ public class databaseHelper implements DatabaseInterface {
             e.printStackTrace();
         }
         return rooms;
-
     }
 
     @Override
@@ -824,6 +821,34 @@ public class databaseHelper implements DatabaseInterface {
             throw new RuntimeException(e);
         }
         return skil;
+    }
+
+
+    public int deleteLineFromTable(String tableName, String idName, int id) {
+        try {
+            String query = "delete from " + tableName + " where " + idName + " = " + id;
+            // TODO Þetta er betra en var ehv vesen
+            //preparedStatement = connection.prepareStatement("delete from ? where ? = ?");
+
+            statement.executeUpdate(query);
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    // Skilar [customerId, hotelId]
+    public int[] deleteReview(Review review) {
+        try {
+            preparedStatement = connection.prepareStatement("delete from reviews where hotelid = ? and personid = ?");
+            preparedStatement.setInt(1, review.getHotelId());
+            preparedStatement.setInt(2, review.getCustomerId());
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new int[]{review.getCustomerId(), review.getHotelId()};
     }
 }
 
