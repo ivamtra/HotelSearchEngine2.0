@@ -2,6 +2,7 @@ package hotelsearchengine.storage;
 
 import hotelsearchengine.models.*;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,14 @@ public class databaseHelperMock implements DatabaseInterface {
     public void addReviews(Review review,int HotelId) {
         // TODO Auto-generated method stub
 
+    }
+
+    public void addRoom(Room room){
+        return;
+    }
+
+    public int getOwner(int hotelId) {
+        return 0;
     }
 
     @Override
@@ -26,8 +35,18 @@ public class databaseHelperMock implements DatabaseInterface {
     }
 
     @Override
+    public Hotel getHotel(int hotelId) {
+        return null;
+    }
+
+    @Override
     public List<Hotel> getHotels(Restrictions restrictions) {
         // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Service> getAllServices() {
         return null;
     }
 
@@ -88,11 +107,18 @@ public class databaseHelperMock implements DatabaseInterface {
         Person person = new Person(name, password, 1);
         return person;
     }
+    @Override
+    public List<Room> getRoomsInHotels(int hotelId) {
+        return null;
+    }
 
     @Override
     public int logout(String name) {
         // Þarf þess aðferð???
         return 0;
     }
-
+    @Override
+    public boolean isOwner(int personId){
+        return false;
+    }
 }
