@@ -821,5 +821,19 @@ public class databaseHelper implements DatabaseInterface {
         }
         return skil;
     }
+
+
+    public int deleteLineFromTable(String tableName, String idName, int id) {
+        try {
+            preparedStatement = connection.prepareStatement("Delete from ? where ? = ?");
+            preparedStatement.setString(1, tableName);
+            preparedStatement.setString(2, idName);
+            preparedStatement.setInt(3, id);
+            preparedStatement.executeUpdate();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
 }
 

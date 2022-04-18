@@ -14,13 +14,16 @@ public class editController {
         this.login = login;
     }
 
-    public int addHotel(Hotel hotel){
+    /**
+     * Bætir hóteli við gagnagrunninn.
+     * @param hotel Hotel hlutur
+     */
+    public void addHotel(Hotel hotel){
         boolean isOwner = db.isOwner(login.getLogged());
         //Maður getur bara bætt við hóteli sem maður sjálfur á og ef maður er skráðu eigandi
         if (isOwner && hotel.getOwnerId()== login.getLogged()) {
             db.addHotel(hotel);
         }
-        return 0; //TODO Veit ekki alveg hverju þetta átti að skila lol
     }
     public void addReview(Review review,int hotelId){
         boolean isOwner = db.isOwner(login.getLogged());
@@ -37,4 +40,20 @@ public class editController {
     }
 
     //TODO remove föll
+
+    //
+    public Review removeReview(Review review) {
+        db.deleteLineFromTable("Reviews", "reviewId", review.getReviewId());
+        return review;
+    }
+
+    public Room removeRoom(Room room) {
+        db.deleteLineFromTable("Rooms", "roomId", room.getRoomId());
+        return room;
+    }
+
+    public Hotel removeHotel(Hotel hotel) {
+        db.deleteLineFromTable("Hotels", "hotelId", hotel.getHotelId());
+        return null;
+    }
 }
