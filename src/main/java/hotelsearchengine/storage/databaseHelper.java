@@ -119,6 +119,7 @@ public class databaseHelper implements DatabaseInterface {
 
     }
 
+
     public void makeBookings() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         book(1, 1, sdf.parse("2022-04-20"), sdf.parse("2022-04-24"));
@@ -186,7 +187,7 @@ public class databaseHelper implements DatabaseInterface {
             preparedStatement.setInt(1,review.getHotelId());
             preparedStatement.setInt(2,review.getCustomerId());
             preparedStatement.setString(3,review.getComment());
-            preparedStatement.setInt(4,review.getRating());
+            preparedStatement.setDouble(4,review.getRating());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

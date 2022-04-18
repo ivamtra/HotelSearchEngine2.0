@@ -9,6 +9,7 @@ import hotelsearchengine.storage.DatabaseInterface;
 import java.util.Date;
 import java.util.ArrayList;
 
+
 public class searchController {
 
     private DatabaseInterface db;

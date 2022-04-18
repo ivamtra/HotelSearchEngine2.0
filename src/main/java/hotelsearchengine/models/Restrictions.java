@@ -20,9 +20,7 @@ public class Restrictions {
     private Integer minSize;
     private Integer maxSize;
 
-
     public Restrictions(Integer minPrice, Integer maxPrice, Integer minStars, Integer maxStars, String name, String location, ArrayList<Service> services, Date startDate, Date endDate, Double avgRating, Integer minSize, Integer maxSize) {
-
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
         this.minStars = minStars;
