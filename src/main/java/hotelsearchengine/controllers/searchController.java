@@ -2,11 +2,13 @@ package hotelsearchengine.controllers;
 
 import hotelsearchengine.models.Hotel;
 import hotelsearchengine.models.Restrictions;
+import hotelsearchengine.models.Review;
 import hotelsearchengine.models.Service;
 import hotelsearchengine.storage.databaseHelper;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 public class searchController {
 
@@ -28,6 +30,13 @@ public class searchController {
         Restrictions r = new Restrictions(maxPrice, minPrice, maxStars, minStars, name, location, services, startDate, endDate,avgRating,minSize,maxSize);
         ArrayList<Hotel> hotels = (ArrayList<Hotel>) this.db.getHotels(r);
         return hotels;
+    }
+
+    public Hotel getHotelById(int hotelId) {
+        Hotel hotel = db.getHotel(hotelId);
+        ArrayList<Review> reviews = db.getHotelReviews(hotelId);
+        hotel.setReviews(reviews);
+        return hotel;
     }
 
     public ArrayList<Service> getAllServices() {

@@ -117,6 +117,7 @@ public class databaseHelper implements DatabaseInterface {
          */
     }
 
+
     public void makeBookings() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
         book(1, 1, sdf.parse("2022-04-20"), sdf.parse("2022-04-24"));
@@ -130,7 +131,6 @@ public class databaseHelper implements DatabaseInterface {
         book(4, 1, sdf.parse("2022-05-15"), sdf.parse("2022-05-24"));
         book(5, 1, sdf.parse("2022-05-17"), sdf.parse("2022-06-02"));
     }
-
 
     @Override
     public Booking unbook(int bookingId) {
@@ -185,7 +185,7 @@ public class databaseHelper implements DatabaseInterface {
             preparedStatement.setInt(1,hotelId);
             preparedStatement.setInt(2,review.getCustomerId());
             preparedStatement.setString(3,review.getComment());
-            preparedStatement.setInt(4,review.getRating());
+            preparedStatement.setDouble(4,review.getRating());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -193,7 +193,7 @@ public class databaseHelper implements DatabaseInterface {
     }
 
     @Override
-    public List<Review> getHotelReviews(int hotelId) {
+    public ArrayList<Review> getHotelReviews(int hotelId) {
         ArrayList<Review> reviewList = new ArrayList<>();
         try {
             preparedStatement = connection.prepareStatement("Select * from reviews where hotelId = ?");
@@ -347,6 +347,55 @@ public class databaseHelper implements DatabaseInterface {
             e.printStackTrace();
         }
         return rooms;
+    }
+
+    @Override
+    public Hotel getHotel(int hotelId) {
+        Hotel hotel = null;
+        PreparedStatement pstmt;
+        PreparedStatement imgPstmt;
+        ResultSet resultSet;
+        ResultSet imgResultSet;
+        String query = "SELECT * FROM Hotels where hotelId = ?";
+        String imgQuery = "Select * from hotelImages WHERE hotelId = ?";
+        try {
+            pstmt = connection.prepareStatement(query);
+            pstmt.setInt(1, hotelId);
+            resultSet = pstmt.executeQuery();
+
+            imgPstmt = connection.prepareStatement(imgQuery);
+            imgPstmt.setInt(1, hotelId);
+            imgResultSet = imgPstmt.executeQuery();
+
+            String hotelName = resultSet.getString(2);
+            String hotelDescription = resultSet.getString(3);
+            String hotelLocation = resultSet.getString(4);
+            int hotelStars = resultSet.getInt(5);
+            Double hotelAverageReview = resultSet.getDouble(6);
+            String hotelContactInfo = resultSet.getString(7);
+            String hotelOwner = resultSet.getString(8);
+
+            ArrayList<String> hotelImageUrls = new ArrayList();
+
+            while(imgResultSet.next()) {
+                hotelImageUrls.add(imgResultSet.getString(3));
+            }
+
+            hotel = new Hotel(
+                    hotelId,
+                    hotelName,
+                    hotelDescription,
+                    hotelLocation,
+                    hotelStars,
+                    hotelAverageReview,
+                    hotelContactInfo,
+                    hotelOwner,
+                    hotelImageUrls
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hotel;
     }
 
     @Override

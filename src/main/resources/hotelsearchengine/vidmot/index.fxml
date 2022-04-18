@@ -167,7 +167,7 @@
                </VBox>
             </children>
          </Pane>
-         <Pane fx:id="loginContainer" prefHeight="700.0" prefWidth="400.0" style="-fx-background-color: white;">
+         <Pane fx:id="loginContainer" prefHeight="700.0" prefWidth="400.0" style="-fx-background-color: white;" visible="false">
             <children>
                <Pane prefHeight="100.0" prefWidth="400.0">
                   <children>
@@ -230,9 +230,9 @@
                </Pane>
             </children>
          </Pane>
-      </AnchorPane>
-   </content>
-   <stylesheets>
-      <URL value="@IndexStyles.css" />
-   </stylesheets>
+        </AnchorPane>
+    </content>
+    <stylesheets>
+        <URL value="@IndexStyles.css" />
+    </stylesheets>
 </ScrollPane>

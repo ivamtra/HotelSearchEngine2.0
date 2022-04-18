@@ -11,6 +11,8 @@ public  interface DatabaseInterface {
 
     public List<Room> getHotelRooms(Restrictions restrictions);
 
+    public Hotel getHotel(int hotelId);
+
     public List<Hotel> getHotels(Restrictions restrictions);
 
     List<Service> getAllServices();

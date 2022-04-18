@@ -35,7 +35,7 @@ import java.util.ResourceBundle;
 
 public class IndexController implements Initializable {
 
-    private searchController sc;
+    public static searchController sc;
 
     @FXML
     private VBox mainContainer;
@@ -226,7 +226,6 @@ public class IndexController implements Initializable {
         });
     }
 
-
     public void showSearchContainer(MouseEvent e) {
         searchContainer.setVisible(true);
     }
@@ -235,8 +234,7 @@ public class IndexController implements Initializable {
         searchContainer.setVisible(false);
     }
 
-    public boolean isInt(String str)
-    {
+    public boolean isInt(String str) {
         try
         {
             Integer.parseInt(str);
