@@ -6,10 +6,9 @@ public class HotelOwner extends Person{
     private ArrayList<Hotel> hotels;
     private int ownerId;
 
-    public HotelOwner(String name, String password, int Id, int ownerId) {
+    public HotelOwner(String name, String password, int Id) {
         super(name, password, Id);
         this.hotels = new ArrayList<>();
-        this.ownerId = ownerId;
     }
 
     public void AddHotel(Hotel hotel) {

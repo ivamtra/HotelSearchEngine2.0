@@ -48,6 +48,8 @@ public class testing {
         //Get gert eitthvað svona ef ég vil
         testing test = new testing(lc,ec,sc,bc);
 
+        //Ætla að búa til aðgang
+        //lc.createAccount(8,"Fridrik","Lykilorðid-mitt",false);
         //Nú ætla ég að logga mig inn
         Person fridrik = lc.login("Fridrik","Lykilorðid-mitt");
         //Ég get sótt id'ið mitt
@@ -117,11 +119,18 @@ public class testing {
         boolean laust = bc.getAvailability(herbergisEinkennisNumer,startDate,endDate);
 
         //Ég ætla að skilja eftir Review á þessu hóteli
-        int hotelId = 3;
+        int hotelId = 1;
         String umsogn = "Þetta hótel var GEÐVEIKT";
         int einkunn = 4;
         Review review = new Review(hotelId, lc.getLogged(),umsogn,einkunn);
         //ec.addReview(review);
+
+        ArrayList<Review> reviews= db.getHotelReviews(hotelId);
+        for(Review re : reviews){
+            System.out.println(re.getComment());
+            System.out.println(re.getRating());
+        }
+        System.out.println(db.getAvgRating(1));
 
         //Vá hvað þetta var gaman og æði
     }

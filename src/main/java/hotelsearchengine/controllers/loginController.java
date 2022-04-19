@@ -34,4 +34,8 @@ public class loginController {
         }
         return loggedIn.getId();
     }
+
+    public Person createAccount(int personId,String name, String passWord,boolean isOwner){
+        return db.createAccount(personId,name,passWord,isOwner);
+    }
 }

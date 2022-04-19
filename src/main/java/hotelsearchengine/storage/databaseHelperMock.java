@@ -12,6 +12,11 @@ public class databaseHelperMock implements DatabaseInterface {
     public void addReviews(Review review) {
         // TODO Auto-generated method stub
     }
+
+    public Person createAccount(int personId, String name, String passWord, boolean isOwner) {
+        return null;
+    }
+
     @Override
     public void addRoom(Room room){
         return;

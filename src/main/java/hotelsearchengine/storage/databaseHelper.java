@@ -32,6 +32,7 @@ public class databaseHelper implements DatabaseInterface {
             connection = DriverManager.getConnection("jdbc:postgresql:COMPANY", props);
         } catch (Exception e) {
             try {
+                //TODO breyta um staðsetningu
                 String s = System.getProperty("user.dir") + "/src/main/resources/hotelsearchengine/storage/gagnagrunnur.db";
                 System.out.println(s);
                 Class.forName("org.sqlite.JDBC");
@@ -61,8 +62,8 @@ public class databaseHelper implements DatabaseInterface {
         }
         ArrayList<Service> services = new ArrayList<Service>();
 
-        services.add(new Service(1, "leimshit"));
-        services.add(new Service(3, "leimshit"));
+        services.add(new Service(1, "gym"));
+        services.add(new Service(3, "casino"));
         Restrictions res = new Restrictions(null, null, null, null, null, null, null, null, null, null, null, null);
         List<Room> rooms = db.getHotelRooms(res);
         for (Room r : rooms) {
@@ -188,6 +189,22 @@ public class databaseHelper implements DatabaseInterface {
             preparedStatement.setInt(2,review.getCustomerId());
             preparedStatement.setString(3,review.getComment());
             preparedStatement.setDouble(4,review.getRating());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<Review> reviews = getHotelReviews(review.getHotelId());
+        float sum = 0;
+        float count = 0;
+        for(Review r : reviews){
+            sum += r.getRating();
+            count += 1;
+        }
+        float avgRate = sum/count;
+        try {
+            preparedStatement = connection.prepareStatement("Update hotels set averageReview=? where hotelId=?");
+            preparedStatement.setInt(2,review.getHotelId());
+            preparedStatement.setFloat(1,avgRate);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -430,12 +447,12 @@ public class databaseHelper implements DatabaseInterface {
         }
         if(name != null) {
             name = '%' + name + '%';
-            query += "AND hotelName LIKE ? "; // TODO: Case sensitive etc.
+            query += "AND hotelName LIKE ? ";
             usedValues[2] = true;
         }
         if(location != null) {
             location = '%' + location + '%';
-            query += "AND location LIKE ? "; // TODO: Case sensitive etc.
+            query += "AND location LIKE ? ";
             usedValues[3] = true;
         }
 
@@ -590,7 +607,10 @@ public class databaseHelper implements DatabaseInterface {
                         hotelOwner,
                         hotelImageURLs
                 );
-
+                hotel.setReviews(getHotelReviews(hotelId));
+                if (getRoomsInHotels(hotelId)!=null) {
+                    hotel.setRooms(getRoomsInHotels(hotelId).toArray(new Room[0]));
+                }
                 hotelList.add(hotel);
             }
         } catch (SQLException e) {
@@ -637,8 +657,6 @@ public class databaseHelper implements DatabaseInterface {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        // TODO Auto-generated method stub
         return averageRating;
     }
 
@@ -824,6 +842,23 @@ public class databaseHelper implements DatabaseInterface {
             throw new RuntimeException(e);
         }
         return skil;
+    }
+
+    public Person createAccount(int personId,String name, String passWord,boolean isOwner){
+        try {
+            preparedStatement = connection.prepareStatement("Insert into persons values (?,?,?,?)");
+            preparedStatement.setInt(1,personId);
+            preparedStatement.setString(2,name);
+            preparedStatement.setString(3,passWord);
+            preparedStatement.setBoolean(4,isOwner);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        if (isOwner) {
+            return new HotelOwner(name,passWord,personId);
+        }
+        else return new Customer(name,passWord,personId);
     }
 }
 
