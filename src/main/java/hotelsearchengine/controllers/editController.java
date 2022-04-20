@@ -22,10 +22,10 @@ public class editController {
         }
         return 0; //TODO Veit ekki alveg hverju þetta átti að skila lol
     }
-    public void addReview(Review review,int hotelId){
+    public void addReview(Review review){
         boolean isOwner = db.isOwner(login.getLogged());
         if (!isOwner) {
-            db.addReviews(review,hotelId);
+            db.addReviews(review);
         }
     }
     public void addRoom(Room room){

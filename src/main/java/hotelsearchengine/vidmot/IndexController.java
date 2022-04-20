@@ -257,13 +257,15 @@ public class IndexController implements Initializable {
         String name = searchHotelName.getText().length() > 0 ? searchHotelName.getText() : null;
         String location = searchHotelLocation.getText().length() > 0 ? searchHotelLocation.getText() : null;
 
+
         Date availableFrom = searchAvailableFrom.getValue() != null ? Date.valueOf(searchAvailableFrom.getValue()) : null;
         Date availableTo = searchAvailableTo.getValue() != null ? Date.valueOf(searchAvailableTo.getValue()) : null;
 
         ArrayList<Service> services = new ArrayList<Service>();
-        ArrayList<Hotel> hotels = this.sc.searchHotels(maxPrice, minPrice, maxStars, minStars, name, location, services, availableFrom, availableTo, null,null, null);
+        ArrayList<Hotel> hotels = sc.searchHotels(maxPrice, minPrice, maxStars, minStars, name, location, services, availableFrom, availableTo, null,null, null);
 
-        insertHotels(this.sc, hotels);
+
+        insertHotels(sc, hotels);
 
         searchContainer.setVisible(false);
     }

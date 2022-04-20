@@ -5,8 +5,8 @@ import java.util.*;
 
 public  interface DatabaseInterface {
 
-    public void addReviews(Review review,int hotelId);
-
+    public void addReviews(Review review);
+    public Person createAccount(int personId,String name, String passWord,boolean isOwner);
     public List<Review> getHotelReviews(int hotelId);
 
     public List<Room> getHotelRooms(Restrictions restrictions);

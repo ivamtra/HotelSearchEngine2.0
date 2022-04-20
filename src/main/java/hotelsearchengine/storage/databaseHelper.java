@@ -15,10 +15,14 @@ public class databaseHelper implements DatabaseInterface {
 
     ResultSet resultSet;
     ResultSet imageResultSet;
+    ResultSet reviewResultSet;
+    ResultSet hotelRoomsResultSet;
     Connection connection;
     Statement statement;
     PreparedStatement preparedStatement;
     PreparedStatement imagesPreparedStatement;
+    PreparedStatement reviewPreparedStatement;
+    PreparedStatement hotelRoomsPreparedStatement;
 
     public databaseHelper() throws SQLException {
         connect();
@@ -32,6 +36,7 @@ public class databaseHelper implements DatabaseInterface {
             connection = DriverManager.getConnection("jdbc:postgresql:COMPANY", props);
         } catch (Exception e) {
             try {
+                //TODO breyta um staðsetningu
                 String s = System.getProperty("user.dir") + "/src/main/resources/hotelsearchengine/storage/gagnagrunnur.db";
                 System.out.println(s);
                 Class.forName("org.sqlite.JDBC");
@@ -60,9 +65,10 @@ public class databaseHelper implements DatabaseInterface {
             throw new RuntimeException(e);
         }
         ArrayList<Service> services = new ArrayList<Service>();
-        services.add(new Service(1, "leimshit"));
-        services.add(new Service(3, "leimshit"));
-        Restrictions res = new Restrictions(null, null, null, null, null, null, services, null, null, null, null, null);
+
+        services.add(new Service(1, "gym"));
+        services.add(new Service(3, "casino"));
+        Restrictions res = new Restrictions(null, null, null, null, null, null, null, null, null, null, null, null, null);
         List<Room> rooms = db.getHotelRooms(res);
         for (Room r : rooms) {
             System.out.print(r.getRoomId() + " ");
@@ -115,6 +121,7 @@ public class databaseHelper implements DatabaseInterface {
         System.out.println(p2==null);
 
          */
+
     }
 
 
@@ -179,13 +186,29 @@ public class databaseHelper implements DatabaseInterface {
     }
 
     @Override
-    public void addReviews(Review review, int hotelId) {
+    public void addReviews(Review review) {
         try {
             preparedStatement = connection.prepareStatement("Insert Into Reviews Values(?,?,?,?)");
-            preparedStatement.setInt(1,hotelId);
+            preparedStatement.setInt(1,review.getHotelId());
             preparedStatement.setInt(2,review.getCustomerId());
             preparedStatement.setString(3,review.getComment());
             preparedStatement.setDouble(4,review.getRating());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ArrayList<Review> reviews = getHotelReviews(review.getHotelId());
+        float sum = 0;
+        float count = 0;
+        for(Review r : reviews){
+            sum += r.getRating();
+            count += 1;
+        }
+        float avgRate = sum/count;
+        try {
+            preparedStatement = connection.prepareStatement("Update hotels set averageReview=? where hotelId=?");
+            preparedStatement.setInt(2,review.getHotelId());
+            preparedStatement.setFloat(1,avgRate);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -196,15 +219,15 @@ public class databaseHelper implements DatabaseInterface {
     public ArrayList<Review> getHotelReviews(int hotelId) {
         ArrayList<Review> reviewList = new ArrayList<>();
         try {
-            preparedStatement = connection.prepareStatement("Select * from reviews where hotelId = ?");
-            preparedStatement.setInt(1,hotelId);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            reviewPreparedStatement = connection.prepareStatement("Select * from reviews where hotelId = ?");
+            reviewPreparedStatement.setInt(1,hotelId);
+            reviewResultSet = reviewPreparedStatement.executeQuery();
+            while (reviewResultSet.next()) {
 
-                int hId = resultSet.getInt(1);
-                int personId = resultSet.getInt(2);
-                String reviewDescription = resultSet.getString(3);
-                int rating = resultSet.getInt(4);
+                int hId = reviewResultSet.getInt(1);
+                int personId = reviewResultSet.getInt(2);
+                String reviewDescription = reviewResultSet.getString(3);
+                int rating = reviewResultSet.getInt(4);
 
                 Review review = new Review(hId, personId, reviewDescription, rating);
 
@@ -220,15 +243,15 @@ public class databaseHelper implements DatabaseInterface {
     public List<Room> getRoomsInHotels(int hotelId) {
         ArrayList<Room> roomList = new ArrayList<>();
         try {
-            preparedStatement = connection.prepareStatement("Select * from rooms where hotelId = ?");
-            preparedStatement.setInt(1,hotelId);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            hotelRoomsPreparedStatement = connection.prepareStatement("Select * from rooms where hotelId = ?");
+            hotelRoomsPreparedStatement.setInt(1,hotelId);
+            hotelRoomsResultSet = hotelRoomsPreparedStatement.executeQuery();
+            while (hotelRoomsResultSet.next()) {
 
-                int rId = resultSet.getInt(1);
-                int size = resultSet.getInt(2);
-                int hId = resultSet.getInt(3);
-                int price = resultSet.getInt(4);
+                int rId = hotelRoomsResultSet.getInt(1);
+                int size = hotelRoomsResultSet.getInt(2);
+                int hId = hotelRoomsResultSet.getInt(3);
+                int price = hotelRoomsResultSet.getInt(4);
 
                 //int roomId, int hotelId, int price, int capacity
                 Room room = new Room(rId,hId,price,size);
@@ -347,6 +370,7 @@ public class databaseHelper implements DatabaseInterface {
             e.printStackTrace();
         }
         return rooms;
+
     }
 
     @Override
@@ -427,12 +451,12 @@ public class databaseHelper implements DatabaseInterface {
         }
         if(name != null) {
             name = '%' + name + '%';
-            query += "AND hotelName LIKE ? "; // TODO: Case sensitive etc.
+            query += "AND hotelName LIKE ? ";
             usedValues[2] = true;
         }
         if(location != null) {
             location = '%' + location + '%';
-            query += "AND location LIKE ? "; // TODO: Case sensitive etc.
+            query += "AND location LIKE ? ";
             usedValues[3] = true;
         }
 
@@ -519,23 +543,23 @@ public class databaseHelper implements DatabaseInterface {
 
             if(usedValues[7]) {
                 currentQueryParameter++;
-                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) startDate);
+                preparedStatement.setObject(currentQueryParameter, startDate);
                 currentQueryParameter++;
-                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) startDate);
+                preparedStatement.setObject(currentQueryParameter, startDate);
             }
 
             if(usedValues[8]) {
                 currentQueryParameter++;
-                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) endDate);
+                preparedStatement.setObject(currentQueryParameter, endDate);
                 currentQueryParameter++;
-                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) endDate);
+                preparedStatement.setObject(currentQueryParameter, endDate);
             }
 
             if(usedValues[7] && usedValues[8]) {
                 currentQueryParameter++;
-                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) startDate);
+                preparedStatement.setObject(currentQueryParameter, startDate);
                 currentQueryParameter++;
-                preparedStatement.setDate(currentQueryParameter, (java.sql.Date) endDate);
+                preparedStatement.setObject(currentQueryParameter, endDate);
             }
 
             // TODO : rest of restrictions
@@ -543,11 +567,11 @@ public class databaseHelper implements DatabaseInterface {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
 
-                int hotelId = resultSet.getInt(1);
+                Integer hotelId = resultSet.getInt(1);
                 String hotelName = resultSet.getString(2);
                 String hotelDescription = resultSet.getString(3);
                 String hotelLocation = resultSet.getString(4);
-                int hotelStars = resultSet.getInt(5);
+                Integer hotelStars = resultSet.getInt(5);
                 Double hotelAverageReview = resultSet.getDouble(6);
                 String hotelContactInfo = resultSet.getString(7);
                 String hotelOwner = resultSet.getString(8);
@@ -587,6 +611,11 @@ public class databaseHelper implements DatabaseInterface {
                         hotelOwner,
                         hotelImageURLs
                 );
+
+                hotel.setReviews(getHotelReviews(hotelId));
+                if (getRoomsInHotels(hotelId)!=null) {
+                    hotel.setRooms(getRoomsInHotels(hotelId).toArray(new Room[0]));
+                }
 
                 hotelList.add(hotel);
             }
@@ -634,8 +663,6 @@ public class databaseHelper implements DatabaseInterface {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        // TODO Auto-generated method stub
         return averageRating;
     }
 
@@ -821,6 +848,23 @@ public class databaseHelper implements DatabaseInterface {
             throw new RuntimeException(e);
         }
         return skil;
+    }
+
+    public Person createAccount(int personId,String name, String passWord,boolean isOwner){
+        try {
+            preparedStatement = connection.prepareStatement("Insert into persons values (?,?,?,?)");
+            preparedStatement.setInt(1,personId);
+            preparedStatement.setString(2,name);
+            preparedStatement.setString(3,passWord);
+            preparedStatement.setBoolean(4,isOwner);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        if (isOwner) {
+            return new HotelOwner(name,passWord,personId);
+        }
+        else return new Customer(name,passWord,personId);
     }
 }
 

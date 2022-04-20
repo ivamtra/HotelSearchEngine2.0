@@ -23,6 +23,7 @@ public class loginController {
         this.loggedIn = null;
     }
 
+
     public boolean isLoggedin(int personID){
         return(loggedIn.getId()==personID);
     }
@@ -32,5 +33,9 @@ public class loginController {
             return -1;
         }
         return loggedIn.getId();
+    }
+
+    public Person createAccount(int personId,String name, String passWord,boolean isOwner){
+        return db.createAccount(personId,name,passWord,isOwner);
     }
 }
