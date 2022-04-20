@@ -100,7 +100,7 @@ public class testing {
 
         //Getum líka notað flotta flotta Restrictions hluti
 
-        Restrictions r = new Restrictions(lagmarksVerd,hamarksVerd,lagmarksStjornur,hamarksStjornur,nafn,stadsetning,þjonustur,laustFra,laustTil,notendaEinkunn,minnstaHerbStaerd,mestaherbStaerd);
+        Restrictions r = new Restrictions(null, lagmarksVerd,hamarksVerd,lagmarksStjornur,hamarksStjornur,nafn,stadsetning,þjonustur,laustFra,laustTil,notendaEinkunn,minnstaHerbStaerd,mestaherbStaerd);
         hotels = sc.searchHotels(r);
 
         //Getum líka leitað að þeim herbergjum sem stemma við kröfur okkar

@@ -21,13 +21,13 @@ public class searchController {
     }
 
     public ArrayList<Hotel> getAllHotels() {
-        Restrictions r = new Restrictions(null, null, null, null, null, null, null, null, null,null,null,null);
+        Restrictions r = new Restrictions(null, null,null, null, null, null, null, null, null, null,null,null,null);
         ArrayList<Hotel> hotels = (ArrayList<Hotel>) this.db.getHotels(r);
         return hotels;
     }
 
     public ArrayList<Hotel> searchHotels(Integer minPrice, Integer maxPrice, Integer minStars, Integer maxStars, String name, String location, ArrayList<Service> services, Date startDate, Date endDate, Double avgRating, Integer minSize, Integer maxSize) {
-        Restrictions r = new Restrictions(maxPrice, minPrice, maxStars, minStars, name, location, services, startDate, endDate,avgRating,minSize,maxSize);
+        Restrictions r = new Restrictions(null, maxPrice, minPrice, maxStars, minStars, name, location, services, startDate, endDate,avgRating,minSize,maxSize);
         ArrayList<Hotel> hotels = (ArrayList<Hotel>) this.db.getHotels(r);
         return hotels;
     }
@@ -36,7 +36,7 @@ public class searchController {
     }
 
     public ArrayList<Room> searchHotelRooms(Integer minPrice, Integer maxPrice, Integer minStars, Integer maxStars, String name, String location, ArrayList<Service> services, Date startDate, Date endDate, Double avgRating, Integer minSize, Integer maxSize) {
-        Restrictions r = new Restrictions(maxPrice, minPrice, maxStars, minStars, name, location, services, startDate, endDate,avgRating,minSize,maxSize);
+        Restrictions r = new Restrictions(null, maxPrice, minPrice, maxStars, minStars, name, location, services, startDate, endDate,avgRating,minSize,maxSize);
         ArrayList<Room> rooms = (ArrayList<Room>) this.db.getHotelRooms(r);
         return rooms;
     }

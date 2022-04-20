@@ -15,10 +15,14 @@ public class databaseHelper implements DatabaseInterface {
 
     ResultSet resultSet;
     ResultSet imageResultSet;
+    ResultSet reviewResultSet;
+    ResultSet hotelRoomsResultSet;
     Connection connection;
     Statement statement;
     PreparedStatement preparedStatement;
     PreparedStatement imagesPreparedStatement;
+    PreparedStatement reviewPreparedStatement;
+    PreparedStatement hotelRoomsPreparedStatement;
 
     public databaseHelper() throws SQLException {
         connect();
@@ -64,7 +68,7 @@ public class databaseHelper implements DatabaseInterface {
 
         services.add(new Service(1, "gym"));
         services.add(new Service(3, "casino"));
-        Restrictions res = new Restrictions(null, null, null, null, null, null, null, null, null, null, null, null);
+        Restrictions res = new Restrictions(null, null, null, null, null, null, null, null, null, null, null, null, null);
         List<Room> rooms = db.getHotelRooms(res);
         for (Room r : rooms) {
             System.out.print(r.getRoomId() + " ");
@@ -215,15 +219,15 @@ public class databaseHelper implements DatabaseInterface {
     public ArrayList<Review> getHotelReviews(int hotelId) {
         ArrayList<Review> reviewList = new ArrayList<>();
         try {
-            preparedStatement = connection.prepareStatement("Select * from reviews where hotelId = ?");
-            preparedStatement.setInt(1,hotelId);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            reviewPreparedStatement = connection.prepareStatement("Select * from reviews where hotelId = ?");
+            reviewPreparedStatement.setInt(1,hotelId);
+            reviewResultSet = reviewPreparedStatement.executeQuery();
+            while (reviewResultSet.next()) {
 
-                int hId = resultSet.getInt(1);
-                int personId = resultSet.getInt(2);
-                String reviewDescription = resultSet.getString(3);
-                int rating = resultSet.getInt(4);
+                int hId = reviewResultSet.getInt(1);
+                int personId = reviewResultSet.getInt(2);
+                String reviewDescription = reviewResultSet.getString(3);
+                int rating = reviewResultSet.getInt(4);
 
                 Review review = new Review(hId, personId, reviewDescription, rating);
 
@@ -239,15 +243,15 @@ public class databaseHelper implements DatabaseInterface {
     public List<Room> getRoomsInHotels(int hotelId) {
         ArrayList<Room> roomList = new ArrayList<>();
         try {
-            preparedStatement = connection.prepareStatement("Select * from rooms where hotelId = ?");
-            preparedStatement.setInt(1,hotelId);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            hotelRoomsPreparedStatement = connection.prepareStatement("Select * from rooms where hotelId = ?");
+            hotelRoomsPreparedStatement.setInt(1,hotelId);
+            hotelRoomsResultSet = hotelRoomsPreparedStatement.executeQuery();
+            while (hotelRoomsResultSet.next()) {
 
-                int rId = resultSet.getInt(1);
-                int size = resultSet.getInt(2);
-                int hId = resultSet.getInt(3);
-                int price = resultSet.getInt(4);
+                int rId = hotelRoomsResultSet.getInt(1);
+                int size = hotelRoomsResultSet.getInt(2);
+                int hId = hotelRoomsResultSet.getInt(3);
+                int price = hotelRoomsResultSet.getInt(4);
 
                 //int roomId, int hotelId, int price, int capacity
                 Room room = new Room(rId,hId,price,size);
@@ -563,11 +567,11 @@ public class databaseHelper implements DatabaseInterface {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
 
-                int hotelId = resultSet.getInt(1);
+                Integer hotelId = resultSet.getInt(1);
                 String hotelName = resultSet.getString(2);
                 String hotelDescription = resultSet.getString(3);
                 String hotelLocation = resultSet.getString(4);
-                int hotelStars = resultSet.getInt(5);
+                Integer hotelStars = resultSet.getInt(5);
                 Double hotelAverageReview = resultSet.getDouble(6);
                 String hotelContactInfo = resultSet.getString(7);
                 String hotelOwner = resultSet.getString(8);
@@ -607,10 +611,12 @@ public class databaseHelper implements DatabaseInterface {
                         hotelOwner,
                         hotelImageURLs
                 );
+
                 hotel.setReviews(getHotelReviews(hotelId));
                 if (getRoomsInHotels(hotelId)!=null) {
                     hotel.setRooms(getRoomsInHotels(hotelId).toArray(new Room[0]));
                 }
+
                 hotelList.add(hotel);
             }
         } catch (SQLException e) {
