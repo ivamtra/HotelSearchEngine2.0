@@ -85,12 +85,23 @@ INSERT INTO HotelImages VALUES(11, 6, "6_1.jpeg");
 INSERT INTO Reviews VALUES(1, 1, "Þetta er mjög gott hótel", 8);
 
 INSERT INTO Reviews VALUES(1, 2, "Ég fýlaði þetta", 1);
+INSERT INTO Reviews VALUES(2, 2, "Ég fýlaði þetta", 1);
+INSERT INTO Reviews VALUES(2, 3, "þetta var ömurlegt", 1);
+INSERT INTO Reviews VALUES(3, 4, "Vondur matur", 1);
+INSERT INTO Reviews VALUES(3, 5, "Æðisleg ferð", 1);
+INSERT INTO Reviews VALUES(3, 6, "Frábært internet", 1);
+INSERT INTO Reviews VALUES(4, 4, "það var vont veður en ég var mjög ánægður þarna", 1);
+INSERT INTO Reviews VALUES(4, 3, "Thank you for the stay", 1);
+INSERT INTO Reviews VALUES(5, 2, "We were very happy, thanks!", 1);
+INSERT INTO Reviews VALUES(6, 1, "Amazing", 1);
+INSERT INTO Reviews VALUES(4, 1, "This hotel sucked so bad", 1);
+INSERT INTO Reviews VALUES(4, 2, "Wouldn't stay here if I was payed", 1);
 
 ------------ Bæta inn í Rooms töfluna -------------------------
 
 -- (roomId, size, hotelId, price)
 
-INSERT INTO Rooms VALUES(1, 75, 1, 20000);
+INSERT INTO Rooms VALUES(1, 5, 1, 20000);
 INSERT INTO Rooms VALUES(2, 5, 1, 15000);
 INSERT INTO Rooms VALUES(3, 2, 1, 10000);
 INSERT INTO Rooms VALUES(4, 1, 1, 8000);
@@ -141,6 +152,6 @@ INSERT INTO Bookings VALUES(21,5,1,1652745600000,1654128000000);
 
 -- 	(personId, name, password, isOwner)
 
-insert into Persons VALUES(1, "Sös", "apakisi123", FALSE);
-
-INSERT INTO Persons VALUES(2, "Siggi", "123456789", FALSE);
+INSERT INTO Persons VALUES(1, "Admin", "superSecretPasswordYo", True);
+insert into Persons VALUES(2, "Sös", "apakisi123", FALSE);
+INSERT INTO Persons VALUES(3, "Siggi", "123456789", FALSE);

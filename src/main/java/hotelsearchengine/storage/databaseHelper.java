@@ -845,6 +845,7 @@ public class databaseHelper implements DatabaseInterface {
             e.printStackTrace();
         }
     }
+
     public boolean getAvailability(int roomID, Date start, Date end){
         ArrayList<Booking> bookings = (ArrayList<Booking>) getBookings(roomID);
         for(Booking book : bookings){
@@ -865,6 +866,7 @@ public class databaseHelper implements DatabaseInterface {
         }
         return true;
     }
+
     public boolean hasService(int serviceId, int hotelId){
         boolean skil = false;
         try {
