@@ -186,17 +186,13 @@ public class databaseHelper implements DatabaseInterface {
     @Override
     public boolean register(String name, String password) {
         try {
-            String checkQuery = "SELECT name FROM Persons WHERE name == ?";
+            String checkQuery = "SELECT name FROM Persons WHERE name = ?";
             preparedStatement = connection.prepareStatement(checkQuery);
             preparedStatement.setString(1, name);
             resultSet = preparedStatement.executeQuery();
 
-            System.out.println("line 193");
             while(resultSet.next()) {
-                System.out.println("next()");
                 String newName = resultSet.getString(1);
-
-                System.out.println(newName + "==" + name + (newName == name));
                 if(newName.equals(name))
                     return false; //Notandi er nú þegar til
             }
@@ -206,7 +202,6 @@ public class databaseHelper implements DatabaseInterface {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, password);
             int update = preparedStatement.executeUpdate();
-            System.out.println("Update" + update);
             if(update == 1) return true;
             return false; //Ef að þad tókst ekki að bæta notanda við skilum við false
         } catch (SQLException e) {

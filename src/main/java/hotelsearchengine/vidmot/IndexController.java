@@ -21,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -96,6 +97,9 @@ public class IndexController implements Initializable {
 
     @FXML
     private Label errorMessage;
+
+    @FXML
+    private Text alternativeOptionContainer;
 
     public static int hotelId = 100;
 
@@ -299,6 +303,7 @@ public class IndexController implements Initializable {
         switchLoginRegisterBtn.setStyle(isLogginIn ? "-fx-translate-x: 0; -fx-background-color: blue" : "-fx-translate-x: 10; -fx-background-color: blue");
         loginRegisterBtn.setText(isLogginIn ? "Login" : "Register");
         loginRegisterBtn.setStyle(isLogginIn ? "-fx-translate-x: 0; -fx-background-color: blue" : "-fx-translate-x: -15; -fx-background-color: blue");
+        alternativeOptionContainer.setText(isLogginIn ? "Don't have an account? Register here" : "Already have an account? Login here");
     }
 
     public void loginRegisterUser(ActionEvent e) {

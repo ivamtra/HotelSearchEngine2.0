@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearchengine.vidmot.IndexController">
+<ScrollPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearchengine.vidmot.IndexController">
    <content>
       <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefWidth="1000.0">
          <Pane prefHeight="100.0" prefWidth="1000.0" styleClass="title-container">
@@ -233,7 +233,7 @@
                </Button>
                <Pane layoutY="431.0" prefHeight="154.0" prefWidth="400.0">
                   <children>
-                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account? Register here" x="100.0" />
+                     <Text fx:id="alternativeOptionContainer" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account? Register here" x="100.0" />
                      <Button fx:id="switchLoginRegisterBtn" layoutX="169.0" layoutY="15.0" mnemonicParsing="false" onAction="#switchLoginRegister" style="-fx-background-color: blue;" text="Register" textFill="WHITE" />
                   </children>
                </Pane>
