@@ -23,6 +23,9 @@ public class loginController {
         this.loggedIn = null;
     }
 
+    public boolean register(String username, String password) {
+        return db.register(username, password);
+    }
 
     public boolean isLoggedin(int personID){
         return(loggedIn.getId()==personID);

@@ -33,6 +33,8 @@ public  interface DatabaseInterface {
 
     public Person login(String name, String password);
 
+    public boolean register(String name, String password);
+
     public int logout(String name);
     public List<Room> getRoomsInHotels(int hotelId);
 

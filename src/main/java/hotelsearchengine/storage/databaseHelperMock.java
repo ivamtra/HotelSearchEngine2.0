@@ -111,6 +111,12 @@ public class databaseHelperMock implements DatabaseInterface {
         Person person = new Person(name, password, 1);
         return person;
     }
+
+    @Override
+    public boolean register(String name, String password) {
+        return true;
+    }
+
     @Override
     public List<Room> getRoomsInHotels(int hotelId) {
         return null;

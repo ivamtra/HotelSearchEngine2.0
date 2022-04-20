@@ -39,5 +39,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="bcrypt-0.9.0-optimized" level="project" />
   </component>
 </module>

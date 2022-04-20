@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearchengine.vidmot.IndexController">
+<ScrollPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearchengine.vidmot.IndexController">
    <content>
       <AnchorPane maxHeight="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefWidth="1000.0">
          <Pane prefHeight="100.0" prefWidth="1000.0" styleClass="title-container">
@@ -202,7 +202,7 @@
                                  <Font size="20.0" />
                               </font>
                            </Label>
-                           <PasswordField layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" />
+                           <PasswordField fx:id="loginPassword" layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" />
                         </children>
                      </Pane>
                      <Pane fx:id="confirmPasswordContainer" prefHeight="50.0" prefWidth="400.0" visible="false">
@@ -212,7 +212,16 @@
                                  <Font size="20.0" />
                               </font>
                            </Label>
-                           <PasswordField layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" />
+                           <PasswordField fx:id="loginConfirmPassword" layoutX="200.0" layoutY="13.0" prefHeight="25.0" prefWidth="172.0" />
+                        </children>
+                     </Pane>
+                     <Pane fx:id="confirmPasswordContainer1" prefHeight="50.0" prefWidth="400.0">
+                        <children>
+                           <Label fx:id="errorMessage" layoutX="19.0" layoutY="11.0" prefHeight="26.0" prefWidth="367.0" style="-fx-text-fill: red;">
+                              <font>
+                                 <Font size="10.0" />
+                              </font>
+                           </Label>
                         </children>
                      </Pane>
                   </children>

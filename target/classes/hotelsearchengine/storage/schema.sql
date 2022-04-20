@@ -14,11 +14,12 @@ CREATE TABLE Rooms (
 	FOREIGN KEY (hotelId) references Hotels(hotelId)
 );
 CREATE TABLE Persons (
-	personId int PRIMARY KEY,
+	personId INTEGER PRIMARY KEY,
 	name varchar(100),
 	password varchar(100),
 	isOwner boolean
 );
+
 CREATE TABLE Reviews (
     hotelId integer NOT NULL,
     personId int NOT NULL,
@@ -29,7 +30,7 @@ CREATE TABLE Reviews (
     PRIMARY KEY(hotelId, personId)
 );
 CREATE TABLE Hotels (
-    hotelId int NOT NULL,
+    hotelId INTEGER Primary Key ,
     hotelName varchar(100),
     hotelDescription varchar(1000),
     location varchar(100),
@@ -37,8 +38,7 @@ CREATE TABLE Hotels (
     averageReview float,
     hotelContactInfo varchar(100),
     hotelOwner varchar(100),
-    FOREIGN KEY (hotelOwner) references Persons(personId),
-    PRIMARY KEY(hotelId)
+    FOREIGN KEY (hotelOwner) references Persons(personId)
 );
 CREATE TABLE HotelImages (
     id serial PRIMARY KEY,

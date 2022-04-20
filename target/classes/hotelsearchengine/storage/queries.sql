@@ -11,27 +11,27 @@
 
 ------------ Restarta gagnagrunninn ---------------------------
 
-DROP TABLE Hotels;
-DROP TABLE Services;
-DROP TABLE HotelHasService;
-DROP TABLE HotelImages;
-DROP TABLE Reviews;
-DROP TABLE Rooms;
-DROP TABLE Bookings;
-DROP TABLE Persons;
-
+--DROP TABLE Hotels;
+--DROP TABLE Services;
+--DROP TABLE HotelHasService;
+--DROP TABLE HotelImages;
+--DROP TABLE Reviews;
+--DROP TABLE Rooms;
+--DROP TABLE Bookings;
+--DROP TABLE Persons;
+--
 
 
 ------------ Bæta inn í Hotels töfluna -------------------------
 
 -- (hotelId, hotelName, hotelDescription, location, hotelStars integer, averageReview, hotelContactInfo, hotelOwner)
 
-INSERT INTO Hotels VALUES(1, "Hotel saga", "Þetta er hotel saga", "Reykjavik", 8, 9.0, "581234", "Kalli");
-INSERT INTO Hotels VALUES(2, "Hilton Reykjavík Nordica", "Þetta er hotel hilton", "Reykjavik", 4, 3.0, "581234", "Siggi");
-INSERT INTO Hotels VALUES(3, "Hótel Bjarkalundur", "Þetta er hotel bjarkalundur", "Bjarkalundur", 10, 10.0, "581234", "Siggi");
-INSERT INTO Hotels VALUES(4, "Kvosin Hotel", "Þetta er hotel kvosin", "Reykjavik", 6, 6.0, "581234", "Kalli");
-INSERT INTO Hotels VALUES(5, "Center Hotels Arnarhvoll", "Þetta er hotel Center Hotels Arnarhvoll", "Reykjavík", 4, 4.0, "581234", "Siggi");
-INSERT INTO Hotels VALUES(6, "Refurinn gistihús", "Þetta er refurinn gistihús", "Reykjavik", 3, 3.0, "581234", "Kalli");
+INSERT INTO Hotels (hotelName, hotelDescription, location, hotelStars, averageReview, hotelContactInfo, hotelOwner) VALUES("Hotel saga", "Þetta er hotel saga", "Reykjavik", 8, 9.0, "581234", "Kalli");
+INSERT INTO Hotels (hotelName, hotelDescription, location, hotelStars, averageReview, hotelContactInfo, hotelOwner) VALUES("Hilton Reykjavík Nordica", "Þetta er hotel hilton", "Reykjavik", 4, 3.0, "581234", "Siggi");
+INSERT INTO Hotels (hotelName, hotelDescription, location, hotelStars, averageReview, hotelContactInfo, hotelOwner) VALUES("Hótel Bjarkalundur", "Þetta er hotel bjarkalundur", "Bjarkalundur", 10, 10.0, "581234", "Siggi");
+INSERT INTO Hotels (hotelName, hotelDescription, location, hotelStars, averageReview, hotelContactInfo, hotelOwner) VALUES("Kvosin Hotel", "Þetta er hotel kvosin", "Reykjavik", 6, 6.0, "581234", "Kalli");
+INSERT INTO Hotels (hotelName, hotelDescription, location, hotelStars, averageReview, hotelContactInfo, hotelOwner) VALUES("Center Hotels Arnarhvoll", "Þetta er hotel Center Hotels Arnarhvoll", "Reykjavík", 4, 4.0, "581234", "Siggi");
+INSERT INTO Hotels (hotelName, hotelDescription, location, hotelStars, averageReview, hotelContactInfo, hotelOwner) VALUES("Refurinn gistihús", "Þetta er refurinn gistihús", "Reykjavik", 3, 3.0, "581234", "Kalli");
 
 
 ------------ Bæta inn í Services töfluna -------------------------

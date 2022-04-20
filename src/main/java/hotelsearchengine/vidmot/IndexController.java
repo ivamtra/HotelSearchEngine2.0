@@ -3,6 +3,7 @@ package hotelsearchengine.vidmot;
 import hotelsearchengine.controllers.loginController;
 import hotelsearchengine.controllers.searchController;
 import hotelsearchengine.models.Hotel;
+import hotelsearchengine.models.Person;
 import hotelsearchengine.models.Service;
 import hotelsearchengine.storage.databaseHelper;
 import javafx.beans.value.ChangeListener;
@@ -36,6 +37,8 @@ import java.util.ResourceBundle;
 public class IndexController implements Initializable {
 
     public static searchController sc;
+
+    public static loginController lc;
 
     @FXML
     private VBox mainContainer;
@@ -82,6 +85,18 @@ public class IndexController implements Initializable {
     @FXML
     private Button loginRegisterBtn;
 
+    @FXML
+    private TextField loginUsername;
+
+    @FXML
+    private PasswordField loginPassword;
+
+    @FXML
+    private PasswordField loginConfirmPassword;
+
+    @FXML
+    private Label errorMessage;
+
     public static int hotelId = 100;
 
     private HashMap<Integer, MouseEvent> map;
@@ -90,15 +105,14 @@ public class IndexController implements Initializable {
 
     @FXML
     public void initialize(URL location, ResourceBundle resourceBundle) {
-
         databaseHelper DB = null;
         try {
             DB = new databaseHelper();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        loginController LOGIN = new loginController(DB);
-        sc = new searchController(DB, LOGIN);
+        lc = new loginController(DB);
+        sc = new searchController(DB, lc);
         insertHotels(sc, null);
         insertServices(sc);
         restrictSearchTextFields();
@@ -288,6 +302,28 @@ public class IndexController implements Initializable {
     }
 
     public void loginRegisterUser(ActionEvent e) {
-
+        errorMessage.setText("");
+        String username = loginUsername.getText();
+        String password = loginPassword.getText();
+        if(!isLogginIn) {
+            String confirmPassword = loginConfirmPassword.getText();
+            System.out.println(password + " " + confirmPassword);
+            if(!password.equals(confirmPassword)){
+                errorMessage.setText("Lykilorðin eru ekki eins");
+                return;
+            }
+            boolean success = lc.register(username, password);
+            if( success ) {
+                switchLoginRegister(e);
+                //TODO: Breyta UI þegar user er logged in
+            } else {
+                errorMessage.setText("Notandi " + username + " er nú þegar til");
+            }
+        } else {
+            Person user = lc.login(username, password);
+            if( user == null ) errorMessage.setText("Vitlaust notandanafn eða lykilorð");
+            else errorMessage.setText("Velkominn " + username);
+        }
+        System.out.println("Am I logging in? " + isLogginIn);
     }
 }
