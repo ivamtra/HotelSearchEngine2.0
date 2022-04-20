@@ -121,9 +121,7 @@ public class databaseHelper implements DatabaseInterface {
         System.out.println(p2==null);
 
          */
-
     }
-
 
     public void makeBookings() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -370,7 +368,6 @@ public class databaseHelper implements DatabaseInterface {
             e.printStackTrace();
         }
         return rooms;
-
     }
 
     @Override
@@ -850,21 +847,47 @@ public class databaseHelper implements DatabaseInterface {
         return skil;
     }
 
-    public Person createAccount(int personId,String name, String passWord,boolean isOwner){
+    public Person createAccount(int personId,String name, String passWord,boolean isOwner) {
         try {
             preparedStatement = connection.prepareStatement("Insert into persons values (?,?,?,?)");
-            preparedStatement.setInt(1,personId);
-            preparedStatement.setString(2,name);
-            preparedStatement.setString(3,passWord);
-            preparedStatement.setBoolean(4,isOwner);
+            preparedStatement.setInt(1, personId);
+            preparedStatement.setString(2, name);
+            preparedStatement.setString(3, passWord);
+            preparedStatement.setBoolean(4, isOwner);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         if (isOwner) {
-            return new HotelOwner(name,passWord,personId);
+            return new HotelOwner(name, passWord, personId);
+        } else return new Customer(name, passWord, personId);
+    }
+
+    public int deleteLineFromTable(String tableName, String idName, int id) {
+        try {
+            String query = "delete from " + tableName + " where " + idName + " = " + id;
+            // TODO Þetta er betra en var ehv vesen
+            //preparedStatement = connection.prepareStatement("delete from ? where ? = ?");
+
+            statement.executeUpdate(query);
+        }catch (SQLException e) {
+            e.printStackTrace();
         }
-        else return new Customer(name,passWord,personId);
+        return id;
+    }
+
+    // Skilar [customerId, hotelId]
+    public int[] deleteReview(Review review) {
+        try {
+            preparedStatement = connection.prepareStatement("delete from reviews where hotelid = ? and personid = ?");
+            preparedStatement.setInt(1, review.getHotelId());
+            preparedStatement.setInt(2, review.getCustomerId());
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new int[]{review.getCustomerId(), review.getHotelId()};
     }
 }
 

@@ -1,6 +1,7 @@
 package hotelsearchengine.models;
 
 public class Review {
+    private int reviewId;
     private int hotelId;
     private int customerId;
     private int rating;
