@@ -9,7 +9,16 @@
 -----------------------------------------------------------------
 
 
+------------ Restarta gagnagrunninn ---------------------------
 
+DROP TABLE Hotels;
+DROP TABLE Services;
+DROP TABLE HotelHasService;
+DROP TABLE HotelImages;
+DROP TABLE Reviews;
+DROP TABLE Rooms;
+DROP TABLE Bookings;
+DROP TABLE Persons;
 
 
 
