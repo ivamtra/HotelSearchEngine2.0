@@ -30,5 +30,31 @@
 }
 
 .review {
-    -fx-background-color: pink;
+    -fx-background-color: linear-gradient(to right,lightblue,blue);
+    -fx-border-radius: 10;
+}
+
+.room_label {
+    -fx-translate-x: 60;
+    -fx-translate-y: 6;
+}
+
+.room_button {
+    -fx-translate-x: 5;
+    -fx-height: 20;
+    -fx-background-color: blue;
+    -fx-text-fill: white;
+}
+
+.scroll-pane {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-pane:focused {
+    -fx-background-insets: 0;
+}
+
+.scroll-pane .corner {
+    -fx-background-insets: 0;
 }

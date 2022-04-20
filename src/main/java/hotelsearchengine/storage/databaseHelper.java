@@ -17,12 +17,14 @@ public class databaseHelper implements DatabaseInterface {
     ResultSet imageResultSet;
     ResultSet reviewResultSet;
     ResultSet hotelRoomsResultSet;
+    ResultSet bookingResultSet;
     Connection connection;
     Statement statement;
     PreparedStatement preparedStatement;
     PreparedStatement imagesPreparedStatement;
     PreparedStatement reviewPreparedStatement;
     PreparedStatement hotelRoomsPreparedStatement;
+    PreparedStatement bookingPreparedStatement;
 
     public databaseHelper() throws SQLException {
         connect();
@@ -186,17 +188,13 @@ public class databaseHelper implements DatabaseInterface {
     @Override
     public boolean register(String name, String password) {
         try {
-            String checkQuery = "SELECT name FROM Persons WHERE name == ?";
+            String checkQuery = "SELECT name FROM Persons WHERE name = ?";
             preparedStatement = connection.prepareStatement(checkQuery);
             preparedStatement.setString(1, name);
             resultSet = preparedStatement.executeQuery();
 
-            System.out.println("line 193");
             while(resultSet.next()) {
-                System.out.println("next()");
                 String newName = resultSet.getString(1);
-
-                System.out.println(newName + "==" + name + (newName == name));
                 if(newName.equals(name))
                     return false; //Notandi er nú þegar til
             }
@@ -206,7 +204,6 @@ public class databaseHelper implements DatabaseInterface {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, password);
             int update = preparedStatement.executeUpdate();
-            System.out.println("Update" + update);
             if(update == 1) return true;
             return false; //Ef að þad tókst ekki að bæta notanda við skilum við false
         } catch (SQLException e) {
@@ -300,6 +297,7 @@ public class databaseHelper implements DatabaseInterface {
 
         ArrayList<Room> rooms = new ArrayList<>();
 
+        Integer hotelId = restrictions.getHotelId();
         Integer minPrice = restrictions.getMinPrice();
         Integer maxPrice = restrictions.getMaxPrice();
         Integer minStars = restrictions.getMinStars();
@@ -333,6 +331,8 @@ public class databaseHelper implements DatabaseInterface {
             usedValues[6] = true;}
         if(location != null) {query += "AND H.location LIKE ? ";
             usedValues[7] = true;}
+        if(hotelId != null) {query += "AND H.hotelId = ? ";
+            usedValues[8] = true;}
 
         query += "COLLATE NOCASE";
 
@@ -374,23 +374,27 @@ public class databaseHelper implements DatabaseInterface {
                 currentQueryParameter++;
                 preparedStatement.setString(currentQueryParameter, location);
             }
+            if(usedValues[8]) {
+                currentQueryParameter++;
+                preparedStatement.setInt(currentQueryParameter, hotelId);
+            }
 
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
 
                 int roomId = resultSet.getInt(1);
-                int hotelId = resultSet.getInt(3);
+                int hId = resultSet.getInt(3);
                 int price = resultSet.getInt(4);
                 int size = resultSet.getInt(2);
 
                 boolean serv = true;
                 if (services!=null) {
                     for (Service s : services){
-                        if (!hasService(s.getServiceId(),hotelId)) {serv = false;}
+                        if (!hasService(s.getServiceId(),hId)) {serv = false;}
                     }
                 }
 
-                Room room = new Room(roomId,hotelId,price,size);
+                Room room = new Room(roomId,hId,price,size);
                 if (getAvailability(roomId,startDate,endDate)&&serv) {
                     rooms.add(room);
                 }
@@ -732,16 +736,16 @@ public class databaseHelper implements DatabaseInterface {
         ArrayList<Booking> bookings = new ArrayList<>();
 
         try {
-            preparedStatement = connection.prepareStatement("select * from Bookings where roomId = ?");
-            preparedStatement.setInt(1,roomId);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
+            bookingPreparedStatement = connection.prepareStatement("SELECT * from Bookings where roomId = ?");
+            bookingPreparedStatement.setInt(1,roomId);
+            bookingResultSet = bookingPreparedStatement.executeQuery();
+            while (bookingResultSet.next()) {
 
-                int bookingId = resultSet.getInt(1);
-                int rId = resultSet.getInt(2);
-                int personId = resultSet.getInt(3);
-                java.sql.Date sDate = resultSet.getDate(4);
-                java.sql.Date eDate = resultSet.getDate(5);
+                int bookingId = bookingResultSet.getInt(1);
+                int rId = bookingResultSet.getInt(2);
+                int personId = bookingResultSet.getInt(3);
+                java.sql.Date sDate = bookingResultSet.getDate(4);
+                java.sql.Date eDate = bookingResultSet.getDate(5);
 
                 Booking booking = new Booking(bookingId, rId, personId, sDate, eDate);
 
@@ -792,9 +796,7 @@ public class databaseHelper implements DatabaseInterface {
 
     private static Date convertStringToDate(String s) {
         int year = Integer.parseInt(s.substring(0,5));
-        System.out.println(year);
         int month = Integer.parseInt(s.substring(5,7));
-        System.out.println(month);
         int day = Integer.parseInt(s.substring(8));
         return new Date(year,month,day);
     }

@@ -1,5 +1,6 @@
 package hotelsearchengine.vidmot;
 
+import hotelsearchengine.controllers.bookController;
 import hotelsearchengine.controllers.loginController;
 import hotelsearchengine.controllers.searchController;
 import hotelsearchengine.models.Hotel;
@@ -35,6 +36,8 @@ import java.util.Hashtable;
 import java.util.ResourceBundle;
 
 public class IndexController implements Initializable {
+
+    public static bookController bc;
 
     public static searchController sc;
 
@@ -112,6 +115,7 @@ public class IndexController implements Initializable {
             e.printStackTrace();
         }
         lc = new loginController(DB);
+        bc = new bookController(DB, lc);
         sc = new searchController(DB, lc);
         insertHotels(sc, null);
         insertServices(sc);
@@ -307,7 +311,6 @@ public class IndexController implements Initializable {
         String password = loginPassword.getText();
         if(!isLogginIn) {
             String confirmPassword = loginConfirmPassword.getText();
-            System.out.println(password + " " + confirmPassword);
             if(!password.equals(confirmPassword)){
                 errorMessage.setText("Lykilorðin eru ekki eins");
                 return;
@@ -324,6 +327,5 @@ public class IndexController implements Initializable {
             if( user == null ) errorMessage.setText("Vitlaust notandanafn eða lykilorð");
             else errorMessage.setText("Velkominn " + username);
         }
-        System.out.println("Am I logging in? " + isLogginIn);
     }
 }
